@@ -8,6 +8,6 @@ public class ClientStart {
 //        client.startRunning();
 
         JFrame register = new JFrame("Register");
-
+        //comment this
     }
 }
