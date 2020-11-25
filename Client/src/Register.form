@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="RegisterPage">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="5" left="5" bottom="5" right="5"/>
+    <constraints>
+      <xy x="1" y="-1" width="386" height="247"/>
+    </constraints>
+    <properties>
+      <background color="-12511684"/>
+    </properties>
+    <border type="bevel-lowered">
+      <title-color color="-4473925"/>
+    </border>
+    <children>
+      <component id="5d9cf" class="javax.swing.JLabel" binding="titleLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Stencil" size="23" style="1"/>
+          <foreground color="-1"/>
+          <text value="Elementary"/>
+        </properties>
+      </component>
+      <component id="eda63" class="javax.swing.JLabel" binding="userLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-1"/>
+          <labelFor value="b1bdf"/>
+          <text value="Username"/>
+        </properties>
+      </component>
+      <component id="37e56" class="javax.swing.JLabel" binding="pwdLabel">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-1"/>
+          <labelFor value="2b71b"/>
+          <text value="Password"/>
+        </properties>
+      </component>
+      <component id="b1bdf" class="javax.swing.JTextField" binding="userField">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="2b71b" class="javax.swing.JPasswordField" binding="pwdField">
+        <constraints>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="c1374" class="javax.swing.JTextField" binding="emailField">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="f1" class="javax.swing.JLabel" binding="emailLabel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-1"/>
+          <labelFor value="c1374"/>
+          <text value="Email"/>
+        </properties>
+      </component>
+      <component id="ab046" class="javax.swing.JLabel" binding="repeatPwdLabel">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-1"/>
+          <labelFor value="97dda"/>
+          <text value="Repeat Password"/>
+        </properties>
+      </component>
+      <component id="97dda" class="javax.swing.JPasswordField" binding="repeatPwdField">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="458cf" class="javax.swing.JButton" binding="registerButton">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16498432"/>
+          <foreground color="-1"/>
+          <text value="Register"/>
+        </properties>
+      </component>
+      <component id="c92fc" class="javax.swing.JButton" binding="leaveButton">
+        <constraints>
+          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-2686936"/>
+          <foreground color="-1"/>
+          <text value="Leave"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
