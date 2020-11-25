@@ -11,6 +11,8 @@ import java.util.Arrays;
 public class RegisterPage {
     private JPanel panel1;
     private JTextField userField;
+
+
     private JPasswordField pwdField;
     private JLabel titleLabel;
     private JLabel userLabel;
@@ -19,44 +21,63 @@ public class RegisterPage {
     private JLabel emailLabel;
     private JLabel repeatPwdLabel;
     private JPasswordField repeatPwdField;
-    private JButton registerButton;
+
+
     private JButton leaveButton;
+    JFrame frame;
 
     public RegisterPage() {
-        JFrame frame = new JFrame("Register");
+        frame = new JFrame("Register");
         frame.add(panel1);
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ActionListener handler = new RegisterLogic(this);
+        registerButton.addActionListener(handler);
+        leaveButton.addActionListener(handler);
+    }
 
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                registerButton.setEnabled(false);
+    public void setRegisterButtonEnabled(boolean condition) {
+        registerButton.setEnabled(condition);
+    }
 
-                char pwd[] = pwdField.getPassword();
-                char repeatPwd[] = repeatPwdField.getPassword();
+    public JTextField getUserField() {
+        return userField;
+    }
 
-                if (!Arrays.equals(pwd, repeatPwd)) {
-                    JOptionPane.showMessageDialog(frame, "Passwords don't match.");
-                    pwdField.setText("");
-                    repeatPwdField.setText("");
-                    registerButton.setEnabled(true);
-                }
-                else {
-                    registerButton.setEnabled(false);
-                    emailField.getText();
-                    userField.getText();
-                }
+    public JPasswordField getPwdField() {
+        return pwdField;
+    }
 
-            }
-        });
-        leaveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                frame.dispose();
-            }
-        });
+    public JTextField getEmailField() {
+        return emailField;
+    }
+
+    public JPasswordField getRepeatPwdField() {
+        return repeatPwdField;
+    }
+
+    public void setPwdField_repeatPwdFieldEmpty() {
+        pwdField.setText("");
+        repeatPwdField.setText("");
+    }
+
+    public void showMessage(String msg) {
+        JOptionPane.showMessageDialog(frame, msg);
+    }
+
+    public void disposeFrame() {
+        frame.dispose();
+    }
+
+    public JButton getRegisterButton() {
+        return registerButton;
+    }
+
+    private JButton registerButton;
+
+    public JButton getLeaveButton() {
+        return leaveButton;
     }
 
     private void createUIComponents() {
