@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class ClientStart {
     public static void main(String[] args) {
@@ -7,7 +8,7 @@ public class ClientStart {
 //        client.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        client.startRunning();
 
-        JFrame register = new JFrame("Register");
-        //comment this
+        RegisterPage rp = new RegisterPage();
+
     }
 }
