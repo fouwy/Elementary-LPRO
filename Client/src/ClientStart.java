@@ -1,6 +1,3 @@
-import javax.swing.*;
-import java.awt.*;
-
 public class ClientStart {
     public static void main(String[] args) {
 //        Client client;

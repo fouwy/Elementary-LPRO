@@ -10,6 +10,7 @@ public class Client {
     Socket connection;
     ObjectInputStream input;
     ObjectOutputStream output;
+    private String[] accountInfo;
 
     public Client(String serverIP) {
         this.serverIP = serverIP;
@@ -19,15 +20,24 @@ public class Client {
         try {
             connectToServer();
             setupStreams();
-            //TODO: send register or login information
-
-        } catch(EOFException eofException) {
-
-        } catch(IOException ioException) {
-            ioException.printStackTrace();
+            //TODO: send register or login information and wait for response
+            sendAndWaitResponse();
+        } catch(IOException | ClassNotFoundException exception) {
+            exception.printStackTrace();
         } finally {
             closeClient();
         }
+    }
+
+    private void sendAndWaitResponse() throws IOException, ClassNotFoundException {
+        output.writeObject(accountInfo);
+        output.flush();
+        input.readObject();
+    }
+
+    public void sendInformation(String[] accountInfo) {
+        this.accountInfo = accountInfo;
+        startRunning();
     }
 
     private void connectToServer() throws IOException{

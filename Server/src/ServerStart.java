@@ -12,7 +12,8 @@ public class ServerStart {
             return;
         }
 
-        database.registerNewUser("pilantra2", "pass", null);
+        String[] accountInfo = {"pilantra2", "pass", null};
+        database.registerNewUser(accountInfo);
 
         printNumberAndNameOfMembers(database);
 

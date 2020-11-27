@@ -9,7 +9,10 @@ public class Database {
         connection = DriverManager.getConnection("jdbc:sqlite:" + pathToDatabase);
     }
 
-    public void registerNewUser(String username, String password, String email) {
+    public void registerNewUser(String[] accountInfo) {
+        String email = accountInfo[0];
+        String username = accountInfo[1];
+        String password = accountInfo[2];
         String query = prepareQuery(email);
 
         try {
@@ -53,6 +56,24 @@ public class Database {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    public boolean isRegisterAllowed(String[] accountInfo) {
+        return !isUsernameTaken(accountInfo[1]);
+    }
+
+    private boolean isUsernameTaken(String username) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("select username from member"+
+                                                                        "where username = ?;");
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            //Returns true if there is one row or false if there are no rows in database
+            return rs.next();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return true;
     }
 
     private String prepareQuery(String email) {

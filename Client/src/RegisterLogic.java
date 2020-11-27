@@ -33,10 +33,14 @@ public class RegisterLogic implements ActionListener {
             String username = registerPage.getUserField().getText();
 
             //TODO: Send email, username and password to server to validate
+            String[] accountInformation = {email, username, String.valueOf(pwd)};
+            Client client = new Client("localhost");
+            client.sendInformation(accountInformation);
         }
     }
 
     private void leavePage() {
         registerPage.disposeFrame();
+        //TODO: Set login page visible
     }
 }
