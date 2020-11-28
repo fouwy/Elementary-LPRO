@@ -6,29 +6,23 @@ public class Database {
     Connection connection;
 
     public Database() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:sqlite:C:/sqlite3/jdbc-test/accounts.db");
+        //connection = DriverManager.getConnection("jdbc:sqlite:C:/sqlite3/jdbc-test/accounts.db");
+        connection = SqliteHelper.getConnection();
     }
 
-    public void registerNewUser(String[] accountInfo) {
+    public void registerNewUser(String[] accountInfo) throws SQLException {
         String email = accountInfo[0];
         String username = accountInfo[1];
         String password = accountInfo[2];
         String query = prepareQuery(email);
 
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setQueryTimeout(30); //seconds
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, username);
+        statement.setString(2, password);
+        if (email != null)
+            statement.setString(3, email);
 
-            statement.setString(1, username);
-            statement.setString(2, password);
-            if (email != null)
-                statement.setString(3, email);
-
-            statement.executeUpdate();
-
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
+        statement.executeUpdate();
     }
 
     public List<String> getAllMembers() {
@@ -41,6 +35,8 @@ public class Database {
                 members.add(rs.getString(1));
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+        } finally {
+            closeConnection();
         }
         return members;
     }
@@ -53,26 +49,23 @@ public class Database {
             statement.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+        } finally {
+            closeConnection();
         }
     }
 
-    public boolean isRegisterAllowed(String[] accountInfo) {
+    public boolean isRegisterAllowed(String[] accountInfo) throws SQLException{
         return !isUsernameTaken(accountInfo[1]);
     }
 
-    public boolean isUsernameTaken(String username) {   //change to private
-        try {
-            PreparedStatement statement = connection.prepareStatement("select username from member "+
-                                                                        "where username=?;");
-            statement.setString(1, username);
-            ResultSet rs = statement.executeQuery();
-            //Returns true if there is one row or false if there are no rows in database
-            return rs.next();
-        } catch (SQLException e) {
-//            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
-        return true;
+    public boolean isUsernameTaken(String username) throws SQLException{   //change to private
+
+        PreparedStatement statement = connection.prepareStatement("select username from member "+
+                                                                    "where username=?;");
+        statement.setString(1, username);
+        ResultSet rs = statement.executeQuery();
+        //Returns true if there is one row or false if there are no rows in database
+        return rs.next();
     }
 
     private String prepareQuery(String email) {
@@ -84,5 +77,14 @@ public class Database {
         return query;
     }
 
+    public void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

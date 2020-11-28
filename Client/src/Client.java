@@ -10,7 +10,7 @@ public class Client {
     ObjectInputStream input;
     ObjectOutputStream output;
     private String[] accountInfo;
-    private boolean validated = false;
+    private int validated = 0;
 
     public Client(String serverIP) {
         this.serverIP = serverIP;
@@ -20,7 +20,6 @@ public class Client {
         try {
             connectToServer();
             setupStreams();
-            //TODO: send register or login information and wait for response
             sendAndWaitResponse();
         } catch(IOException | ClassNotFoundException exception) {
             exception.printStackTrace();
@@ -32,7 +31,7 @@ public class Client {
     private void sendAndWaitResponse() throws IOException, ClassNotFoundException {
         output.writeObject(accountInfo);
         output.flush();
-        validated = (boolean) input.readObject();
+        validated = (int) input.readObject();
     }
 
     public void sendInformation(String[] accountInfo) {
@@ -40,7 +39,7 @@ public class Client {
         startRunning();
     }
 
-    public boolean isValidated() {
+    public int isValidated() {
         return validated;
     }
 

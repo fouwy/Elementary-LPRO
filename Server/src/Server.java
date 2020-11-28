@@ -9,6 +9,7 @@ public class Server {
     private Socket connection;
     private ObjectOutputStream output;
     private ObjectInputStream input;
+    private int outputMessage = -1;
 
     public Server() {
         try {
@@ -23,13 +24,9 @@ public class Server {
             while(true) {
                 waitForConnection();
                 setupStreams();
-                try {
-                    sendAndReceiveInfo();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
+                sendAndReceiveInfo();
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             closeServer();
@@ -44,11 +41,24 @@ public class Server {
 
         Database database = connectToDatabase();
         //TODO: Change outputMessage to integer to know difference between error and username already taken
-        boolean outputMessage = true;
-        if(database.isRegisterAllowed(accountInfo))
-            database.registerNewUser(accountInfo);
-        else
-            outputMessage = false;
+        try {
+            if(database.isRegisterAllowed(accountInfo)) {
+                outputMessage = 1;
+                try {
+                    database.registerNewUser(accountInfo);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    outputMessage = -1;
+                } finally {
+                    database.closeConnection();
+                }
+            }
+            else
+                outputMessage = 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            outputMessage = -1;
+        }
 
         output.writeObject(outputMessage);
         output.flush();
@@ -59,10 +69,12 @@ public class Server {
         try {
             database = new Database();
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
+            outputMessage = -1;
         }
         return database;
     }
+
     private void waitForConnection() throws IOException {
         System.out.println("Waiting for connection...");
         connection = server.accept();
