@@ -31,14 +31,24 @@ public class RegisterLogic implements ActionListener {
             registerPage.setRegisterButtonEnabled(false);
             String email = registerPage.getEmailField().getText();
             String username = registerPage.getUserField().getText();
-
             String[] accountInformation = {email, username, String.valueOf(pwd)};
+
             Client client = new Client("localhost");
             client.sendInformation(accountInformation);
-            if(client.isValidated())
-                registerPage.showMessage("Registration complete!");
-            else
-                registerPage.showMessage("Username already taken.");
+
+            switch (client.isValidated()) {
+                case 1:
+                    registerPage.showMessage("Registration complete!");
+                    break;
+                case 0:
+                    registerPage.showMessage("Username already taken.");
+                    registerPage.setRegisterButtonEnabled(true);
+                    break;
+                case -1:
+                    registerPage.showMessage("Could not register. Try again later.");
+                    registerPage.setRegisterButtonEnabled(true);
+                    break;
+            }
         }
     }
 
