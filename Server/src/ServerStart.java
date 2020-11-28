@@ -4,6 +4,7 @@ public class ServerStart {
     public static void main(String[] args) {
         String pathToDatabase = "C:/sqlite3/jdbc-test/accounts.db";
         Database database;
+        Server server;
 
         try {
             database = new Database(pathToDatabase);
@@ -12,14 +13,17 @@ public class ServerStart {
             return;
         }
 
-        String[] accountInfo = {"pilantra2", "pass", null};
-        database.registerNewUser(accountInfo);
+//        String[] accountInfo = {"pilantra2", "pass", null};
+//        database.registerNewUser(accountInfo);
+//
+//        printNumberAndNameOfMembers(database);
+//
+//        database.deleteUser("pilantra2");
+//
+//        printNumberAndNameOfMembers(database);
 
-        printNumberAndNameOfMembers(database);
-
-        database.deleteUser("pilantra2");
-
-        printNumberAndNameOfMembers(database);
+        server = new Server();
+        server.startRunning();
     }
 
     private static void printNumberAndNameOfMembers(Database database) {
