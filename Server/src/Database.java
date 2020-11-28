@@ -5,8 +5,8 @@ import java.util.List;
 public class Database {
     Connection connection;
 
-    public Database(String pathToDatabase) throws SQLException {
-        connection = DriverManager.getConnection("jdbc:sqlite:" + pathToDatabase);
+    public Database() throws SQLException {
+        connection = DriverManager.getConnection("jdbc:sqlite:C:/sqlite3/jdbc-test/accounts.db");
     }
 
     public void registerNewUser(String[] accountInfo) {
@@ -27,8 +27,6 @@ public class Database {
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            // if the error message is "out of memory",
-            // it probably means no database file is found
             System.err.println(e.getMessage());
         }
     }
@@ -62,16 +60,17 @@ public class Database {
         return !isUsernameTaken(accountInfo[1]);
     }
 
-    private boolean isUsernameTaken(String username) {
+    public boolean isUsernameTaken(String username) {   //change to private
         try {
-            PreparedStatement statement = connection.prepareStatement("select username from member"+
-                                                                        "where username = ?;");
+            PreparedStatement statement = connection.prepareStatement("select username from member "+
+                                                                        "where username=?;");
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
             //Returns true if there is one row or false if there are no rows in database
             return rs.next();
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+//            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
         return true;
     }
@@ -84,4 +83,6 @@ public class Database {
             query = "insert into member(username, password, email) values(?, ?, ?)";
         return query;
     }
+
+
 }

@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.sql.SQLException;
 import java.util.Arrays;
 
 public class Server {
@@ -41,8 +42,27 @@ public class Server {
         String[] accountInfo = (String[]) input.readObject();
         System.out.println(Arrays.toString(accountInfo));
 
+        Database database = connectToDatabase();
+        //TODO: Change outputMessage to integer to know difference between error and username already taken
+        boolean outputMessage = true;
+        if(database.isRegisterAllowed(accountInfo))
+            database.registerNewUser(accountInfo);
+        else
+            outputMessage = false;
+
+        output.writeObject(outputMessage);
+        output.flush();
     }
 
+    private Database connectToDatabase() {
+        Database database = null;
+        try {
+            database = new Database();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return database;
+    }
     private void waitForConnection() throws IOException {
         System.out.println("Waiting for connection...");
         connection = server.accept();

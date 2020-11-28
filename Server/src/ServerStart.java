@@ -1,17 +1,9 @@
-import java.sql.SQLException;
 
 public class ServerStart {
     public static void main(String[] args) {
-        String pathToDatabase = "C:/sqlite3/jdbc-test/accounts.db";
-        Database database;
         Server server;
-
-        try {
-            database = new Database(pathToDatabase);
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            return;
-        }
+        server = new Server();
+        server.startRunning();
 
 //        String[] accountInfo = {"pilantra2", "pass", null};
 //        database.registerNewUser(accountInfo);
@@ -22,8 +14,6 @@ public class ServerStart {
 //
 //        printNumberAndNameOfMembers(database);
 
-        server = new Server();
-        server.startRunning();
     }
 
     private static void printNumberAndNameOfMembers(Database database) {

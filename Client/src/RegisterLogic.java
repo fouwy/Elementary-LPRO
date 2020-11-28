@@ -32,10 +32,13 @@ public class RegisterLogic implements ActionListener {
             String email = registerPage.getEmailField().getText();
             String username = registerPage.getUserField().getText();
 
-            //TODO: Send email, username and password to server to validate
             String[] accountInformation = {email, username, String.valueOf(pwd)};
             Client client = new Client("localhost");
             client.sendInformation(accountInformation);
+            if(client.isValidated())
+                registerPage.showMessage("Registration complete!");
+            else
+                registerPage.showMessage("Username already taken.");
         }
     }
 

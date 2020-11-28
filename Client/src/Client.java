@@ -10,6 +10,7 @@ public class Client {
     ObjectInputStream input;
     ObjectOutputStream output;
     private String[] accountInfo;
+    private boolean validated = false;
 
     public Client(String serverIP) {
         this.serverIP = serverIP;
@@ -31,12 +32,16 @@ public class Client {
     private void sendAndWaitResponse() throws IOException, ClassNotFoundException {
         output.writeObject(accountInfo);
         output.flush();
-        //input.readObject();
+        validated = (boolean) input.readObject();
     }
 
     public void sendInformation(String[] accountInfo) {
         this.accountInfo = accountInfo;
         startRunning();
+    }
+
+    public boolean isValidated() {
+        return validated;
     }
 
     private void connectToServer() throws IOException{
