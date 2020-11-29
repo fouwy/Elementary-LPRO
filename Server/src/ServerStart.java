@@ -1,24 +1,19 @@
-import java.sql.SQLException;
 
 public class ServerStart {
     public static void main(String[] args) {
-        String pathToDatabase = "C:/sqlite3/jdbc-test/accounts.db";
-        Database database;
+        Server server;
+        server = new Server();
+        server.startRunning();
 
-        try {
-            database = new Database(pathToDatabase);
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            return;
-        }
+//        String[] accountInfo = {"pilantra2", "pass", null};
+//        database.registerNewUser(accountInfo);
+//
+//        printNumberAndNameOfMembers(database);
+//
+//        database.deleteUser("pilantra2");
+//
+//        printNumberAndNameOfMembers(database);
 
-        database.registerNewUser("pilantra2", "pass", null);
-
-        printNumberAndNameOfMembers(database);
-
-        database.deleteUser("pilantra2");
-
-        printNumberAndNameOfMembers(database);
     }
 
     private static void printNumberAndNameOfMembers(Database database) {

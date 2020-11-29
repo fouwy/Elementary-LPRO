@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
-      <xy x="1" y="-1" width="386" height="247"/>
+      <xy x="1" y="-1" width="386" height="257"/>
     </constraints>
     <properties>
       <background color="-12511684"/>
@@ -111,6 +111,7 @@
         <properties>
           <background color="-2686936"/>
           <foreground color="-1"/>
+          <icon value="img/back-arrow.png"/>
           <text value="Leave"/>
         </properties>
       </component>

@@ -1,4 +1,3 @@
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,6 +9,9 @@ public class Client {
     Socket connection;
     ObjectInputStream input;
     ObjectOutputStream output;
+    private String[] accountInfo;
+    private int validated = 0;
+    private int valid_info = 0;
 
     public Client(String serverIP) {
         this.serverIP = serverIP;
@@ -19,16 +21,33 @@ public class Client {
         try {
             connectToServer();
             setupStreams();
-            //TODO: send register or login information
-
-        } catch(EOFException eofException) {
-
-        } catch(IOException ioException) {
-            ioException.printStackTrace();
+            sendAndWaitResponse();
+        } catch(IOException | ClassNotFoundException exception) {
+            exception.printStackTrace();
         } finally {
             closeClient();
         }
     }
+
+    private void sendAndWaitResponse() throws IOException, ClassNotFoundException {
+        output.writeObject(accountInfo);
+        output.flush();
+        validated = (int) input.readObject();
+    }
+
+    public void sendInformation(String[] accountInfo) {
+        this.accountInfo = accountInfo;
+        startRunning();
+    }
+
+    public int isValidated() {
+        return validated;
+    }
+
+    public int hasInfo() {
+        return valid_info;
+    }
+    //not forget valid_info
 
     private void connectToServer() throws IOException{
         connection = new Socket(InetAddress.getByName(serverIP), 6789);
