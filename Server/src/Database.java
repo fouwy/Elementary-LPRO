@@ -6,7 +6,6 @@ public class Database {
     Connection connection;
 
     public Database() throws SQLException {
-        //connection = DriverManager.getConnection("jdbc:sqlite:C:/sqlite3/jdbc-test/accounts.db");
         connection = SqliteHelper.getConnection();
     }
 
@@ -73,16 +72,4 @@ public class Database {
             query = "insert into member(username, password, email) values(?, ?, ?)";
         return query;
     }
-
-//    public void closeConnection() {
-//        if (SqliteHelper.isConnectionOpen()) {
-//            try {
-//                connection.close();
-//                SqliteHelper.setConnectionToNull();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
 }
