@@ -49,8 +49,6 @@ public class Server {
                 } catch (SQLException e) {
                     e.printStackTrace();
                     outputMessage = -1;
-                } finally {
-                    database.closeConnection();
                 }
             }
             else

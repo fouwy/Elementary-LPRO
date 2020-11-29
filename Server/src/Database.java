@@ -35,9 +35,8 @@ public class Database {
                 members.add(rs.getString(1));
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-        } finally {
-            closeConnection();
         }
+
         return members;
     }
 
@@ -49,8 +48,6 @@ public class Database {
             statement.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-        } finally {
-            closeConnection();
         }
     }
 
@@ -77,14 +74,15 @@ public class Database {
         return query;
     }
 
-    public void closeConnection() {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    public void closeConnection() {
+//        if (SqliteHelper.isConnectionOpen()) {
+//            try {
+//                connection.close();
+//                SqliteHelper.setConnectionToNull();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
 }

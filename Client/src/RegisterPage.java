@@ -18,8 +18,6 @@ public class RegisterPage {
     private JLabel emailLabel;
     private JLabel repeatPwdLabel;
     private JPasswordField repeatPwdField;
-
-
     private JButton leaveButton;
     JFrame frame;
 
@@ -27,6 +25,7 @@ public class RegisterPage {
         frame = new JFrame("Register");
         frame.setContentPane(panel1);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ActionListener handler = new RegisterLogic(this);
