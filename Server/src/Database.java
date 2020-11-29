@@ -53,9 +53,8 @@ public class Database {
                 members.add(rs.getString(1));
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-        } finally {
-            closeConnection();
         }
+
         return members;
     }
 
@@ -67,13 +66,11 @@ public class Database {
             statement.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-        } finally {
-            closeConnection();
         }
     }
 
     public boolean isRegisterAllowed(String[] accountInfo) throws SQLException{
-        return !isUsernameTaken(accountInfo[2]);
+        return !isUsernameTaken(accountInfo[1]);
     }
 
     public boolean isUsernameTaken(String username) throws SQLException{   //change to private
@@ -93,16 +90,6 @@ public class Database {
         else
             query = "insert into member(username, password, email) values(?, ?, ?)";
         return query;
-    }
-
-    public void closeConnection() {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 }

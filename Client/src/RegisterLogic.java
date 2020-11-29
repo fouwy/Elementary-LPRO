@@ -55,6 +55,7 @@ public class RegisterLogic implements ActionListener {
 
     private void leavePage() {
         registerPage.disposeFrame();
+        new LoginPage();
         //TODO: Set login page visible
     }
 }
