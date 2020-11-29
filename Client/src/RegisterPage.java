@@ -28,11 +28,11 @@ public class RegisterPage {
         frame.setContentPane(panel1);
         frame.pack();
         frame.setVisible(true);
+        frame.setSize(560, 560);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ActionListener handler = new RegisterLogic(this);
         registerButton.addActionListener(handler);
         leaveButton.addActionListener(handler);
-        frame.setSize(560, 560);
     }
 
     public void setRegisterButtonEnabled(boolean condition) {

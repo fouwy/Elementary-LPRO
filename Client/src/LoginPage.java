@@ -3,9 +3,8 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+
 
 public class LoginPage {
     private JPanel panel1;
@@ -23,12 +22,16 @@ public class LoginPage {
     public LoginPage() {
         login_frame = new JFrame();
         $$$setupUI$$$();
-        login_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        login_frame.add(panel1);
+        login_frame.setContentPane(panel1);
         login_frame.pack();
         login_frame.setTitle("ELEMENTARY");
         login_frame.setSize(560, 560);
         login_frame.setVisible(true);
+        login_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        ActionListener handler = new LoginLogic(this);
+        registerButton.addActionListener(handler);
+        loginButton.addActionListener(handler);
 
     }
 
@@ -94,25 +97,25 @@ public class LoginPage {
         panel4.setLayout(new GridLayoutManager(6, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel4.setBackground(new Color(-12511684));
         BottomPanel.add(panel4, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JLabel label2 = new JLabel();
-        label2.setBackground(new Color(-12511684));
-        label2.setEnabled(false);
-        Font label2Font = this.$$$getFont$$$(null, Font.BOLD, -1, label2.getFont());
-        if (label2Font != null) label2.setFont(label2Font);
-        label2.setOpaque(true);
-        label2.setText("Username");
-        panel4.add(label2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        UsernameLabel = new JLabel();
+        UsernameLabel.setBackground(new Color(-12511684));
+        UsernameLabel.setEnabled(false);
+        Font UsernameLabelFont = this.$$$getFont$$$(null, Font.BOLD, -1, UsernameLabel.getFont());
+        if (UsernameLabelFont != null) UsernameLabel.setFont(UsernameLabelFont);
+        UsernameLabel.setOpaque(true);
+        UsernameLabel.setText("Username");
+        panel4.add(UsernameLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         userIDField = new JTextField();
         panel4.add(userIDField, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        final JLabel label3 = new JLabel();
-        label3.setBackground(new Color(-12511684));
-        label3.setEnabled(false);
-        Font label3Font = this.$$$getFont$$$(null, Font.BOLD, -1, label3.getFont());
-        if (label3Font != null) label3.setFont(label3Font);
-        label3.setInheritsPopupMenu(false);
-        label3.setOpaque(true);
-        label3.setText("Password");
-        panel4.add(label3, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        PasswordLabel = new JLabel();
+        PasswordLabel.setBackground(new Color(-12511684));
+        PasswordLabel.setEnabled(false);
+        Font PasswordLabelFont = this.$$$getFont$$$(null, Font.BOLD, -1, PasswordLabel.getFont());
+        if (PasswordLabelFont != null) PasswordLabel.setFont(PasswordLabelFont);
+        PasswordLabel.setInheritsPopupMenu(false);
+        PasswordLabel.setOpaque(true);
+        PasswordLabel.setText("Password");
+        panel4.add(PasswordLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         passwordField = new JPasswordField();
         panel4.add(passwordField, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JPanel panel5 = new JPanel();
@@ -161,4 +164,7 @@ public class LoginPage {
         return panel1;
     }
 
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+    }
 }
