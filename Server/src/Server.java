@@ -36,24 +36,41 @@ public class Server {
 
     private void sendAndReceiveInfo() throws IOException, ClassNotFoundException {
         String[] accountInfo = (String[]) input.readObject();
+        String type = accountInfo[0];
         System.out.println(Arrays.toString(accountInfo));
 
         Database database = connectToDatabase();
+
+
         //TODO: Change outputMessage to integer to know difference between error and username already taken
         try {
-            if(database.isRegisterAllowed(accountInfo)) {
-                outputMessage = 1;
-                try {
-                    database.registerNewUser(accountInfo);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    outputMessage = -1;
-                } finally {
-                    database.closeConnection();
+            //For Register
+            if(type.equals("Register")){
+                if(database.isRegisterAllowed(accountInfo)) {
+                    outputMessage = 1;
+                    try {
+                        database.registerNewUser(accountInfo);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        outputMessage = -1;
+                    } finally {
+                        database.closeConnection();
+                    }
                 }
+                else
+                    outputMessage = 0;
             }
-            else
-                outputMessage = 0;
+
+            //For Login
+            if(type.equals("Login")){
+                String username = accountInfo[1];
+                if(database.canLogin(accountInfo)){
+                    outputMessage = 1;
+                }
+                else
+                    outputMessage = 0;
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
             outputMessage = -1;

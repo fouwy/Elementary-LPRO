@@ -22,6 +22,7 @@ public class RegisterLogic implements ActionListener {
 
         char[] pwd = registerPage.getPwdField().getPassword();
         char[] repeatPwd = registerPage.getRepeatPwdField().getPassword();
+        String type = "Register";
 
         if (!Arrays.equals(pwd, repeatPwd)) {
             registerPage.showMessage("Passwords don't match.");
@@ -31,7 +32,7 @@ public class RegisterLogic implements ActionListener {
             registerPage.setRegisterButtonEnabled(false);
             String email = registerPage.getEmailField().getText();
             String username = registerPage.getUserField().getText();
-            String[] accountInformation = {email, username, String.valueOf(pwd)};
+            String[] accountInformation = {type, email, username, String.valueOf(pwd)};
 
             Client client = new Client("localhost");
             client.sendInformation(accountInformation);

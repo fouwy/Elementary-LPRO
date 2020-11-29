@@ -12,35 +12,36 @@ public class LoginLogic implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        /*if (e.getSource().equals(login_page.getLoginButton()))
-            tryLogin();*/
-        /*else*/ if (e.getSource() == login_page.getRegisterButton()) {
+        if (e.getSource().equals(login_page.getLoginButton()))
+            tryLogin();
+        else if (e.getSource() == login_page.getRegisterButton()) {
             enterRegisterPage();
         }
     }
 
 
     //For login button
-    /*private void tryLogin(){
+    private void tryLogin(){
 
-        String user = login_page.getUserField().getText();
+        String username = login_page.getUserField().getText();
         char[] password = login_page.getPasswordField().getPassword();
         String type = "Login";
 
         //Verify username
-        String[] accountInformation = {type, user, String.valueOf(password)};
+        String[] accountInformation = {type, username, String.valueOf(password)};
 
         Client client = new Client("localhost");
         client.sendInformation(accountInformation); //Enviar com identificador de login
 
-        if(client.hasInfo()==1){
+        if(client.isInfoCorrect()==1){
+            login_page.showMessage("You entered the game");
             //TODO: go to main page
         }
         else{
             login_page.showMessage("The username or/and password and invalid");
         }
 
-    }*/
+    }
 
     //For register button
     private void enterRegisterPage(){

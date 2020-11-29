@@ -24,6 +24,7 @@ public class LoginPage {
         $$$setupUI$$$();
         login_frame.setContentPane(panel1);
         login_frame.pack();
+        login_frame.setLocationRelativeTo(null);
         login_frame.setTitle("ELEMENTARY");
         login_frame.setSize(560, 560);
         login_frame.setVisible(true);
@@ -100,8 +101,9 @@ public class LoginPage {
         UsernameLabel = new JLabel();
         UsernameLabel.setBackground(new Color(-12511684));
         UsernameLabel.setEnabled(false);
-        Font UsernameLabelFont = this.$$$getFont$$$(null, Font.BOLD, -1, UsernameLabel.getFont());
+        Font UsernameLabelFont = this.$$$getFont$$$(null, Font.BOLD, 14, UsernameLabel.getFont());
         if (UsernameLabelFont != null) UsernameLabel.setFont(UsernameLabelFont);
+        UsernameLabel.setForeground(new Color(-1));
         UsernameLabel.setOpaque(true);
         UsernameLabel.setText("Username");
         panel4.add(UsernameLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -110,8 +112,9 @@ public class LoginPage {
         PasswordLabel = new JLabel();
         PasswordLabel.setBackground(new Color(-12511684));
         PasswordLabel.setEnabled(false);
-        Font PasswordLabelFont = this.$$$getFont$$$(null, Font.BOLD, -1, PasswordLabel.getFont());
+        Font PasswordLabelFont = this.$$$getFont$$$(null, Font.BOLD, 14, PasswordLabel.getFont());
         if (PasswordLabelFont != null) PasswordLabel.setFont(PasswordLabelFont);
+        PasswordLabel.setForeground(new Color(-1));
         PasswordLabel.setInheritsPopupMenu(false);
         PasswordLabel.setOpaque(true);
         PasswordLabel.setText("Password");
@@ -123,9 +126,11 @@ public class LoginPage {
         panel5.setBackground(new Color(-12511684));
         panel4.add(panel5, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         loginButton = new JButton();
+        loginButton.setBackground(new Color(-5993555));
         loginButton.setText("Login");
         panel5.add(loginButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         registerButton = new JButton();
+        registerButton.setBackground(new Color(-5993555));
         registerButton.setText("Register");
         panel5.add(registerButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel6 = new JPanel();

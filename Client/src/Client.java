@@ -11,7 +11,7 @@ public class Client {
     ObjectOutputStream output;
     private String[] accountInfo;
     private int validated = 0;
-    //private int valid_info = 0;
+    private int valid_info = 0;
 
     public Client(String serverIP) {
         this.serverIP = serverIP;
@@ -33,6 +33,7 @@ public class Client {
         output.writeObject(accountInfo);
         output.flush();
         validated = (int) input.readObject();
+        valid_info = validated;
     }
 
     public void sendInformation(String[] accountInfo) {
@@ -44,9 +45,9 @@ public class Client {
         return validated;
     }
 
-    /*public int hasInfo() {
+    public int isInfoCorrect() {
         return valid_info;
-    }*/
+    }
     //not forget valid_info
 
     private void connectToServer() throws IOException{

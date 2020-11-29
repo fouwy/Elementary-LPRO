@@ -27,6 +27,7 @@ public class RegisterPage {
         frame = new JFrame("Register");
         frame.setContentPane(panel1);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setSize(560, 560);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
