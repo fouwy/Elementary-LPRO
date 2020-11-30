@@ -35,8 +35,8 @@ public class LoginLogic implements ActionListener {
 
         switch (client.isInfoCorrect()) {
             case 1:
-                login_page.showMessage("You entered the game!");
-                //TODO: go to main page
+                enterMainPage();
+                login_page.setLoginButtonEnabled(false);
                 break;
             case 0:
                 login_page.showMessage("Username is not registered.");
@@ -50,9 +50,14 @@ public class LoginLogic implements ActionListener {
 
     //For register button
     private void enterRegisterPage(){
-
         //Open Register page
         new RegisterPage();
+        login_page.disposeLogin();
+    }
+
+    private void enterMainPage(){
+        //Open Register page
+        new MainPage();
         login_page.disposeLogin();
     }
 

@@ -32,10 +32,12 @@ public class Client {
     private void sendAndWaitResponse() throws IOException, ClassNotFoundException {
         output.writeObject(accountInfo);
         output.flush();
-        if(accountInfo[0].equals("Register")){
+        String type = accountInfo[0];
+
+        if(type.equals("Register")){
             validated = (int) input.readObject();
         }
-        else if(accountInfo[0].equals("Login")){
+        else if(type.equals("Login")){
             valid_info = (int) input.readObject();
         }
     }
