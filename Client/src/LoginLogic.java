@@ -31,14 +31,19 @@ public class LoginLogic implements ActionListener {
         String[] accountInformation = {type, username, String.valueOf(password)};
 
         Client client = new Client("localhost");
-        client.sendInformation(accountInformation); //Enviar com identificador de login
+        client.sendInformation(accountInformation);
 
-        if(client.isInfoCorrect()==1){
-            login_page.showMessage("You entered the game");
-            //TODO: go to main page
-        }
-        else{
-            login_page.showMessage("The username or/and password and invalid");
+        switch (client.isInfoCorrect()) {
+            case 1:
+                login_page.showMessage("You entered the game!");
+                //TODO: go to main page
+                break;
+            case 0:
+                login_page.showMessage("Username is not registered.");
+                break;
+            case -1:
+                login_page.showMessage("The password is not correct");
+                break;
         }
 
     }

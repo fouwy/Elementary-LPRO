@@ -41,7 +41,6 @@ public class Server {
 
         Database database = connectToDatabase();
 
-
         //TODO: Change outputMessage to integer to know difference between error and username already taken
         try {
             //For Register
@@ -53,8 +52,6 @@ public class Server {
                     } catch (SQLException e) {
                         e.printStackTrace();
                         outputMessage = -1;
-                    } finally {
-                        database.closeConnection();
                     }
                 }
                 else
@@ -67,8 +64,11 @@ public class Server {
                 if(database.canLogin(accountInfo)){
                     outputMessage = 1;
                 }
-                else
+                else if (!database.isUsernameTaken(username)){
                     outputMessage = 0;
+                }
+                else
+                    outputMessage = -1;
             }
 
         } catch (SQLException e) {

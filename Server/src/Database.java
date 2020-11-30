@@ -34,10 +34,12 @@ public class Database {
 
         //Is username exists verify password
         if(isUsernameTaken(username)){
-            statement.setString(1, password);
+            statement.setString(1, username);
             rs = statement.executeQuery();
-            if(rs.getString(1).equals(password)){
-                return true;
+            if(rs.next()) {
+                if (rs.getString(1).equals(password)) {
+                    return true;
+                }
             }
         }
         return false;
