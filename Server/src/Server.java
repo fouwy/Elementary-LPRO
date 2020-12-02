@@ -41,9 +41,7 @@ public class Server {
 
         Database database = connectToDatabase();
 
-        //TODO: Change outputMessage to integer to know difference between error and username already taken
         try {
-            //For Register
             if(type.equals("Register")){
                 if(database.isRegisterAllowed(accountInfo)) {
                     outputMessage = 1;
@@ -57,9 +55,7 @@ public class Server {
                 else
                     outputMessage = 0;
             }
-
-            //For Login
-            if(type.equals("Login")){
+            else if(type.equals("Login")){
                 String username = accountInfo[1];
                 if(database.canLogin(accountInfo)){
                     outputMessage = 1;
@@ -70,7 +66,6 @@ public class Server {
                 else
                     outputMessage = -1;
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             outputMessage = -1;
