@@ -10,9 +10,9 @@ public class Database {
     }
 
     public void registerNewUser(String[] accountInfo) throws SQLException {
-        String email = accountInfo[0];
-        String username = accountInfo[1];
-        String password = accountInfo[2];
+        String email = accountInfo[1];
+        String username = accountInfo[2];
+        String password = accountInfo[3];
         String query = prepareQuery(email);
 
         PreparedStatement statement = connection.prepareStatement(query);
@@ -22,6 +22,26 @@ public class Database {
             statement.setString(3, email);
 
         statement.executeUpdate();
+    }
+
+    public boolean canLogin(String[] accountInfo) throws SQLException{
+        String username = accountInfo[1];
+        String password = accountInfo[2];
+        ResultSet rs;
+
+        PreparedStatement statement = connection.prepareStatement("select password from member "+ "where username=?;");
+
+        //Is username exists verify password
+        if(isUsernameTaken(username)){
+            statement.setString(1, username);
+            rs = statement.executeQuery();
+            if(rs.next()) {
+                if (rs.getString(1).equals(password)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public List<String> getAllMembers() {
@@ -72,4 +92,5 @@ public class Database {
             query = "insert into member(username, password, email) values(?, ?, ?)";
         return query;
     }
+
 }

@@ -18,6 +18,7 @@ public class RegisterPage {
     private JLabel emailLabel;
     private JLabel repeatPwdLabel;
     private JPasswordField repeatPwdField;
+    private JButton registerButton;
     private JButton leaveButton;
     JFrame frame;
 
@@ -27,6 +28,7 @@ public class RegisterPage {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.setSize(560, 560);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ActionListener handler = new RegisterLogic(this);
         registerButton.addActionListener(handler);
@@ -70,13 +72,12 @@ public class RegisterPage {
         return registerButton;
     }
 
-    private JButton registerButton;
-
     public JButton getLeaveButton() {
         return leaveButton;
     }
 
     private void createUIComponents() {
+        // TODO: place custom component creation code here
 
     }
 

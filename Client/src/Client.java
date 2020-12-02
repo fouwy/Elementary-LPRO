@@ -11,6 +11,7 @@ public class Client {
     ObjectOutputStream output;
     private String[] accountInfo;
     private int validated = 0;
+    private int valid_info = 0;
 
     public Client(String serverIP) {
         this.serverIP = serverIP;
@@ -31,7 +32,14 @@ public class Client {
     private void sendAndWaitResponse() throws IOException, ClassNotFoundException {
         output.writeObject(accountInfo);
         output.flush();
-        validated = (int) input.readObject();
+        String type = accountInfo[0];
+
+        if(type.equals("Register")){
+            validated = (int) input.readObject();
+        }
+        else if(type.equals("Login")){
+            valid_info = (int) input.readObject();
+        }
     }
 
     public void sendInformation(String[] accountInfo) {
@@ -42,6 +50,11 @@ public class Client {
     public int isValidated() {
         return validated;
     }
+
+    public int isInfoCorrect() {
+        return valid_info;
+    }
+    //not forget valid_info
 
     private void connectToServer() throws IOException{
         connection = new Socket(InetAddress.getByName(serverIP), 6789);
