@@ -35,6 +35,7 @@ public class RegisterLogic implements ActionListener {
             switch (client.isValidated()) {
                 case 1:
                     registerPage.showMessage("Registration complete!");
+                    leavePage();
                     break;
                 case 0:
                     registerPage.showMessage("Username already taken.");

@@ -27,8 +27,8 @@ public class RegisterPage {
         frame.setContentPane(panel1);
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
         frame.setSize(560, 560);
+        frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ActionListener handler = new RegisterLogic(this);
         registerButton.addActionListener(handler);
