@@ -5,8 +5,6 @@ import java.util.Arrays;
 public class RegisterLogic implements ActionListener {
     private final RegisterPage registerPage;
     private String errorMessage = "Unknown Error";
-    private int minPwdSize = 3;
-    private int minUsernameSize = 3;
 
     public RegisterLogic(RegisterPage registerPage) {
         this.registerPage = registerPage;
@@ -57,6 +55,8 @@ public class RegisterLogic implements ActionListener {
         String email = accountInfo[1];
         String username = accountInfo[2];
 
+        int minPwdSize = 3;
+        int minUsernameSize = 3;
         if (!Arrays.equals(pwd, repeatPwd))
             errorMessage = "Passwords don't match";
         else if (pwd.length < minPwdSize)
