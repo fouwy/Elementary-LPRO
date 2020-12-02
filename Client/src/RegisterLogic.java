@@ -18,6 +18,7 @@ public class RegisterLogic implements ActionListener {
     }
 
     private void tryToRegister() {
+        //TODO: Check if username and password are at least a certain length
         registerPage.setRegisterButtonEnabled(false);
 
         char[] pwd = registerPage.getPwdField().getPassword();
