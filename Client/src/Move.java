@@ -1,4 +1,4 @@
-public class Move {
+/*public class Move {
 
 package usecases1;
 import java.util.Random;
@@ -104,3 +104,4 @@ import java.util.Scanner;
 //((e+d>6)||(e<1)||(e>6)||(d<1)||(d>6))
 
 }
+*/
