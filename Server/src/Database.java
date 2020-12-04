@@ -10,9 +10,9 @@ public class Database {
     }
 
     public void registerNewUser(String[] accountInfo) throws SQLException {
-        String email = accountInfo[1];
-        String username = accountInfo[2];
-        String password = accountInfo[3];
+        String username = accountInfo[1];
+        String password = accountInfo[2];
+        String email = accountInfo[3];
         String query = prepareQuery(email);
 
         PreparedStatement statement = connection.prepareStatement(query);
@@ -71,7 +71,7 @@ public class Database {
     }
 
     public boolean isRegisterAllowed(String[] accountInfo) throws SQLException{
-        return !isUsernameTaken(accountInfo[1]);
+        return !isUsernameTaken(accountInfo[2]);
     }
 
     public boolean isUsernameTaken(String username) throws SQLException{   //change to private

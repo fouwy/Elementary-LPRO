@@ -1,28 +1,30 @@
 import java.io.*;
 import java.net.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Server {
+public class ServerThread implements Runnable{
 
-    private ServerSocket server;
     private Socket connection;
     private ObjectOutputStream output;
     private ObjectInputStream input;
+    private ArrayList<ServerThread> clients;
     private int outputMessage = -1;
 
-    public Server() {
-        try {
-            server = new ServerSocket(6789, 100);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public ServerThread(Socket socket, ArrayList<ServerThread> clients) {
+        this.connection = socket;
+        this.clients = clients;
+    }
+
+    @Override
+    public void run() {
+        startRunning();
     }
 
     public void startRunning() {
         try {
             while(true) {
-                waitForConnection();
                 setupStreams();
                 sendAndReceiveInfo();
             }
@@ -56,7 +58,7 @@ public class Server {
                     outputMessage = 0;
             }
             else if(type.equals("Login")){
-                String username = accountInfo[1];
+                String username = accountInfo[2];
                 if(database.canLogin(accountInfo)){
                     outputMessage = 1;
                 }
@@ -86,12 +88,6 @@ public class Server {
         return database;
     }
 
-    private void waitForConnection() throws IOException {
-        System.out.println("Waiting for connection...");
-        connection = server.accept();
-        System.out.println("Connected to "+connection.getInetAddress().getHostName());
-    }
-
     private void setupStreams() throws IOException {
         output = new ObjectOutputStream(connection.getOutputStream());
         output.flush();
@@ -108,4 +104,5 @@ public class Server {
             ioException.printStackTrace();
         }
     }
+
 }

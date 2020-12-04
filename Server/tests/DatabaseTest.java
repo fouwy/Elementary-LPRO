@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class DatabaseTest {
     private Database database;
-    String[] accountInfo = {"email@gmail.com", "testUser", "testPassword"};
+    String[] accountInfo = {"Register", "testUser", "testPassword", "email@gmail.com"};
 
     @Before
     public void setUp() throws SQLException {
@@ -46,7 +46,7 @@ public class DatabaseTest {
 
     @Test (expected = SQLException.class)
     public void willThrowException_WhenUsernameOfNewRegisterIsTaken() throws SQLException {
-        String[] registeredUser = {"other@gmail.com", "testUser", "otherPassword"};
+        String[] registeredUser = {"Register", "testUser", "otherPassword", "other@gmail.com"};
         database.registerNewUser(registeredUser);
         database.registerNewUser(accountInfo);
     }

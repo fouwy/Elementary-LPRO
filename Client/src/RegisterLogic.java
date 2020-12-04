@@ -53,8 +53,8 @@ public class RegisterLogic implements ActionListener {
     private boolean areParameterAcceptable( String[] accountInfo) {
         char[] pwd = registerPage.getPwdField().getPassword();
         char[] repeatPwd = registerPage.getRepeatPwdField().getPassword();
-        String email = accountInfo[1];
-        String username = accountInfo[2];
+        String username = accountInfo[1];
+        String email = accountInfo[3];
 
         int minPwdSize = 3;
         int minUsernameSize = 3;
@@ -77,7 +77,8 @@ public class RegisterLogic implements ActionListener {
         String email = registerPage.getEmailField().getText();
         String username = registerPage.getUserField().getText();
         char[] pwd = registerPage.getPwdField().getPassword();
-        return new String[]{type, email, username, String.valueOf(pwd)};
+
+        return new String[]{type, username, String.valueOf(pwd),  email};
     }
 
     private void leavePage() {
