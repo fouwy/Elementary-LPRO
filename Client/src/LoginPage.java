@@ -174,6 +174,5 @@ public class LoginPage {
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
 }

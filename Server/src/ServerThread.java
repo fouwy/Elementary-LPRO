@@ -24,20 +24,22 @@ public class ServerThread implements Runnable{
 
     public void startRunning() {
         try {
-            while(true) {
-                setupStreams();
+            setupStreams();
+            while (!connection.isClosed())
                 sendAndReceiveInfo();
-            }
+
+        } catch (EOFException e) {
+            System.out.println("EOF");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-        } finally {
             closeServer();
         }
-
     }
 
     private void sendAndReceiveInfo() throws IOException, ClassNotFoundException {
         String[] accountInfo = (String[]) input.readObject();
+        if (input == null)  return;
+
         String type = accountInfo[0];
         System.out.println(Arrays.toString(accountInfo));
 

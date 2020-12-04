@@ -71,7 +71,7 @@ public class Database {
     }
 
     public boolean isRegisterAllowed(String[] accountInfo) throws SQLException{
-        return !isUsernameTaken(accountInfo[2]);
+        return !isUsernameTaken(accountInfo[1]);
     }
 
     public boolean isUsernameTaken(String username) throws SQLException{   //change to private
