@@ -4,16 +4,6 @@ public class ServerStart {
         Server server;
         server = new Server();
         server.startRunning();
-
-//        String[] accountInfo = {"pilantra2", "pass", null};
-//        database.registerNewUser(accountInfo);
-//
-//        printNumberAndNameOfMembers(database);
-//
-//        database.deleteUser("pilantra2");
-//
-//        printNumberAndNameOfMembers(database);
-
     }
 
     private static void printNumberAndNameOfMembers(Database database) {

@@ -7,7 +7,6 @@ public class SqliteHelper {
     private static String pathToDB = "C:/sqlite3/jdbc-test/accounts.db";
 
     //Only have one connection for for everyone accessing
-    //TODO: When creating more threads for server maybe have to change to synchronized method
     public static Connection getConnection() throws SQLException {
         if(connection == null){
             System.out.println("Opening new connection to Database");
