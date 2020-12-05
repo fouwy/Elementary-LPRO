@@ -1,3 +1,5 @@
+package database;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,7 +11,7 @@ public class SqliteHelper {
     //Only have one connection for for everyone accessing
     public static synchronized Connection getConnection() throws SQLException {
         if(connection == null){
-            System.out.println("Opening new connection to Database");
+            System.out.println("Opening new connection to database.Database");
             connection = DriverManager.getConnection("jdbc:sqlite:"+ pathToDB);
         }
         return connection;
