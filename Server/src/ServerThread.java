@@ -3,7 +3,6 @@ import database.Database;
 import java.io.*;
 import java.net.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ServerThread implements Runnable{
@@ -11,12 +10,10 @@ public class ServerThread implements Runnable{
     private Socket connection;
     private ObjectOutputStream output;
     private ObjectInputStream input;
-    private ArrayList<ServerThread> clients;
     private int outputMessage = -1;
 
-    public ServerThread(Socket socket, ArrayList<ServerThread> clients) {
+    public ServerThread(Socket socket) {
         this.connection = socket;
-        this.clients = clients;
     }
 
     @Override
@@ -70,8 +67,9 @@ public class ServerThread implements Runnable{
                         outputMessage = 0;
                 } else if (type.equals("Login")) {
                     String username = accountInfo[2];
-                    if (database.canLogin(accountInfo)) {
-                        ServerStart.userLoggedIn(username);
+                    if(ServerStart.userLoggedIn(username))
+                        outputMessage = 2;                      //User Already Logged in
+                    else if (database.canLogin(accountInfo)) {
                         outputMessage = 1;
                     } else if (!database.isUsernameTaken(username)) {
                         outputMessage = 0;

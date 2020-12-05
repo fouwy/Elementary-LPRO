@@ -48,6 +48,9 @@ public class LoginLogic implements ActionListener {
             case -1:
                 login_page.showMessage("The password is not correct");
                 break;
+            case 2:
+                login_page.showMessage("User already logged in");
+                break;
         }
 
     }

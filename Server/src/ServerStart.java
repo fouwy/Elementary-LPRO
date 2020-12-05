@@ -3,7 +3,6 @@ import database.Database;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ServerStart {
@@ -14,8 +13,6 @@ public class ServerStart {
 
         ServerSocket serverSocket = new ServerSocket(6789);
 
-        ArrayList<ServerThread> clients = new ArrayList<>();
-
         usersOnline = new HashSet<>();
 
 
@@ -23,9 +20,7 @@ public class ServerStart {
             System.out.println("Server waiting for connections...");
             Socket socket = serverSocket.accept();
             System.out.println("Client connected");
-            ServerThread client = new ServerThread(socket, clients);
-            clients.add(client);
-            System.out.println(clients.toString());
+            ServerThread client = new ServerThread(socket);
             Thread thread = new Thread(client);
             thread.start();
         }
@@ -38,9 +33,9 @@ public class ServerStart {
         System.out.println(database.getAllMembers().toString());
     }
 
-    public static void userLoggedIn(String username) {
+    public static boolean userLoggedIn(String username) {
         //TODO: Check for duplicates trying to log in
-        usersOnline.add(username);
+        return !usersOnline.add(username);
     }
 
     public static void userLoggedOut(String username) {
