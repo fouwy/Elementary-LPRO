@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 public class Lobby {
 
     private final int port;
-    private String host;
+    private final String host;
     private boolean waitingToStart;
 
     public Lobby(String host, int port) throws IOException {
@@ -25,6 +25,7 @@ public class Lobby {
             ExecutorService pool = Executors.newFixedThreadPool(6);
             while (waitingToStart) {
                 pool.execute(this.new Player(listener.accept()));   //maybe change "this" to another class
+                System.out.println("User connected");
             }
         }
     }
@@ -67,8 +68,8 @@ public class Lobby {
 
         private void setup() throws IOException {
             input = new Scanner(socket.getInputStream());
-            output = new PrintWriter(socket.getOutputStream());
-            output.println("Welcome" + host);
+            output = new PrintWriter(socket.getOutputStream(), true);
+            output.println("Welcome " + host);
         }
     }
 

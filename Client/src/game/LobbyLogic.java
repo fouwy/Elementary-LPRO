@@ -2,14 +2,37 @@ package game;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Scanner;
 
 public class LobbyLogic implements ActionListener {
 
     private final LobbyPage lobby_page;
     int choose = 0;
 
-    public LobbyLogic(LobbyPage lobby_page) {
+    private Socket socket;
+    private Scanner in;
+    private PrintWriter out;
+
+    public LobbyLogic(LobbyPage lobby_page, int port_number) {
         this.lobby_page = lobby_page;
+
+        try {
+            socket = new Socket("localhost", port_number);
+            in = new Scanner(socket.getInputStream());
+            out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        startCommunication();
+    }
+
+    private void startCommunication() {
+        String response = in.nextLine();
+        System.out.println("SERVER - "+ response);
     }
 
     @Override
@@ -48,40 +71,34 @@ public class LobbyLogic implements ActionListener {
     private void manageChooseCharacter(){
     }
 
-    private boolean chooseCharacter1(){
+    private void chooseCharacter1(){
         lobby_page.setCharacter1ButtonEnabled(false);
         choose = 1;
-        return true;
     }
 
-    private boolean chooseCharacter2(){
+    private void chooseCharacter2(){
         lobby_page.setCharacter2ButtonEnabled(false);
         choose = 1;
-        return true;
     }
 
-    private boolean chooseCharacter3(){
+    private void chooseCharacter3(){
         lobby_page.setCharacter3ButtonEnabled(false);
         choose = 1;
-        return true;
     }
 
-    private boolean chooseCharacter4(){
+    private void chooseCharacter4(){
         lobby_page.setCharacter4ButtonEnabled(false);
         choose = 1;
-        return true;
     }
 
-    private boolean chooseCharacter5(){
+    private void chooseCharacter5(){
         lobby_page.setCharacter5ButtonEnabled(false);
         choose = 1;
-        return true;
     }
 
-    private boolean chooseCharacter6(){
+    private void chooseCharacter6(){
         lobby_page.setCharacter6ButtonEnabled(false);
         choose = 1;
-        return true;
     }
 
 
