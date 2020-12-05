@@ -14,6 +14,7 @@ public class Client {
     private String[] accountInfo;
     private int validated = 0;
     private int valid_info = 0;
+    private int port_number;
 
     public Client(String serverIP) {
         this.serverIP = serverIP;
@@ -42,6 +43,9 @@ public class Client {
         else if(type.equals("Login")){
             valid_info = (int) input.readObject();
         }
+        else if(type.equals("Host")) {
+            port_number = (int) input.readObject();
+        }
     }
 
     public void sendInformation(String[] accountInfo) {
@@ -56,7 +60,10 @@ public class Client {
     public int isInfoCorrect() {
         return valid_info;
     }
-    //not forget valid_info
+
+    public int getPort_number() {
+        return port_number;
+    }
 
     private void connectToServer() throws IOException{
         connection = new Socket(InetAddress.getByName(serverIP), 6789);

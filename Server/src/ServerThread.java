@@ -45,41 +45,47 @@ public class ServerThread implements Runnable{
         String type = accountInfo[0];
         System.out.println(Arrays.toString(accountInfo));
 
-        Database database = connectToDatabase();
-
-        try {
-            if(type.equals("Register")){
-                if(database.isRegisterAllowed(accountInfo)) {
-                    outputMessage = 1;
-                    try {
-                        database.registerNewUser(accountInfo);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        outputMessage = -1;
-                    }
-                }
-                else
-                    outputMessage = 0;
-            }
-            else if(type.equals("Login")){
-                String username = accountInfo[2];
-                if(database.canLogin(accountInfo)){
-                    ServerStart.userLoggedIn(username);
-                    outputMessage = 1;
-                }
-                else if (!database.isUsernameTaken(username)){
-                    outputMessage = 0;
-                }
-                else
-                    outputMessage = -1;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            outputMessage = -1;
+        if (type.equals("Host")) {
+            //TODO:-Generate port number and send it back;
+            //     -Start Lobby and open a socket with that port number;
+            int port_number = 6666;     //this is just for test, later can generate port numbers random
+            output.writeObject(port_number);
+            output.flush();
+            new Lobby(accountInfo[1], port_number);
         }
+        else {
+            Database database = connectToDatabase();
 
-        output.writeObject(outputMessage);
-        output.flush();
+            try {
+                if (type.equals("Register")) {
+                    if (database.isRegisterAllowed(accountInfo)) {
+                        outputMessage = 1;
+                        try {
+                            database.registerNewUser(accountInfo);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            outputMessage = -1;
+                        }
+                    } else
+                        outputMessage = 0;
+                } else if (type.equals("Login")) {
+                    String username = accountInfo[2];
+                    if (database.canLogin(accountInfo)) {
+                        ServerStart.userLoggedIn(username);
+                        outputMessage = 1;
+                    } else if (!database.isUsernameTaken(username)) {
+                        outputMessage = 0;
+                    } else
+                        outputMessage = -1;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                outputMessage = -1;
+            }
+
+            output.writeObject(outputMessage);
+            output.flush();
+        }
     }
 
     private Database connectToDatabase() {

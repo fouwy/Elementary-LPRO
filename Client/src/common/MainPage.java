@@ -3,6 +3,7 @@ package common;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import common.MainLogic;
+import game.Account;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,10 +15,13 @@ public class MainPage {
     private JButton leaveButton;
     private JButton deleteAccountButton;
     private JPanel panel1;
-
     JFrame main_frame;
 
-    public MainPage() {
+    private Account account;
+
+    public MainPage(Account account) {
+        this.account = account;
+
         main_frame = new JFrame();
         main_frame.setContentPane(panel1);
         main_frame.pack();
@@ -43,6 +47,10 @@ public class MainPage {
 
     public JButton getHostButton() {
         return hostButton;
+    }
+
+    public Account getAccount() {
+        return account;
     }
 
     {

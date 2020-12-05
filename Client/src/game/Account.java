@@ -7,5 +7,8 @@ public class Account {
         this.username = username;
     }
 
+    public String getUsername() {
+        return username;
+    }
 
 }
