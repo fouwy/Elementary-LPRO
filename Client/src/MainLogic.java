@@ -14,10 +14,18 @@ public class MainLogic implements ActionListener {
         if(e.getSource().equals(main_page.getLeaveButton())){
             enterLoginPage();
         }
+        else if(e.getSource().equals(main_page.getHostButton())){
+            enterLobbyPage();
+        }
     }
 
     private void enterLoginPage(){
         new LoginPage();
+        main_page.disposeMain();
+    }
+
+    private void enterLobbyPage(){
+        new LobbyPage();
         main_page.disposeMain();
     }
 }
