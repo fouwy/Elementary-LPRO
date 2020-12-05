@@ -1,3 +1,5 @@
+package game;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -44,9 +46,6 @@ public class LobbyLogic implements ActionListener {
     }*/
 
     private void manageChooseCharacter(){
-        if(choose){
-
-        }
     }
 
     private boolean chooseCharacter1(){

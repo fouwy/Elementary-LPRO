@@ -62,6 +62,7 @@ public class ServerThread implements Runnable{
             else if(type.equals("Login")){
                 String username = accountInfo[2];
                 if(database.canLogin(accountInfo)){
+                    ServerStart.userLoggedIn(username);
                     outputMessage = 1;
                 }
                 else if (!database.isUsernameTaken(username)){

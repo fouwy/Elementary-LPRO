@@ -1,5 +1,8 @@
+package common;
+
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import common.MainLogic;
 
 import javax.swing.*;
 import java.awt.*;

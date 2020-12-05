@@ -1,3 +1,8 @@
+package common;
+
+import game.LobbyPage;
+import authentication.LoginPage;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,6 +30,7 @@ public class MainLogic implements ActionListener {
     }
 
     private void enterLobbyPage(){
+
         new LobbyPage();
         main_page.disposeMain();
     }

@@ -1,3 +1,6 @@
+package authentication;
+
+import authentication.RegisterLogic;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import javax.swing.*;
