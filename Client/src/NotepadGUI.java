@@ -1,5 +1,5 @@
 
-
+/*
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.TableColumn;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -20,6 +21,7 @@ public class NotepadGUI extends JPanel {
     private JTable table1;
     private JScrollPane scrollPane;
     private JButton button;
+    private JCheckBox checkBox;
 
 
     public NotepadGUI() {
@@ -33,10 +35,9 @@ public class NotepadGUI extends JPanel {
     }
 
 
-
     class TableModel extends AbstractTableModel {
         private String[] columns = {"Suspects", "Eliminated"};
-        private Object[][] data = {{"Person A", new Boolean(false)},
+        private Object[][] data = {{"Person A",  },
                 {"Person B", new Boolean(false)},
                 {"Weapon A", new Boolean(false)},
                 {"Weapon B", new Boolean(false)},
@@ -132,3 +133,4 @@ public class NotepadGUI extends JPanel {
         });
     }
 }
+*/
