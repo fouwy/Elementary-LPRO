@@ -1,5 +1,7 @@
 package game;
 
+import common.MainPage;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -9,8 +11,8 @@ import java.util.Scanner;
 
 public class LobbyLogic implements ActionListener {
 
+    private static boolean FLAG = false;
     private final LobbyPage lobby_page;
-    int choose = 0;
 
     private Socket socket;
     private Scanner in;
@@ -60,61 +62,38 @@ public class LobbyLogic implements ActionListener {
 
     private void leaveGame() {
         lobby_page.disposeLobby();
-        new MainPage();
         FLAG = true;
     }
 
     private void chooseCharacter(int number_character){
-        //int selected = 0;
+        enableAllButtons();
 
         if(number_character == 1) {
             lobby_page.setCharacter1ButtonEnabled(false);
-            lobby_page.setCharacter2ButtonEnabled(true);
-            lobby_page.setCharacter3ButtonEnabled(true);
-            lobby_page.setCharacter4ButtonEnabled(true);
-            lobby_page.setCharacter5ButtonEnabled(true);
-            lobby_page.setCharacter6ButtonEnabled(true);
         }
         else if(number_character == 2) {
-            lobby_page.setCharacter1ButtonEnabled(true);
             lobby_page.setCharacter2ButtonEnabled(false);
-            lobby_page.setCharacter3ButtonEnabled(true);
-            lobby_page.setCharacter4ButtonEnabled(true);
-            lobby_page.setCharacter5ButtonEnabled(true);
-            lobby_page.setCharacter6ButtonEnabled(true);
         }
         else if(number_character == 3) {
-            lobby_page.setCharacter1ButtonEnabled(true);
-            lobby_page.setCharacter2ButtonEnabled(true);
             lobby_page.setCharacter3ButtonEnabled(false);
-            lobby_page.setCharacter4ButtonEnabled(true);
-            lobby_page.setCharacter5ButtonEnabled(true);
-            lobby_page.setCharacter6ButtonEnabled(true);
         }
         else if(number_character == 4) {
-            lobby_page.setCharacter1ButtonEnabled(true);
-            lobby_page.setCharacter2ButtonEnabled(true);
-            lobby_page.setCharacter3ButtonEnabled(true);
             lobby_page.setCharacter4ButtonEnabled(false);
-            lobby_page.setCharacter5ButtonEnabled(true);
-            lobby_page.setCharacter6ButtonEnabled(true);
         }
         else if(number_character == 5) {
-            lobby_page.setCharacter1ButtonEnabled(true);
-            lobby_page.setCharacter2ButtonEnabled(true);
-            lobby_page.setCharacter3ButtonEnabled(true);
-            lobby_page.setCharacter4ButtonEnabled(true);
             lobby_page.setCharacter5ButtonEnabled(false);
-            lobby_page.setCharacter6ButtonEnabled(true);
         }
         else if(number_character == 6) {
-            lobby_page.setCharacter1ButtonEnabled(true);
-            lobby_page.setCharacter2ButtonEnabled(true);
-            lobby_page.setCharacter3ButtonEnabled(true);
-            lobby_page.setCharacter4ButtonEnabled(true);
-            lobby_page.setCharacter5ButtonEnabled(true);
             lobby_page.setCharacter6ButtonEnabled(false);
         }
+    }
 
+    private void enableAllButtons() {
+        lobby_page.setCharacter1ButtonEnabled(true);
+        lobby_page.setCharacter2ButtonEnabled(true);
+        lobby_page.setCharacter3ButtonEnabled(true);
+        lobby_page.setCharacter4ButtonEnabled(true);
+        lobby_page.setCharacter5ButtonEnabled(true);
+        lobby_page.setCharacter6ButtonEnabled(true);
     }
 }
