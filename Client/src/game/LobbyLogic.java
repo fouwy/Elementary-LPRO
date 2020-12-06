@@ -1,13 +1,38 @@
+package game;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Scanner;
 
 public class LobbyLogic implements ActionListener {
 
     private final LobbyPage lobby_page;
     boolean FLAG = false;
 
-    public LobbyLogic(LobbyPage lobby_page) {
+    private Socket socket;
+    private Scanner in;
+    private PrintWriter out;
+
+    public LobbyLogic(LobbyPage lobby_page, int port_number) {
         this.lobby_page = lobby_page;
+
+        try {
+            socket = new Socket("localhost", port_number);
+            in = new Scanner(socket.getInputStream());
+            out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        startCommunication();
+    }
+
+    private void startCommunication() {
+        String response = in.nextLine();
+        System.out.println("SERVER - "+ response);
     }
 
     @Override

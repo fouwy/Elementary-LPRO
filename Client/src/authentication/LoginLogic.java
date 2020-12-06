@@ -1,3 +1,7 @@
+package authentication;
+
+import common.MainPage;
+import game.Account;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -5,6 +9,7 @@ import java.awt.event.ActionListener;
 public class LoginLogic implements ActionListener {
 
     private final LoginPage login_page;
+    private String username;
 
     public LoginLogic(LoginPage login_page) {
         this.login_page = login_page;
@@ -19,11 +24,10 @@ public class LoginLogic implements ActionListener {
         }
     }
 
-
     //For login button
     private void tryLogin(){
 
-        String username = login_page.getUserField().getText();
+        username = login_page.getUserField().getText();
         char[] password = login_page.getPasswordField().getPassword();
         String type = "Login";
 
@@ -44,20 +48,21 @@ public class LoginLogic implements ActionListener {
             case -1:
                 login_page.showMessage("The password is not correct");
                 break;
+            case 2:
+                login_page.showMessage("User already logged in");
+                break;
         }
 
     }
 
-    //For register button
     private void enterRegisterPage(){
-        //Open Register page
         new RegisterPage();
         login_page.disposeLogin();
     }
 
     private void enterMainPage(){
-        //Open Register page
-        new MainPage();
+        Account account = new Account(username);
+        new MainPage(account);
         login_page.disposeLogin();
     }
 

@@ -1,3 +1,5 @@
+package game;
+
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -5,6 +7,7 @@ import com.intellij.uiDesigner.core.Spacer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class LobbyPage {
     private JButton character1Button;
@@ -21,7 +24,7 @@ public class LobbyPage {
 
     JFrame lobby_frame;
 
-    public LobbyPage() {
+    public LobbyPage(int port_number) {
         lobby_frame = new JFrame();
         lobby_frame.setContentPane(panel1);
         lobby_frame.pack();
@@ -31,7 +34,7 @@ public class LobbyPage {
         lobby_frame.setVisible(true);
         lobby_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ActionListener handler = new LobbyLogic(this);
+        ActionListener handler = new LobbyLogic(this, port_number);
         character1Button.addActionListener(handler);
         character2Button.addActionListener(handler);
         character3Button.addActionListener(handler);

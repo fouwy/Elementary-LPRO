@@ -1,3 +1,10 @@
+package common;
+
+import authentication.Client;
+import game.Account;
+import game.LobbyPage;
+import authentication.LoginPage;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,7 +32,19 @@ public class MainLogic implements ActionListener {
     }
 
     private void enterLobbyPage(){
-        new LobbyPage();
+        new LobbyPage(tellServerToCreateLobby(main_page.getAccount()));
         main_page.disposeMain();
     }
+
+    private int tellServerToCreateLobby(Account account) {
+        Client client = new Client("localhost");
+        String[] lobbyInfo = {"Host", account.getUsername()};
+        client.sendInformation(lobbyInfo);
+        int port_number = client.getPort_number();
+        System.out.println("Port number is " + port_number);
+
+        return port_number;
+    }
+
+
 }

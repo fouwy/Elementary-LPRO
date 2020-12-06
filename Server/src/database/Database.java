@@ -1,3 +1,5 @@
+package database;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,14 +8,13 @@ public class Database {
     Connection connection;
 
     public Database() throws SQLException {
-        //connection = DriverManager.getConnection("jdbc:sqlite:C:/sqlite3/jdbc-test/accounts.db");
         connection = SqliteHelper.getConnection();
     }
 
     public void registerNewUser(String[] accountInfo) throws SQLException {
-        String email = accountInfo[1];
-        String username = accountInfo[2];
-        String password = accountInfo[3];
+        String username = accountInfo[1];
+        String password = accountInfo[2];
+        String email = accountInfo[3];
         String query = prepareQuery(email);
 
         PreparedStatement statement = connection.prepareStatement(query);

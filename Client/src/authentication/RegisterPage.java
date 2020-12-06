@@ -1,3 +1,6 @@
+package authentication;
+
+import authentication.RegisterLogic;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import javax.swing.*;
@@ -27,8 +30,8 @@ public class RegisterPage {
         frame.setContentPane(panel1);
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
         frame.setSize(560, 560);
+        frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ActionListener handler = new RegisterLogic(this);
         registerButton.addActionListener(handler);
@@ -77,7 +80,6 @@ public class RegisterPage {
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
 
     }
 
