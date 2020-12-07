@@ -34,7 +34,7 @@ import javax.swing.table.DefaultTableModel;
         {
             //the form
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setBounds(200,200,800,300);
+            setBounds(200,200,800,400);
             setTitle("Notepad");
             getContentPane().setLayout(null);
 

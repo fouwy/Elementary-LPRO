@@ -166,7 +166,7 @@ public class Dice extends JFrame implements ActionListener{
         bt.setBorder(BorderFactory.createEtchedBorder());
 
         get_result = new JButton();
-        get_result.setBounds(600, 600,100,100);
+        get_result.setBounds(1100, 470,100,100);
         get_result.addActionListener(this);
         get_result.setText("GO");
         get_result.setFocusable(false);
