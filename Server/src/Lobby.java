@@ -1,16 +1,15 @@
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.util.concurrent.*;
 
 public class Lobby {
 
     private final int port;
     private final String host;
     private boolean waitingToStart;
+    private static Set<String> names = new HashSet<>();
+    private static Set<PrintWriter> writers = new HashSet<>();
 
     public Lobby(String host, int port) throws IOException {
         this.host = host;
@@ -31,13 +30,14 @@ public class Lobby {
     }
 
     class Player implements Runnable {
-        Player opponent;
-        Socket socket;
-        Scanner input;
-        PrintWriter output;
-
+        private String name;
+        private Socket socket;
+        private Scanner input;
+        private PrintWriter output;
+        private int[] characters;
         public Player(Socket socket) {
             this.socket = socket;
+            characters = new int[6];
         }
 
         @Override
@@ -48,28 +48,49 @@ public class Lobby {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                if (opponent != null && opponent.output != null) {
-                    opponent.output.println("OTHER_PLAYER_LEFT");
-                }
                 try {
                     socket.close();
                 } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
 
         private void processCommands() {
+            //TODO: in the beginning send array so everyone knows which chars are taken
+            name = input.nextLine();
+            if (name == null)
+                return;
+            synchronized (names) {
+                names.add(name);
+            }
+            output.println("Welcome " + name);
+            broadcast(name + "has joined.");
+            writers.add(output);
+
             while(input.hasNextLine()) {
                 String command = input.nextLine();
-                if (command.startsWith("char1"))
-                    System.out.println("Player has chosen char1!");
+                if (command.startsWith("CHAR")) {
+                    System.out.println(command);
+                    int characterNumber = Integer.parseInt(String.valueOf(command.charAt(4)));
+
+                    if (characters[characterNumber - 1] == 0) {
+                        broadcast("CHAR"+characterNumber+name);
+                    }
+                }
+
             }
         }
 
         private void setup() throws IOException {
             input = new Scanner(socket.getInputStream());
             output = new PrintWriter(socket.getOutputStream(), true);
-            output.println("Welcome " + host);
+        }
+    }
+
+    private void broadcast(String message) {
+        for (PrintWriter writer : writers) {
+            writer.println(message);
         }
     }
 

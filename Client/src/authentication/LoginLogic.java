@@ -61,8 +61,8 @@ public class LoginLogic implements ActionListener {
     }
 
     private void enterMainPage(){
-        Account account = new Account(username);
-        new MainPage(account);
+        new Account(username);
+        new MainPage();
         login_page.disposeLogin();
     }
 

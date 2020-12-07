@@ -20,9 +20,18 @@ public class MainLogic implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(main_page.getLeaveButton())){
             enterLoginPage();
-        }
-        else if(e.getSource().equals(main_page.getHostButton())){
+        } else if(e.getSource().equals(main_page.getHostButton())){
             enterLobbyPage();
+        } else if(e.getSource().equals(main_page.getJoinButton())) {
+            joinLobby();
+        }
+    }
+
+    private void joinLobby() {
+        String port = main_page.getPortNumberField().getText();
+
+        if (port != null) {
+            new LobbyPage(Integer.parseInt(port));
         }
     }
 
@@ -32,17 +41,16 @@ public class MainLogic implements ActionListener {
     }
 
     private void enterLobbyPage(){
-        new LobbyPage(tellServerToCreateLobby(main_page.getAccount()));
+        new LobbyPage(tellServerToCreateLobby());
         main_page.disposeMain();
     }
 
-    private int tellServerToCreateLobby(Account account) {
+    private int tellServerToCreateLobby() {
         Client client = new Client("localhost");
-        String[] lobbyInfo = {"Host", account.getUsername()};
+        String[] lobbyInfo = {"Host", Account.getUsername()};
         client.sendInformation(lobbyInfo);
         int port_number = client.getPort_number();
         System.out.println("Port number is " + port_number);
-
         return port_number;
     }
 
