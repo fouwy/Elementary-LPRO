@@ -101,7 +101,7 @@ public class LobbyLogic implements ActionListener {
 
     private void leaveGame() {
         out.println("QUIT");
-        lobby_page.disposeLobby();
+        //Leaves Lobby
     }
 
     private void chooseCharacter(int number_character) throws Exception {

@@ -1,6 +1,7 @@
 package common;
 
 import authentication.Client;
+import authentication.RegisterPage;
 import game.Account;
 import game.LobbyPage;
 import authentication.LoginPage;
@@ -31,18 +32,18 @@ public class MainLogic implements ActionListener {
         String port = main_page.getPortNumberField().getText();
 
         if (port != null) {
-            new LobbyPage(Integer.parseInt(port));
+            ClientStart.rootPanel.add(new LobbyPage(tellServerToCreateLobby()).$$$getRootComponent$$$(), "Lobby");
+            ClientStart.cardLayout.show(ClientStart.rootPanel, "Lobby");
         }
     }
 
     private void enterLoginPage(){
-        new LoginPage();
-        main_page.disposeMain();
+        ClientStart.cardLayout.show(ClientStart.rootPanel, "Login");
     }
 
     private void enterLobbyPage(){
-        new LobbyPage(tellServerToCreateLobby());
-        main_page.disposeMain();
+        ClientStart.rootPanel.add(new LobbyPage(tellServerToCreateLobby()).$$$getRootComponent$$$(), "Lobby");
+        ClientStart.cardLayout.show(ClientStart.rootPanel, "Lobby");
     }
 
     private int tellServerToCreateLobby() {

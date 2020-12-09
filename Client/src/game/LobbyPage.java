@@ -5,9 +5,12 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Locale;
 
 public class LobbyPage {
     private JButton character1Button;
@@ -22,18 +25,7 @@ public class LobbyPage {
     private JButton FRIENDSButton;
     private JPanel panel1;
 
-    JFrame lobby_frame;
-
     public LobbyPage(int port_number) {
-        lobby_frame = new JFrame();
-        lobby_frame.setContentPane(panel1);
-        lobby_frame.pack();
-        lobby_frame.setLocationRelativeTo(null);
-        lobby_frame.setTitle("ELEMENTARY");
-        lobby_frame.setSize(560, 560);
-        lobby_frame.setVisible(true);
-        lobby_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         ActionListener handler = new LobbyLogic(this, port_number);
         character1Button.addActionListener(handler);
         character2Button.addActionListener(handler);
@@ -93,10 +85,6 @@ public class LobbyPage {
 
     public JButton getLeaveGameButton() {
         return LEAVEGAMEButton;
-    }
-
-    public void disposeLobby() {
-        lobby_frame.dispose();
     }
 
     {
@@ -251,7 +239,10 @@ public class LobbyPage {
                 resultName = currentFont.getName();
             }
         }
-        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
+        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
+        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
     }
 
     /**
