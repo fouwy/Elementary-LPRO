@@ -40,6 +40,10 @@ public class LobbyLogic implements ActionListener {
 
         private void startCommunication() throws Exception {
             out.println(Account.getUsername());
+            String charsTaken = in.nextLine();
+            System.out.println("SERVER - "+ charsTaken);
+            disableAllTakenCharacters(convertToStringArray(charsTaken));
+
             String response = in.nextLine();
             System.out.println("SERVER - "+ response);
 
@@ -69,6 +73,14 @@ public class LobbyLogic implements ActionListener {
             chooseCharacter(characterNumber, playerName);
             System.out.println("Player " +playerName+ " chose character " +characterNumber);
             //TODO: Set some text saying which player chose the character
+        }
+
+        private String[] convertToStringArray(String charsTaken) {
+
+            return charsTaken.replaceAll("\\[", "")
+                    .replaceAll("\\]", "")
+                    .replaceAll("\\s", "")
+                    .split(",");
         }
     }
 
@@ -111,7 +123,13 @@ public class LobbyLogic implements ActionListener {
                     lobby_page.setCharacterName(characterNumber, playerName);
                 }
         );
+    }
 
-
+    private void disableAllTakenCharacters(String[] characters) throws Exception {
+        for (int i = 0; i<characters.length; i++) {
+            if(!characters[i].isBlank()) {
+                chooseCharacter(i, characters[i]);
+            }
+        }
     }
 }

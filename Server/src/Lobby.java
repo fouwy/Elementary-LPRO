@@ -8,13 +8,15 @@ public class Lobby {
     private final int port;
     private final String host;
     private boolean waitingToStart;
-    private static Set<String> names = new HashSet<>();
-    private static Set<PrintWriter> writers = new HashSet<>();
+    private final String[] characters;
+    private static final Map<String, PrintWriter> players =  new LinkedHashMap<>();
 
     public Lobby(String host, int port) throws IOException {
         this.host = host;
         this.port = port;
         waitingToStart = true;
+        characters = new String[7];
+        Arrays.fill(characters, "");
         startLobby();
     }
 
@@ -31,13 +33,12 @@ public class Lobby {
 
     class Player implements Runnable {
         private String name;
-        private Socket socket;
+        private final Socket socket;
         private Scanner input;
         private PrintWriter output;
-        private int[] characters;
+
         public Player(Socket socket) {
             this.socket = socket;
-            characters = new int[6];
         }
 
         @Override
@@ -61,12 +62,10 @@ public class Lobby {
             name = input.nextLine();
             if (name == null)
                 return;
-            synchronized (names) {
-                names.add(name);
+            welcomePlayer();
+            synchronized (players) {
+                players.put(name, output);
             }
-            output.println("Welcome " + name);
-            broadcast(name + "has joined.");
-            writers.add(output);
 
             while(input.hasNextLine()) {
                 String command = input.nextLine();
@@ -74,12 +73,19 @@ public class Lobby {
                     System.out.println(command);
                     int characterNumber = Integer.parseInt(String.valueOf(command.charAt(4)));
 
-                    if (characters[characterNumber - 1] == 0) {
+                    if (characters[characterNumber].isBlank()) {
+                        characters[characterNumber] = name;
                         broadcast("CHAR"+characterNumber+name);
                     }
                 }
 
             }
+        }
+
+        private void welcomePlayer() {
+            output.println(Arrays.toString(characters));
+            output.println("Welcome " + name);
+            broadcast(name + " just joined.");
         }
 
         private void setup() throws IOException {
@@ -89,7 +95,7 @@ public class Lobby {
     }
 
     private void broadcast(String message) {
-        for (PrintWriter writer : writers) {
+        for (PrintWriter writer : players.values()) {
             writer.println(message);
         }
     }
