@@ -58,7 +58,6 @@ public class Lobby {
         }
 
         private void processCommands() {
-            //TODO: in the beginning send array so everyone knows which chars are taken
             name = input.nextLine();
             if (name == null)
                 return;

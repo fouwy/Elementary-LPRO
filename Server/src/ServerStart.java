@@ -35,7 +35,6 @@ public class ServerStart {
     }
 
     public static boolean userLoggedIn(String username) {
-        //TODO: Check for duplicates trying to log in
         return !usersOnline.add(username);
     }
 
