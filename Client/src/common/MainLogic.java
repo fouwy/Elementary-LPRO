@@ -1,10 +1,8 @@
 package common;
 
 import authentication.Client;
-import authentication.RegisterPage;
 import game.Account;
 import game.LobbyPage;
-import authentication.LoginPage;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -37,14 +37,16 @@ public class Client {
         output.flush();
         String type = accountInfo[0];
 
-        if(type.equals("Register")){
-            validated = (int) input.readObject();
-        }
-        else if(type.equals("Login")){
-            valid_info = (int) input.readObject();
-        }
-        else if(type.equals("Host")) {
-            port_number = (int) input.readObject();
+        switch (type) {
+            case "Register":
+                validated = (int) input.readObject();
+                break;
+            case "Login":
+                valid_info = (int) input.readObject();
+                break;
+            case "Host":
+                port_number = (int) input.readObject();
+                break;
         }
     }
 

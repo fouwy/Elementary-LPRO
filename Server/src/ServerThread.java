@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class ServerThread implements Runnable{
 
-    private Socket connection;
+    private final Socket connection;
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private int outputMessage = -1;
