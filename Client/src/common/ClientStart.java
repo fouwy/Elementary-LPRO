@@ -12,7 +12,7 @@ public class ClientStart extends JFrame {
 
     public static void main(String[] args) {
 
-        cardLayout = new CardLayout(5,5);
+        cardLayout = new CardLayout();
         frame = new JFrame();
         JPanel loginPanel = (JPanel) new LoginPage().$$$getRootComponent$$$();
         rootPanel = new JPanel(cardLayout);

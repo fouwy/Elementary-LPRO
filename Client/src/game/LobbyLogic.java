@@ -74,17 +74,17 @@ public class LobbyLogic implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(lobby_page.getCharacter1Button())){
+        if (e.getSource().equals(lobby_page.getCharacterButton(1))){
             askServerForChar(1);
-        }else if(e.getSource().equals(lobby_page.getCharacter2Button())){
+        }else if(e.getSource().equals(lobby_page.getCharacterButton(2))){
             askServerForChar(2);
-        }else if(e.getSource().equals(lobby_page.getCharacter3Button())){
+        }else if(e.getSource().equals(lobby_page.getCharacterButton(3))){
             askServerForChar(3);
-        }else if(e.getSource().equals(lobby_page.getCharacter4Button())){
+        }else if(e.getSource().equals(lobby_page.getCharacterButton(4))){
             askServerForChar(4);
-        }else if(e.getSource().equals(lobby_page.getCharacter5Button())){
+        }else if(e.getSource().equals(lobby_page.getCharacterButton(5))){
             askServerForChar(5);
-        }else if(e.getSource().equals(lobby_page.getCharacter6Button())){
+        }else if(e.getSource().equals(lobby_page.getCharacterButton(6))){
             askServerForChar(6);
         }
         //LEAVE GAME

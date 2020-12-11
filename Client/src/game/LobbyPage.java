@@ -24,6 +24,12 @@ public class LobbyPage {
     private JButton STARTGAMEButton;
     private JButton FRIENDSButton;
     private JPanel panel1;
+    private JLabel char1Label;
+    private JLabel char2Label;
+    private JLabel char3Label;
+    private JLabel char4Label;
+    private JLabel char5Label;
+    private JLabel char6Label;
 
     public LobbyPage(int port_number) {
         ActionListener handler = new LobbyLogic(this, port_number);
@@ -35,29 +41,25 @@ public class LobbyPage {
         character6Button.addActionListener(handler);
     }
 
-    public JButton getCharacter1Button() {
-        return character1Button;
+    public JButton getCharacterButton(int number) {
+        switch (number) {
+            case 1:
+                return character1Button;
+            case 2:
+                return character2Button;
+            case 3:
+                return character3Button;
+            case 4:
+                return character4Button;
+            case 5:
+                return character5Button;
+            case 6:
+                return character6Button;
+            default:
+                return null;
+        }
     }
 
-    public JButton getCharacter2Button() {
-        return character2Button;
-    }
-
-    public JButton getCharacter3Button() {
-        return character3Button;
-    }
-
-    public JButton getCharacter4Button() {
-        return character4Button;
-    }
-
-    public JButton getCharacter5Button() {
-        return character5Button;
-    }
-
-    public JButton getCharacter6Button() {
-        return character6Button;
-    }
 
     public void setCharacter1ButtonEnabled(boolean condition) {
         character1Button.setEnabled(condition);
@@ -239,10 +241,7 @@ public class LobbyPage {
                 resultName = currentFont.getName();
             }
         }
-        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
-        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
-        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
-        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**
@@ -253,4 +252,7 @@ public class LobbyPage {
     }
 
 
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+    }
 }
