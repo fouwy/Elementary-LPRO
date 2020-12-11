@@ -32,7 +32,7 @@ public class MainLogic implements ActionListener {
         String port = main_page.getPortNumberField().getText();
 
         if (port != null) {
-            ClientStart.rootPanel.add(new LobbyPage(tellServerToCreateLobby()).$$$getRootComponent$$$(), "Lobby");
+            ClientStart.rootPanel.add(new LobbyPage(Integer.parseInt(port)).$$$getRootComponent$$$(), "Lobby");
             ClientStart.cardLayout.show(ClientStart.rootPanel, "Lobby");
         }
     }

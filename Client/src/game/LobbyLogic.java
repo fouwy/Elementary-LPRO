@@ -59,14 +59,14 @@ public class LobbyLogic implements ActionListener {
 
             if(playerName.equals(Account.getUsername())) {
                 Account.setMyCharacter(characterNumber);
-                chooseCharacter(characterNumber);
+                chooseCharacter(characterNumber, playerName);
             } else {
                 setOtherPlayerChar(playerName, characterNumber);
             }
         }
 
         private void setOtherPlayerChar(String playerName, int characterNumber) throws Exception {
-            chooseCharacter(characterNumber);
+            chooseCharacter(characterNumber, playerName);
             System.out.println("Player " +playerName+ " chose character " +characterNumber);
             //TODO: Set some text saying which player chose the character
         }
@@ -104,40 +104,14 @@ public class LobbyLogic implements ActionListener {
         //Leaves Lobby
     }
 
-    private void chooseCharacter(int number_character) throws Exception {
-        //enableAllButtons();
+    private void chooseCharacter(int characterNumber, String playerName) throws Exception {
         SwingUtilities.invokeAndWait(
                 () -> {
-                    if(number_character == 1) {
-                        lobby_page.setCharacter1ButtonEnabled(false);
-                    }
-                    else if(number_character == 2) {
-                        lobby_page.setCharacter2ButtonEnabled(false);
-                    }
-                    else if(number_character == 3) {
-                        lobby_page.setCharacter3ButtonEnabled(false);
-                    }
-                    else if(number_character == 4) {
-                        lobby_page.setCharacter4ButtonEnabled(false);
-                    }
-                    else if(number_character == 5) {
-                        lobby_page.setCharacter5ButtonEnabled(false);
-                    }
-                    else if(number_character == 6) {
-                        lobby_page.setCharacter6ButtonEnabled(false);
-                    }
+                    lobby_page.setCharacterButtonEnabled(characterNumber, false);
+                    lobby_page.setCharacterName(characterNumber, playerName);
                 }
         );
 
 
-    }
-
-    private void enableAllButtons() {
-        lobby_page.setCharacter1ButtonEnabled(true);
-        lobby_page.setCharacter2ButtonEnabled(true);
-        lobby_page.setCharacter3ButtonEnabled(true);
-        lobby_page.setCharacter4ButtonEnabled(true);
-        lobby_page.setCharacter5ButtonEnabled(true);
-        lobby_page.setCharacter6ButtonEnabled(true);
     }
 }
