@@ -6,7 +6,7 @@
       <xy x="1" y="-1" width="386" height="257"/>
     </constraints>
     <properties>
-      <background color="-12511684"/>
+      <background color="-11398558"/>
     </properties>
     <border type="bevel-lowered">
       <title-color color="-4473925"/>
@@ -27,7 +27,8 @@
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <foreground color="-1"/>
+          <font style="1"/>
+          <foreground color="-13332258"/>
           <labelFor value="b1bdf"/>
           <text value="Username"/>
         </properties>
@@ -37,7 +38,8 @@
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <foreground color="-1"/>
+          <font style="1"/>
+          <foreground color="-13332258"/>
           <labelFor value="2b71b"/>
           <text value="Password"/>
         </properties>
@@ -71,7 +73,8 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <foreground color="-1"/>
+          <font style="1"/>
+          <foreground color="-13332258"/>
           <labelFor value="c1374"/>
           <text value="Email"/>
         </properties>
@@ -81,7 +84,8 @@
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <foreground color="-1"/>
+          <font style="1"/>
+          <foreground color="-13332258"/>
           <labelFor value="97dda"/>
           <text value="Repeat Password"/>
         </properties>
@@ -99,7 +103,8 @@
           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <background color="-16498432"/>
+          <background color="-10077786"/>
+          <font size="13" style="1"/>
           <foreground color="-1"/>
           <text value="Register"/>
         </properties>
@@ -109,7 +114,7 @@
           <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <background color="-2686936"/>
+          <background color="-10077786"/>
           <foreground color="-1"/>
           <icon value="img/back-arrow.png"/>
           <text value="Leave"/>
