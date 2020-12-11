@@ -41,20 +41,32 @@ public class LobbyLogic implements ActionListener {
         private void startCommunication() throws Exception {
             out.println(Account.getUsername());
             String charsTaken = in.nextLine();
-            System.out.println("SERVER - "+ charsTaken);
             disableAllTakenCharacters(convertToStringArray(charsTaken));
 
             String response = in.nextLine();
-            System.out.println("SERVER - "+ response);
+            showMessage(response);
 
             while(in.hasNextLine()) {
                 response = in.nextLine();
                 System.out.println(response);
-                if (response.startsWith("CHAR")) {
-                    handleCharacterPick(response);
+
+                switch (response.substring(0, 4)) {
+                    case "CHAR":
+                        handleCharacterPick(response);
+                        break;
+                    default:
+                        showMessage(response);
                 }
             }
             System.out.println("no nextLine");
+        }
+
+        private void showMessage(String message) {
+            SwingUtilities.invokeLater(
+                    () -> {
+                        lobby_page.getInfoWindow().append(message + "\n");
+                    }
+            );
         }
 
         private void handleCharacterPick(String response) throws Exception {
@@ -71,16 +83,14 @@ public class LobbyLogic implements ActionListener {
 
         private void setOtherPlayerChar(String playerName, int characterNumber) throws Exception {
             chooseCharacter(characterNumber, playerName);
-            System.out.println("Player " +playerName+ " chose character " +characterNumber);
-            //TODO: Set some text saying which player chose the character
+            showMessage(playerName+ " picked char " +characterNumber);
         }
 
         private String[] convertToStringArray(String charsTaken) {
-
             return charsTaken.replaceAll("\\[", "")
-                    .replaceAll("\\]", "")
-                    .replaceAll("\\s", "")
-                    .split(",");
+                             .replaceAll("\\]", "")
+                             .replaceAll("\\s", "")
+                             .split(",");
         }
     }
 
