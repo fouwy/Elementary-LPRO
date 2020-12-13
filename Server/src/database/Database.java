@@ -38,9 +38,7 @@ public class Database {
             statement.setString(1, username);
             rs = statement.executeQuery();
             if(rs.next()) {
-                if (rs.getString(1).equals(password)) {
-                    return true;
-                }
+                return rs.getString(1).equals(password);
             }
         }
         return false;

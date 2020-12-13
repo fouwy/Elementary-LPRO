@@ -1,5 +1,6 @@
 package authentication;
 
+import common.ClientStart;
 import common.MainPage;
 import game.Account;
 
@@ -56,14 +57,14 @@ public class LoginLogic implements ActionListener {
     }
 
     private void enterRegisterPage(){
-        new RegisterPage();
-        login_page.disposeLogin();
+        ClientStart.rootPanel.add(new RegisterPage().$$$getRootComponent$$$(), "Register");
+        ClientStart.cardLayout.show(ClientStart.rootPanel, "Register");
     }
 
     private void enterMainPage(){
-        Account account = new Account(username);
-        new MainPage(account);
-        login_page.disposeLogin();
+        new Account(username);
+        ClientStart.rootPanel.add(new MainPage().$$$getRootComponent$$$(), "Main");
+        ClientStart.cardLayout.show(ClientStart.rootPanel, "Main");
     }
 
 }

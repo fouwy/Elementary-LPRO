@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class ServerThread implements Runnable{
 
-    private Socket connection;
+    private final Socket connection;
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private int outputMessage = -1;
@@ -66,7 +66,7 @@ public class ServerThread implements Runnable{
                     } else
                         outputMessage = 0;
                 } else if (type.equals("Login")) {
-                    String username = accountInfo[2];
+                    String username = accountInfo[1];
                     if(ServerStart.userLoggedIn(username))
                         outputMessage = 2;                      //User Already Logged in
                     else if (database.canLogin(accountInfo)) {

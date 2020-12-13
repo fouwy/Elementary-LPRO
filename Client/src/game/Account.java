@@ -1,14 +1,18 @@
 package game;
 
 public class Account {
-    private String username;
+    private static String username;
+    private static int myCharacter;
 
     public Account(String username) {
-        this.username = username;
+        Account.username = username;
     }
 
-    public String getUsername() {
+    public static String getUsername() {
         return username;
     }
 
+    public static void setMyCharacter(int character) {
+        myCharacter = character;
+    }
 }

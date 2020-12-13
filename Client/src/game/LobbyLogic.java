@@ -1,54 +1,113 @@
 package game;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.PrintWriter;
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class LobbyLogic implements ActionListener {
 
     private final LobbyPage lobby_page;
-    boolean FLAG = false;
-
-    private Socket socket;
-    private Scanner in;
-    private PrintWriter out;
+    Scanner in;
+    PrintWriter out;
 
     public LobbyLogic(LobbyPage lobby_page, int port_number) {
         this.lobby_page = lobby_page;
 
         try {
-            socket = new Socket("localhost", port_number);
+            Socket socket = new Socket("localhost", port_number);
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        startCommunication();
+        Handler handler = new Handler();
+        Thread thread = new Thread(handler);
+        thread.start();
     }
 
-    private void startCommunication() {
-        String response = in.nextLine();
-        System.out.println("SERVER - "+ response);
+    private class Handler implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                startCommunication();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void startCommunication() throws Exception {
+            out.println(Account.getUsername());
+            String charsTaken = in.nextLine();
+            disableAllTakenCharacters(convertToStringArray(charsTaken));
+
+            String response = in.nextLine();
+            showMessage(response);
+
+            while(in.hasNextLine()) {
+                response = in.nextLine();
+                System.out.println(response);
+
+                switch (response.substring(0, 4)) {
+                    case "CHAR":
+                        handleCharacterPick(response);
+                        break;
+                    default:
+                        showMessage(response);
+                }
+            }
+            System.out.println("no nextLine");
+        }
+
+        private void showMessage(String message) {
+            SwingUtilities.invokeLater(
+                    () -> {
+                        lobby_page.getInfoWindow().append(message + "\n");
+                    }
+            );
+        }
+
+        private void handleCharacterPick(String response) throws Exception {
+            int characterNumber = Integer.parseInt(String.valueOf(response.charAt(4)));
+            String playerName = response.substring(5);
+
+            if(playerName.equals(Account.getUsername())) {
+                Account.setMyCharacter(characterNumber);
+                chooseCharacter(characterNumber, playerName);
+            } else {
+                setOtherPlayerChar(playerName, characterNumber);
+            }
+        }
+
+        private void setOtherPlayerChar(String playerName, int characterNumber) throws Exception {
+            chooseCharacter(characterNumber, playerName);
+            showMessage(playerName+ " picked char " +characterNumber);
+        }
+
+        private String[] convertToStringArray(String charsTaken) {
+            return charsTaken.replaceAll("\\[", "")
+                             .replaceAll("\\]", "")
+                             .replaceAll("\\s", "")
+                             .split(",");
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(lobby_page.getCharacter1Button())){
-            chooseCharacter(1);
-        }else if(e.getSource().equals(lobby_page.getCharacter2Button())){
-            chooseCharacter(2);
-        }else if(e.getSource().equals(lobby_page.getCharacter3Button())){
-            chooseCharacter(3);
-        }else if(e.getSource().equals(lobby_page.getCharacter4Button())){
-            chooseCharacter(4);
-        }else if(e.getSource().equals(lobby_page.getCharacter5Button())){
-            chooseCharacter(5);
-        }else if(e.getSource().equals(lobby_page.getCharacter6Button())){
-            chooseCharacter(6);
+        if (e.getSource().equals(lobby_page.getCharacterButton(1))){
+            askServerForChar(1);
+        }else if(e.getSource().equals(lobby_page.getCharacterButton(2))){
+            askServerForChar(2);
+        }else if(e.getSource().equals(lobby_page.getCharacterButton(3))){
+            askServerForChar(3);
+        }else if(e.getSource().equals(lobby_page.getCharacterButton(4))){
+            askServerForChar(4);
+        }else if(e.getSource().equals(lobby_page.getCharacterButton(5))){
+            askServerForChar(5);
+        }else if(e.getSource().equals(lobby_page.getCharacterButton(6))){
+            askServerForChar(6);
         }
         //LEAVE GAME
         else if(e.getSource().equals(lobby_page.getLeaveGameButton())){
@@ -58,63 +117,29 @@ public class LobbyLogic implements ActionListener {
         //TODO: OPTIONS, START GAME, LEAVE GAME
     }
 
-    private void leaveGame() {
-        lobby_page.disposeLobby();
-        new MainPage();
-        FLAG = true;
+    private void askServerForChar(int charNumber) {
+        out.println("CHAR"+charNumber);
     }
 
-    private void chooseCharacter(int number_character){
-        //int selected = 0;
+    private void leaveGame() {
+        out.println("QUIT");
+        //Leaves Lobby
+    }
 
-        if(number_character == 1) {
-            lobby_page.setCharacter1ButtonEnabled(false);
-            lobby_page.setCharacter2ButtonEnabled(true);
-            lobby_page.setCharacter3ButtonEnabled(true);
-            lobby_page.setCharacter4ButtonEnabled(true);
-            lobby_page.setCharacter5ButtonEnabled(true);
-            lobby_page.setCharacter6ButtonEnabled(true);
-        }
-        else if(number_character == 2) {
-            lobby_page.setCharacter1ButtonEnabled(true);
-            lobby_page.setCharacter2ButtonEnabled(false);
-            lobby_page.setCharacter3ButtonEnabled(true);
-            lobby_page.setCharacter4ButtonEnabled(true);
-            lobby_page.setCharacter5ButtonEnabled(true);
-            lobby_page.setCharacter6ButtonEnabled(true);
-        }
-        else if(number_character == 3) {
-            lobby_page.setCharacter1ButtonEnabled(true);
-            lobby_page.setCharacter2ButtonEnabled(true);
-            lobby_page.setCharacter3ButtonEnabled(false);
-            lobby_page.setCharacter4ButtonEnabled(true);
-            lobby_page.setCharacter5ButtonEnabled(true);
-            lobby_page.setCharacter6ButtonEnabled(true);
-        }
-        else if(number_character == 4) {
-            lobby_page.setCharacter1ButtonEnabled(true);
-            lobby_page.setCharacter2ButtonEnabled(true);
-            lobby_page.setCharacter3ButtonEnabled(true);
-            lobby_page.setCharacter4ButtonEnabled(false);
-            lobby_page.setCharacter5ButtonEnabled(true);
-            lobby_page.setCharacter6ButtonEnabled(true);
-        }
-        else if(number_character == 5) {
-            lobby_page.setCharacter1ButtonEnabled(true);
-            lobby_page.setCharacter2ButtonEnabled(true);
-            lobby_page.setCharacter3ButtonEnabled(true);
-            lobby_page.setCharacter4ButtonEnabled(true);
-            lobby_page.setCharacter5ButtonEnabled(false);
-            lobby_page.setCharacter6ButtonEnabled(true);
-        }
-        else if(number_character == 6) {
-            lobby_page.setCharacter1ButtonEnabled(true);
-            lobby_page.setCharacter2ButtonEnabled(true);
-            lobby_page.setCharacter3ButtonEnabled(true);
-            lobby_page.setCharacter4ButtonEnabled(true);
-            lobby_page.setCharacter5ButtonEnabled(true);
-            lobby_page.setCharacter6ButtonEnabled(false);
-        }
+    private void chooseCharacter(int characterNumber, String playerName) throws Exception {
+        SwingUtilities.invokeAndWait(
+                () -> {
+                    lobby_page.setCharacterButtonEnabled(characterNumber, false);
+                    lobby_page.setCharacterName(characterNumber, playerName);
+                }
+        );
+    }
 
+    private void disableAllTakenCharacters(String[] characters) throws Exception {
+        for (int i = 0; i<characters.length; i++) {
+            if(!characters[i].isBlank()) {
+                chooseCharacter(i, characters[i]);
+            }
+        }
     }
 }

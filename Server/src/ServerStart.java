@@ -20,6 +20,7 @@ public class ServerStart {
             System.out.println("Server waiting for connections...");
             Socket socket = serverSocket.accept();
             System.out.println("Client connected");
+            System.out.println("Users logged in: " + usersOnline.toString());
             ServerThread client = new ServerThread(socket);
             Thread thread = new Thread(client);
             thread.start();
@@ -34,7 +35,6 @@ public class ServerStart {
     }
 
     public static boolean userLoggedIn(String username) {
-        //TODO: Check for duplicates trying to log in
         return !usersOnline.add(username);
     }
 
