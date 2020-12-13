@@ -47,6 +47,7 @@ public class LobbyPage {
         character4Button.addActionListener(handler);
         character5Button.addActionListener(handler);
         character6Button.addActionListener(handler);
+        STARTGAMEButton.addActionListener(handler);
     }
 
     public JButton getCharacterButton(int charNumber) {
@@ -113,6 +114,10 @@ public class LobbyPage {
                 char6Label.setText(playerName);
                 break;
         }
+    }
+
+    public JButton getStartButton() {
+        return STARTGAMEButton;
     }
 
     public JButton getLeaveGameButton() {

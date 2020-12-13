@@ -1,3 +1,4 @@
+import org.javatuples.Pair;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -8,15 +9,15 @@ public class Lobby {
     private final int port;
     private final String host;
     private boolean waitingToStart;
-    private final String[] characters;
-    private static final Map<String, PrintWriter> players =  new LinkedHashMap<>();
+    private final String[] charactersTaken;
+    private static final NavigableMap<String, Pair<Scanner, PrintWriter>> players =  new TreeMap<>();
 
     public Lobby(String host, int port) throws IOException {
         this.host = host;
         this.port = port;
         waitingToStart = true;
-        characters = new String[7];
-        Arrays.fill(characters, "");
+        charactersTaken = new String[7];
+        Arrays.fill(charactersTaken, "");
         startLobby();
     }
 
@@ -25,7 +26,7 @@ public class Lobby {
             System.out.println("Lobby Server Is Running...");
             ExecutorService pool = Executors.newFixedThreadPool(6);
             while (waitingToStart) {
-                pool.execute(this.new Player(listener.accept()));   //maybe change "this" to another class
+                pool.execute(this.new Player(listener.accept()));
                 System.out.println("User connected");
             }
         }
@@ -63,26 +64,36 @@ public class Lobby {
                 return;
             welcomePlayer();
             synchronized (players) {
-                players.put(name, output);
+                players.put(name, new Pair<>(input, output));
             }
 
             while(input.hasNextLine()) {
                 String command = input.nextLine();
-                if (command.startsWith("CHAR")) {
-                    System.out.println(command);
-                    int characterNumber = Integer.parseInt(String.valueOf(command.charAt(4)));
-
-                    if (characters[characterNumber].isBlank()) {
-                        characters[characterNumber] = name;
-                        broadcast("CHAR"+characterNumber+name);
-                    }
+                String type = command.substring(0, 4);
+                System.out.println(command);
+                switch (type) {
+                    case "CHAR":
+                        int characterNumber = Integer.parseInt(String.valueOf(command.charAt(4)));
+                        if (charactersTaken[characterNumber].isBlank()) {
+                            charactersTaken[characterNumber] = name;
+                            broadcast("CHAR"+characterNumber+name);
+                        }
+                        break;
+                    case "STRT": //START
+                        if (name.equals(host)) {
+                            waitingToStart = false;
+                            startGame();
+                            return;
+                        }
+                        break;
+                    default:
+                        broadcast(command);
                 }
-
             }
         }
 
         private void welcomePlayer() {
-            output.println(Arrays.toString(characters));
+            output.println(Arrays.toString(charactersTaken));
             output.println("Welcome " + name);
             broadcast(name + " just joined.");
         }
@@ -93,9 +104,17 @@ public class Lobby {
         }
     }
 
+    private void startGame() {
+        //TODO:-Start game logic in server
+        //     -Kill all player threads in this Lobby class
+        //     -Tell players to go to game panel
+        new Game(players);
+        broadcast("GAME");
+    }
+
     private void broadcast(String message) {
-        for (PrintWriter writer : players.values()) {
-            writer.println(message);
+        for (Pair<Scanner, PrintWriter> writer : players.values()) {
+            writer.getValue1().println(message);
         }
     }
 
