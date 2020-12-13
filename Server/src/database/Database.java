@@ -93,4 +93,30 @@ public class Database {
         return query;
     }
 
+    private void addFriend(String[] accountInfo) throws SQLException{
+        String friendUsername = accountInfo[1];
+        PreparedStatement statement = connection.prepareStatement("insert into member(friends) values (?)");
+
+        if(isUsernameTaken(friendUsername)){
+            statement.setString(1,friendUsername);
+            statement.executeQuery();
+        }
+
+    }
+
+    public List<String> getAllFriends() {
+        List<String>friendsList = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("select friends from member");
+            ResultSet rs = statement.executeQuery();
+            while (rs.next())
+                friendsList.add(rs.getString(1));
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return friendsList;
+    }
+
 }

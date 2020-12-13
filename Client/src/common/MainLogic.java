@@ -53,5 +53,15 @@ public class MainLogic implements ActionListener {
         return port_number;
     }
 
+    private void setFriendToAdd(){
+        String type = "AddFriend";
+        String friendUsername = main_page.getFriendToAdd().getText();
+        String[] accountInformation = {type, friendUsername};
+
+        Client client = new Client("localhost");
+        client.sendInformation(accountInformation);
+
+    }
+
 
 }
