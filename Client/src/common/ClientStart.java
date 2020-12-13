@@ -1,6 +1,7 @@
 package common;
 
 import authentication.LoginPage;
+import game.Game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +25,6 @@ public class ClientStart extends JFrame {
         frame.setSize(560, 560);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         //TODO: Close account in server if User closed the game
     }
 }

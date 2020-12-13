@@ -54,11 +54,17 @@ public class LobbyLogic implements ActionListener {
                     case "CHAR":
                         handleCharacterPick(response);
                         break;
+                    case "GAME":
+                        startGame();
                     default:
                         showMessage(response);
                 }
             }
             System.out.println("no nextLine");
+        }
+
+        private void startGame() {
+            new Game();
         }
 
         private void showMessage(String message) {
@@ -113,8 +119,16 @@ public class LobbyLogic implements ActionListener {
         else if(e.getSource().equals(lobby_page.getLeaveGameButton())){
             leaveGame();
         }
+        else if(e.getSource().equals(lobby_page.getStartButton())) {
+            System.out.println("here");
+            askServerToStartGame();
+        }
 
         //TODO: OPTIONS, START GAME, LEAVE GAME
+    }
+
+    private void askServerToStartGame() {
+        out.println("STRT");
     }
 
     private void askServerForChar(int charNumber) {
