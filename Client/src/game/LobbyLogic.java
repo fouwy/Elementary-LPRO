@@ -4,16 +4,21 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class LobbyLogic implements ActionListener {
-
     private final LobbyPage lobby_page;
     Scanner in;
     PrintWriter out;
 
+    private final Map<String, Integer> playerPicks;
+    private Game game;
+
     public LobbyLogic(LobbyPage lobby_page, int port_number) {
         this.lobby_page = lobby_page;
+        playerPicks = new HashMap<>();
 
         try {
             Socket socket = new Socket("localhost", port_number);
@@ -48,7 +53,6 @@ public class LobbyLogic implements ActionListener {
 
             while(in.hasNextLine()) {
                 response = in.nextLine();
-                System.out.println(response);
 
                 switch (response.substring(0, 4)) {
                     case "CHAR":
@@ -56,6 +60,14 @@ public class LobbyLogic implements ActionListener {
                         break;
                     case "GAME":
                         startGame();
+                        break;
+                    case "MOVE":
+                        //handle the movement of this char or other
+                        handleMovement(response);
+                        break;
+                    case "MESG":
+                        //show popup with the message
+                        break;
                     default:
                         showMessage(response);
                 }
@@ -63,17 +75,6 @@ public class LobbyLogic implements ActionListener {
             System.out.println("no nextLine");
         }
 
-        private void startGame() {
-            new Game();
-        }
-
-        private void showMessage(String message) {
-            SwingUtilities.invokeLater(
-                    () -> {
-                        lobby_page.getInfoWindow().append(message + "\n");
-                    }
-            );
-        }
 
         private void handleCharacterPick(String response) throws Exception {
             int characterNumber = Integer.parseInt(String.valueOf(response.charAt(4)));
@@ -87,9 +88,21 @@ public class LobbyLogic implements ActionListener {
             }
         }
 
-        private void setOtherPlayerChar(String playerName, int characterNumber) throws Exception {
-            chooseCharacter(characterNumber, playerName);
-            showMessage(playerName+ " picked char " +characterNumber);
+        /*Example response: MOVEWfouwy
+            MOVE    -  type
+            W       -  direction
+            fouwy   -  player's name
+        * */
+        private void handleMovement(String response) {
+            char direction = response.charAt(4);
+            String playerName = response.substring(5);
+
+            if(playerName.equals(Account.getUsername())) {
+                //something
+            } else {
+                game.movePlayer(playerName, direction);
+            }
+
         }
 
         private String[] convertToStringArray(String charsTaken) {
@@ -98,6 +111,22 @@ public class LobbyLogic implements ActionListener {
                              .replaceAll("\\s", "")
                              .split(",");
         }
+    }
+
+    private void startGame() {
+        game = new Game(playerPicks, this);
+    }
+
+    private void setOtherPlayerChar(String playerName, int characterNumber) throws Exception {
+        playerPicks.put(playerName, characterNumber);
+        chooseCharacter(characterNumber, playerName);
+        showMessage(playerName+ " picked char " +characterNumber);
+    }
+
+    private void showMessage(String message) {
+        SwingUtilities.invokeLater(
+                () -> lobby_page.getInfoWindow().append(message + "\n")
+        );
     }
 
     @Override
@@ -127,6 +156,9 @@ public class LobbyLogic implements ActionListener {
         //TODO: OPTIONS, START GAME, LEAVE GAME
     }
 
+    public void tellServerToUpdatePosition(String message) {
+        out.println(message);
+    }
     private void askServerToStartGame() {
         out.println("STRT");
     }
@@ -152,7 +184,7 @@ public class LobbyLogic implements ActionListener {
     private void disableAllTakenCharacters(String[] characters) throws Exception {
         for (int i = 0; i<characters.length; i++) {
             if(!characters[i].isBlank()) {
-                chooseCharacter(i, characters[i]);
+                setOtherPlayerChar(characters[i], i);
             }
         }
     }

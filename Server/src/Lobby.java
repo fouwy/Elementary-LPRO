@@ -11,6 +11,7 @@ public class Lobby {
     private boolean waitingToStart;
     private final String[] charactersTaken;
     private static final NavigableMap<String, Pair<Scanner, PrintWriter>> players =  new TreeMap<>();
+    private Game game;
 
     public Lobby(String host, int port) throws IOException {
         this.host = host;
@@ -33,7 +34,7 @@ public class Lobby {
     }
 
     class Player implements Runnable {
-        private String name;
+        private String username;
         private final Socket socket;
         private Scanner input;
         private PrintWriter output;
@@ -59,12 +60,12 @@ public class Lobby {
         }
 
         private void processCommands() {
-            name = input.nextLine();
-            if (name == null)
+            username = input.nextLine();
+            if (username == null)
                 return;
             welcomePlayer();
             synchronized (players) {
-                players.put(name, new Pair<>(input, output));
+                players.put(username, new Pair<>(input, output));
             }
 
             while(input.hasNextLine()) {
@@ -75,27 +76,48 @@ public class Lobby {
                     case "CHAR":
                         int characterNumber = Integer.parseInt(String.valueOf(command.charAt(4)));
                         if (charactersTaken[characterNumber].isBlank()) {
-                            charactersTaken[characterNumber] = name;
-                            broadcast("CHAR"+characterNumber+name);
+                            charactersTaken[characterNumber] = username;
+                            broadcast("CHAR"+characterNumber+ username);
                         }
                         break;
-                    case "STRT": //START
-                        if (name.equals(host)) {
+                    case "STRT":    //START
+                        if (username.equals(host)) {
                             waitingToStart = false;
                             startGame();
-                            return;
                         }
                         break;
+                    case "MOVE":
+                        processMovement(command.substring(4));
+                        break;
+                    case "ENDT": //END TURN
+                        game.endTurn(username);
                     default:
                         broadcast(command);
                 }
             }
         }
 
+        private void processMovement(String direction) {
+            try {
+               String message = game.move(direction, username);
+               broadcast(message);
+            } catch (IllegalStateException e) {
+                output.println("MESG" + e.getMessage()); //MESG-MESSAGE
+            }
+        }
+
+        private void startGame() {
+            //TODO:-Start game logic in server
+            //     -Kill all player threads in this Lobby class
+            //     -Tell players to go to game panel
+            broadcast("GAME");
+            game = new Game(players);
+        }
+
         private void welcomePlayer() {
             output.println(Arrays.toString(charactersTaken));
-            output.println("Welcome " + name);
-            broadcast(name + " just joined.");
+            output.println("Welcome " + username);
+            broadcast(username + " just joined.");
         }
 
         private void setup() throws IOException {
@@ -104,15 +126,9 @@ public class Lobby {
         }
     }
 
-    private void startGame() {
-        //TODO:-Start game logic in server
-        //     -Kill all player threads in this Lobby class
-        //     -Tell players to go to game panel
-        new Game(players);
-        broadcast("GAME");
-    }
 
     private void broadcast(String message) {
+        //System.out.println("broadcast: "+message);
         for (Pair<Scanner, PrintWriter> writer : players.values()) {
             writer.getValue1().println(message);
         }

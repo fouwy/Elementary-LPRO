@@ -15,4 +15,8 @@ public class Account {
     public static void setMyCharacter(int character) {
         myCharacter = character;
     }
+
+    public static int getCharNumber() {
+        return myCharacter;
+    }
 }

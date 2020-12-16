@@ -2,70 +2,125 @@ package game;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import javax.swing.*;
 
 public class Panel extends JPanel implements KeyListener {
 
-    int xpanel, ypanel, width, height;
     Image character;
-    Image backgroundImage;
+    final Image backgroundImage;
     int dx = 324;
     int dy = 324;
-    int distance = 36;
-    int edge = 0, canmove = 0;
+    final int distance = 36;
+    int edge = 0;
+    boolean canMove = false;
 
     //block limits
-    int BAKER_LEFT = 288;//dx
-    int BAKER_RIGHT = 468;//-character width, dx
-    int BAKER_UP = 252;//dy
-    int BAKER_DOWN = 432;//-character height, dy
+    final int BAKER_LEFT = 288;//dx
+    final int BAKER_RIGHT = 468;//-character width, dx
+    final int BAKER_UP = 252;//dy
+    final int BAKER_DOWN = 432;//-character height, dy
     //--- Initial Block SetUp
     int upper_limit=BAKER_UP;
     int down_limit=BAKER_DOWN;
     int left_limit=BAKER_LEFT;
     int right_limit=BAKER_RIGHT;
     //---
-    int PALACE_LEFT = 324; //dx
-    int PALACE_RIGHT = 648; //- character width, dx
-    int PALACE_DOWN = 180; //- character height, dy
-    int HOSPITAL_RIGHT = 144; //-character width, dx
-    int HOSPITAL_DOWN = 360; //-character height, dy
-    int MORGUE_RIGHT = 252; //-character width, dx
-    int MORGUE_DOWN = 144; //-character height, dy
-    int PRISON_RIGHT = 180; //-character width, dx
-    int PRISON_UP = 504; //dy
-    int CIRCUS_LEFT = BAKER_LEFT;//dx
-    int CIRCUS_RIGHT = 540;//-character width, dx
-    int CIRCUS_UP = 540;// dy
-    int MAGNUSSEN_LEFT = 684;//dx
-    int MAGNUSSEN_UP = 540;//dy
-    int LABS_UP = 288;//dy
-    int LABS_DOWN = 468; //-character height, dy
-    int LABS_LEFT = 576;//dx
-    int POOL_LEFT = 720;//dx
-    int POOL_DOWN = 216;//-character height, dy
+    final int PALACE_LEFT = 324; //dx
+    final int PALACE_RIGHT = 648; //- character width, dx
+    final int PALACE_DOWN = 180; //- character height, dy
+    final int HOSPITAL_RIGHT = 144; //-character width, dx
+    final int HOSPITAL_DOWN = 360; //-character height, dy
+    final int MORGUE_RIGHT = 252; //-character width, dx
+    final int MORGUE_DOWN = 144; //-character height, dy
+    final int PRISON_RIGHT = 180; //-character width, dx
+    final int PRISON_UP = 504; //dy
+    final int CIRCUS_LEFT = BAKER_LEFT;//dx
+    final int CIRCUS_RIGHT = 540;//-character width, dx
+    final int CIRCUS_UP = 540;// dy
+    final int MAGNUSSEN_LEFT = 684;//dx
+    final int MAGNUSSEN_UP = 540;//dy
+    final int LABS_UP = 288;//dy
+    final int LABS_DOWN = 468; //-character height, dy
+    final int LABS_LEFT = 576;//dx
+    final int POOL_LEFT = 720;//dx
+    final int POOL_DOWN = 216;//-character height, dy
 
-    Panel(int xpanel, int ypanel, int width, int height){
+    private final Map<String, Integer> playerPicks;
+    private final List<Player> players;
+    private final LobbyLogic lobbyLogic;
 
-        this.xpanel = xpanel;
-        this.ypanel = ypanel;
-        this.width = width;
-        this.height = height;
+    Panel(Map<String, Integer> playerPicks, int xpanel, int ypanel, int width, int height, LobbyLogic lobbyLogic){
+        this.playerPicks = playerPicks;
+        this.lobbyLogic = lobbyLogic;
+        players = new ArrayList<>();
 
         backgroundImage = new ImageIcon("Client/src/img/map4.png").getImage();
         this.setBounds(xpanel, ypanel, width, height);
         this.setLayout(null);
-
         this.setFocusable(true);
         addKeyListener(this);
-        character = new ImageIcon("Client/src/img/character.png").getImage();
+
+        setMyCharacter();
+        setOtherPlayersCharacter();
+    }
+
+    public void movePlayerCharacter(String playerName, char direction) {
+        for (Player player : players) {
+            if (player.getName().equals(playerName)) {
+                player.moveInDirection(direction);
+                repaint();
+            }
+        }
+    }
+
+    private void setOtherPlayersCharacter() {
+        for (Map.Entry<String, Integer> entry: playerPicks.entrySet()) {
+            String imagePath = getImagePath(entry.getValue());
+            Image characterImg = new ImageIcon(imagePath).getImage();
+            Player player = new Player (entry.getKey(), characterImg,
+                                        dx, dy, distance);
+            players.add(player);
+        }
+    }
+
+    private void setMyCharacter() {
+        int charNumber = Account.getCharNumber();
+        String characterImage;
+        characterImage = getImagePath(charNumber);
+        character = new ImageIcon(characterImage).getImage();
+    }
+
+    private String getImagePath(int charNumber) {
+        String characterImage;
+        switch (charNumber) {
+            case 1:
+                characterImage = "Client/src/img/char_yellow.png";
+                break;
+            case 2:
+                characterImage = "Client/src/img/char_blue.png";
+                break;
+            case 3:
+                characterImage = "Client/src/img/char_red.png";
+                break;
+            default:
+                characterImage = "Client/src/img/char_red.png";
+        }
+        return characterImage;
     }
 
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2D = (Graphics2D)g;
         g2D.drawImage(backgroundImage, 0, 0, null);
+        //my character - could put it in the players list
         g2D.drawImage(character, dx, dy, null);
+
+        for (Player player : players) {
+            g2D.drawImage(player.getCharacter(), player.getX(), player.getY(), null);
+        }
     }
 
     @Override
@@ -74,11 +129,18 @@ public class Panel extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        /*
+            Delete this two variables later just for testing movement
+            oldX, oldY
+         */
+        int oldX = dx;
+        int oldY = dy;
+
         int key = e.getKeyCode();
+        canMove = true;
 
         switch (key) {
             case (KeyEvent.VK_W):
-                canmove=1;
                 //set new boundaries for Palace on the entrance
                 if( dx == 360 && dy == 144) {
                     upper_limit = 0;
@@ -98,9 +160,7 @@ public class Panel extends JPanel implements KeyListener {
                 if(dy >= upper_limit && dy <= (down_limit - (character.getHeight(null)+1)) && dx >= left_limit && dx <= (right_limit - (character.getWidth(null)+1))) {
                     if(dy == upper_limit) {
                         edge = 1;
-                        if((dx == 360 || dx == 72) && dy != 252) {
-                            canmove = 1;
-                        } else canmove = 0;
+                        canMove = (dx == 360 || dx == 72) && dy != 252;
                     } else edge = 0;
                 }
                 //and surroundings	(troca os limites)
@@ -108,33 +168,30 @@ public class Panel extends JPanel implements KeyListener {
                     edge=0;
 
                 if (dy == down_limit && dx >= left_limit && dx <= (right_limit - (character.getWidth(null)+1))) {
-                    canmove = 0;
+                    canMove = false;
                     edge = 1;
                     //if he's next to the door (on the lower side) he can move in
-                    if( (dx == 360 && dy == 180) || (dx == 828 && dy == 216) ) {
-                        canmove=1;
-                    } else
-                        canmove=0;
+                    canMove = (dx == 360 && dy == 180) || (dx == 828 && dy == 216);
                 }
                 //============================================
                 //main panel
                 if(dy == 0) {
                     edge=1;
-                    canmove=0;
+                    canMove =false;
                 }
                 //============================================
-                if(canmove == 1) {
-                    canmove=0;
+                if(canMove) {
+                    canMove =false;
                     dy -= distance;
                 } else {
                     if (edge != 1) {
-                        canmove = 1;
+                        canMove = true;
                         dy -= distance;
                     }
                 }
                 break;
+
             case (KeyEvent.VK_S):
-                canmove=1;
                 //set new boundaries for Prison on the entrance
                 if( dx == 72 && dy == 540) {
                     upper_limit = PRISON_UP;
@@ -153,41 +210,37 @@ public class Panel extends JPanel implements KeyListener {
                 if(dy >= upper_limit && dy <= (down_limit - (character.getHeight(null)+1)) && dx >= left_limit && dx <= (right_limit - (character.getWidth(null)+1))) {
                     if(dy == down_limit - (character.getHeight(null)+1) || dy == upper_limit) {
                         edge = 1;
-                        if((dx == 360 || dx == 828) && dy != 396) {
-                            canmove = 1;
-                        }else canmove = 0;
+                        canMove = (dx == 360 || dx == 828) && dy != 396;
                     }else edge = 0;
                 }
                 //and surroundings
                 if(dy != down_limit - (character.getHeight(null)+1) )	//faz isto varias vezes
                     edge=0;
                 if (dy + ((character.getHeight(null)+1)) == upper_limit && dx >= left_limit && dx <= (right_limit - (character.getWidth(null)+1))) {
-                    canmove = 0;
+                    canMove = false;
                     edge = 1;
                     //if he's next to the door (on the upper side) he can move in
-                    if( (dx == 360 && dy == 504) || (dx == 72 && dy == 468) ) {
-                        canmove=1;
-                    }else canmove=0;
+                    canMove = (dx == 360 && dy == 504) || (dx == 72 && dy == 468);
                 }
                 //============================================
                 //main panel
                 if(dy == 684) {
                     edge=1;
-                    canmove=0;
+                    canMove =false;
                 }
                 //============================================
-                if(canmove == 1) {
-                    canmove=0;
+                if(canMove) {
+                    canMove =false;
                     dy += distance;
                 }else {
                     if (edge != 1) {
-                        canmove = 1;
+                        canMove = true;
                         dy += distance;
                     }
                 }
                 break;
+
             case (KeyEvent.VK_A):
-                canmove=1;
                 //set new boundaries for hospital on the entrance
                 if(dx == 144 && dy == 288 || dx == 252 && dy == 72) {
                     upper_limit = 0;
@@ -197,7 +250,6 @@ public class Panel extends JPanel implements KeyListener {
                 }
                 //set new boundaries for morgue on the entrance
                 if(dx == 252 && dy == 72 ) {
-                    upper_limit = 0;
                     down_limit = MORGUE_DOWN;
                     right_limit = MORGUE_RIGHT;
                     left_limit = 144;
@@ -212,15 +264,9 @@ public class Panel extends JPanel implements KeyListener {
                 //============================================
                 //block limits
                 if(dy >= upper_limit && dy <= (down_limit- (character.getHeight(null)+1)) && dx >= left_limit && dx <= (right_limit - (character.getWidth(null)+1))) {
-
                     if(dx == left_limit) {
-
                         edge = 1;
-
-                        if(dy == 360 ||dy == 576) {
-                            canmove = 1;
-                        }else canmove = 0;
-
+                        canMove = dy == 360 || dy == 576;
                     }else edge = 0;
                 }
                 //and surroundings
@@ -228,34 +274,31 @@ public class Panel extends JPanel implements KeyListener {
                     edge=0;
 
                 if (dx == right_limit && dy >= upper_limit && dy <= (down_limit - (character.getHeight(null)+1))) {
-                    canmove = 0;
+                    canMove = false;
                     edge = 1;
                     //if he's next to the door (on the right side) he can move in
-                    if( (dx == 468 && dy == 288) || (dx == 144 && dy == 288) || (dx == 252 && dy == 72) ) {
-
-                        canmove=1;
-                    }else canmove=0;
+                    canMove = (dx == 468 && dy == 288) || (dx == 144 && dy == 288) || (dx == 252 && dy == 72);
                 }
                 //============================================
                 //main panel
                 if( dx == 0 ) {
                     edge=1;
-                    canmove=0;
+                    canMove =false;
                 }
                 //============================================
-                if(canmove == 1) {
+                if(canMove) {
                     dx -= distance;
                 }else {
                     if(edge == 1) {
-                        canmove=0;//fica preso aqui se clicar mos de fora do painel para dentro (nos cantos), canmove=0 e nunca fica canmove=1 nesta tecla
+                        canMove =false;//fica preso aqui se clicar mos de fora do painel para dentro (nos cantos), canmove=false e nunca fica canmove=true nesta tecla
                     }else {
-                        canmove=1;
+                        canMove =true;
                         dx -= distance;
                     }
                 }
                 break;
+
             case (KeyEvent.VK_D):
-                canmove=1;
                 //set new boundaries for Labs on the entrance
                 if( dx == 576 && dy == 360) {
                     upper_limit = LABS_UP;
@@ -281,9 +324,8 @@ public class Panel extends JPanel implements KeyListener {
                 if(dy >= upper_limit && dy <= (down_limit - (character.getHeight(null)+1)) && dx >= left_limit && dx <= (right_limit - (character.getWidth(null)+1))) {
                     if(dx == (right_limit - (character.getWidth(null)+1)) || (dy == upper_limit)) {
                         edge = 1;
-                        if(dy == 288 || dy == 72) {	//leave the panel
-                            canmove = 1;
-                        }else canmove = 0;
+                        //leave the panel
+                        canMove = dy == 288 || dy == 72;
                     }else edge = 0;
                 }
                 //and surroundings
@@ -292,31 +334,40 @@ public class Panel extends JPanel implements KeyListener {
                     //faz isto varias vezes
                 }
                 if (dx + (character.getWidth(null)+1) == left_limit && dy >= upper_limit && dy <= (down_limit - (character.getHeight(null)+1))) {
-                    canmove = 0;
+                    canMove = false;
                     edge = 1;
-                    if((dx == 252 && dy == 360) || (dx == 540 && dy == 360) || (dx == 648 && dy == 576)) {
-                        canmove=1;
-                    }else canmove=0;
+                    canMove = (dx == 252 && dy == 360) || (dx == 540 && dy == 360) || (dx == 648 && dy == 576);
                 }
                 //============================================
                 //main panel
                 if(dx == 864) {
                     edge=1;
-                    canmove=0;
+                    canMove =false;
                 }
                 //============================================
-                if(canmove == 1) {
+                if(canMove) {
                     dx += distance;
                 }else {
-                    if(edge == 1) {
-                        canmove=0;
-                    }else {
-                        canmove=1;
+                    if (edge != 1) {
+                        canMove =true;
                         dx += distance;
                     }
                 }
                 break;
         }
+
+        if (dx != oldX) {
+            if (dx <  oldX)
+                lobbyLogic.tellServerToUpdatePosition("MOVEA");
+            else
+                lobbyLogic.tellServerToUpdatePosition("MOVED");
+        } else if (dy != oldY) {
+            if (dy < oldY)
+                lobbyLogic.tellServerToUpdatePosition("MOVEW");
+            else
+                lobbyLogic.tellServerToUpdatePosition("MOVES");
+        }
+
         repaint();
     }
 
