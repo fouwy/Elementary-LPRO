@@ -15,6 +15,7 @@ public class Client {
     private int validated = 0;
     private int valid_info = 0;
     private int port_number;
+    private int addFriendValidation = 0;
 
     public Client(String serverIP) {
         this.serverIP = serverIP;
@@ -47,9 +48,8 @@ public class Client {
             case "Host":
                 port_number = (int) input.readObject();
                 break;
-
-                //TODO: case "AddFriend"
-            //case "AddFriend":
+            case "AddFriend":
+                addFriendValidation = (int) input.readObject();
 
         }
     }
@@ -65,6 +65,10 @@ public class Client {
 
     public int isInfoCorrect() {
         return valid_info;
+    }
+
+    public int isFriendAdded(){
+        return addFriendValidation;
     }
 
     public int getPort_number() {

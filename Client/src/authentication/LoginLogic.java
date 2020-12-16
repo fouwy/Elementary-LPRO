@@ -41,7 +41,6 @@ public class LoginLogic implements ActionListener {
         switch (client.isInfoCorrect()) {
             case 1:
                 enterMainPage();
-                login_page.setLoginButtonEnabled(false);
                 break;
             case 0:
                 login_page.showMessage("Username is not registered.");

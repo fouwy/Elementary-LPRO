@@ -48,7 +48,7 @@ public class Database {
         List<String>members = new ArrayList<>();
 
         try {
-            PreparedStatement statement = connection.prepareStatement("select username from member");
+            PreparedStatement statement = connection.prepareStatement("select username from member;");
             ResultSet rs = statement.executeQuery();
             while (rs.next())
                 members.add(rs.getString(1));
@@ -93,30 +93,18 @@ public class Database {
         return query;
     }
 
-    private void addFriend(String[] accountInfo) throws SQLException{
-        String friendUsername = accountInfo[1];
-        PreparedStatement statement = connection.prepareStatement("insert into member(friends) values (?)");
+    public boolean addFriend(String[] accountInfo) throws SQLException{
+        String username = accountInfo[1];
+        String friendUsername = accountInfo[2];
+        PreparedStatement statement = connection.prepareStatement("insert into friends (username, friend_name) values (?, ?);");
 
         if(isUsernameTaken(friendUsername)){
-            statement.setString(1,friendUsername);
-            statement.executeQuery();
+            statement.setString(1,username);
+            statement.setString(2,friendUsername);
+            statement.executeUpdate();
+            return true;
         }
-
-    }
-
-    public List<String> getAllFriends() {
-        List<String>friendsList = new ArrayList<>();
-
-        try {
-            PreparedStatement statement = connection.prepareStatement("select friends from member");
-            ResultSet rs = statement.executeQuery();
-            while (rs.next())
-                friendsList.add(rs.getString(1));
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
-        return friendsList;
+        return false;
     }
 
 }
