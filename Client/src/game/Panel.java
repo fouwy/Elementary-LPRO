@@ -14,7 +14,7 @@ public class Panel extends JPanel implements KeyListener {
     int dx = 324;
     int dy = 324;
     final int distance = 36;
-    int edge = 0;
+    boolean edge = false;
     boolean canMove = false;
 
     //block limits
@@ -47,6 +47,28 @@ public class Panel extends JPanel implements KeyListener {
     final int LABS_LEFT = 576;//dx
     final int POOL_LEFT = 720;//dx
     final int POOL_DOWN = 216;//-character height, dy
+                            //   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
+    final int[][] boardArray={  {2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2}, //0
+                                {2, 0, 0, 0, 0, 0, 2, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 2, 0, 0, 0, 2}, //1
+                                {2, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 2, 0, 0, 0, 2}, //2
+                                {2, 0, 0, 0, 2, 2, 2, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 2, 0, 0, 0, 2}, //3
+                                {2, 0, 0, 2, 1, 1, 1, 0, 1, 2, 0, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 0, 0, 0, 2}, //4
+                                {2, 0, 0, 2, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 2, 2, 2, 0, 2}, //5
+                                {2, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1}, //6
+                                {2, 0, 0, 2, 1, 0, 0, 1, 2, 2, 2, 2, 2, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1}, //7
+                                {2, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2}, //8
+                                {2, 2, 2, 2, 1, 0, 0, 1, 2, 0, 0, 0, 2, 1, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 2}, //9
+                                {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2}, //10
+                                {0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 2}, //11
+                                {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2}, //12
+                                {1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1}, //13
+                                {2, 2, 0, 2, 2, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1}, //14
+                                {2, 0, 0, 0, 2, 1, 0, 1, 2, 2, 0, 2, 2, 2, 2, 1, 0, 0, 1, 2, 2, 2, 2, 2, 2}, //15
+                                {2, 0, 0, 0, 2, 1, 0, 1, 2, 0, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2}, //16
+                                {2, 0, 0, 0, 2, 1, 0, 1, 2, 0, 0, 0, 0, 0, 2, 1, 0, 0, 1, 2, 0, 0, 0, 0, 2}, //17
+                                {2, 0, 0, 0, 2, 1, 0, 1, 2, 0, 0, 0, 0, 0, 2, 1, 0, 0, 1, 2, 0, 0, 0, 0, 2}, //18
+                                {2, 2, 2, 2, 2, 1, 0, 1, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 1, 2, 2, 2, 2, 2, 2}, //19
+                             };
 
     private final Map<String, Integer> playerPicks;
     private final List<Player> players;
@@ -159,24 +181,24 @@ public class Panel extends JPanel implements KeyListener {
                 //block limits
                 if(dy >= upper_limit && dy <= (down_limit - (character.getHeight(null)+1)) && dx >= left_limit && dx <= (right_limit - (character.getWidth(null)+1))) {
                     if(dy == upper_limit) {
-                        edge = 1;
+                        edge = true;
                         canMove = (dx == 360 || dx == 72) && dy != 252;
-                    } else edge = 0;
+                    } else edge = false;
                 }
                 //and surroundings	(troca os limites)
                 if(dy != upper_limit )	//faz isto varias vezes
-                    edge=0;
+                    edge = false;
 
                 if (dy == down_limit && dx >= left_limit && dx <= (right_limit - (character.getWidth(null)+1))) {
                     canMove = false;
-                    edge = 1;
+                    edge = true;
                     //if he's next to the door (on the lower side) he can move in
                     canMove = (dx == 360 && dy == 180) || (dx == 828 && dy == 216);
                 }
                 //============================================
                 //main panel
                 if(dy == 0) {
-                    edge=1;
+                    edge = true;
                     canMove =false;
                 }
                 //============================================
@@ -184,7 +206,7 @@ public class Panel extends JPanel implements KeyListener {
                     canMove =false;
                     dy -= distance;
                 } else {
-                    if (edge != 1) {
+                    if (!edge) {
                         canMove = true;
                         dy -= distance;
                     }
@@ -209,23 +231,23 @@ public class Panel extends JPanel implements KeyListener {
                 //block limits
                 if(dy >= upper_limit && dy <= (down_limit - (character.getHeight(null)+1)) && dx >= left_limit && dx <= (right_limit - (character.getWidth(null)+1))) {
                     if(dy == down_limit - (character.getHeight(null)+1) || dy == upper_limit) {
-                        edge = 1;
+                        edge = true;
                         canMove = (dx == 360 || dx == 828) && dy != 396;
-                    }else edge = 0;
+                    }else edge = false;
                 }
                 //and surroundings
                 if(dy != down_limit - (character.getHeight(null)+1) )	//faz isto varias vezes
-                    edge=0;
+                    edge = false;
                 if (dy + ((character.getHeight(null)+1)) == upper_limit && dx >= left_limit && dx <= (right_limit - (character.getWidth(null)+1))) {
                     canMove = false;
-                    edge = 1;
+                    edge = true;
                     //if he's next to the door (on the upper side) he can move in
                     canMove = (dx == 360 && dy == 504) || (dx == 72 && dy == 468);
                 }
                 //============================================
                 //main panel
                 if(dy == 684) {
-                    edge=1;
+                    edge = true;
                     canMove =false;
                 }
                 //============================================
@@ -233,7 +255,7 @@ public class Panel extends JPanel implements KeyListener {
                     canMove =false;
                     dy += distance;
                 }else {
-                    if (edge != 1) {
+                    if (!edge) {
                         canMove = true;
                         dy += distance;
                     }
@@ -265,31 +287,31 @@ public class Panel extends JPanel implements KeyListener {
                 //block limits
                 if(dy >= upper_limit && dy <= (down_limit- (character.getHeight(null)+1)) && dx >= left_limit && dx <= (right_limit - (character.getWidth(null)+1))) {
                     if(dx == left_limit) {
-                        edge = 1;
+                        edge = true;
                         canMove = dy == 360 || dy == 576;
-                    }else edge = 0;
+                    }else edge = false;
                 }
                 //and surroundings
                 if(dx != left_limit )	//faz isto varias vezes
-                    edge=0;
+                    edge = false;
 
                 if (dx == right_limit && dy >= upper_limit && dy <= (down_limit - (character.getHeight(null)+1))) {
                     canMove = false;
-                    edge = 1;
+                    edge = true;
                     //if he's next to the door (on the right side) he can move in
                     canMove = (dx == 468 && dy == 288) || (dx == 144 && dy == 288) || (dx == 252 && dy == 72);
                 }
                 //============================================
                 //main panel
                 if( dx == 0 ) {
-                    edge=1;
+                    edge = true;
                     canMove =false;
                 }
                 //============================================
                 if(canMove) {
                     dx -= distance;
                 }else {
-                    if(edge == 1) {
+                    if(edge) {
                         canMove =false;//fica preso aqui se clicar mos de fora do painel para dentro (nos cantos), canmove=false e nunca fica canmove=true nesta tecla
                     }else {
                         canMove =true;
@@ -323,32 +345,32 @@ public class Panel extends JPanel implements KeyListener {
                 //block limit
                 if(dy >= upper_limit && dy <= (down_limit - (character.getHeight(null)+1)) && dx >= left_limit && dx <= (right_limit - (character.getWidth(null)+1))) {
                     if(dx == (right_limit - (character.getWidth(null)+1)) || (dy == upper_limit)) {
-                        edge = 1;
+                        edge = true;
                         //leave the panel
                         canMove = dy == 288 || dy == 72;
-                    }else edge = 0;
+                    }else edge = false;
                 }
                 //and surroundings
                 if(dx != (right_limit - (character.getWidth(null)+1)) ) {
-                    edge=0;
+                    edge = false;
                     //faz isto varias vezes
                 }
                 if (dx + (character.getWidth(null)+1) == left_limit && dy >= upper_limit && dy <= (down_limit - (character.getHeight(null)+1))) {
                     canMove = false;
-                    edge = 1;
+                    edge = true;
                     canMove = (dx == 252 && dy == 360) || (dx == 540 && dy == 360) || (dx == 648 && dy == 576);
                 }
                 //============================================
                 //main panel
                 if(dx == 864) {
-                    edge=1;
+                    edge = true;
                     canMove =false;
                 }
                 //============================================
                 if(canMove) {
                     dx += distance;
                 }else {
-                    if (edge != 1) {
+                    if (!edge) {
                         canMove =true;
                         dx += distance;
                     }

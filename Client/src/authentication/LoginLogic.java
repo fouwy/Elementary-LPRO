@@ -53,18 +53,16 @@ public class LoginLogic implements ActionListener {
                 login_page.showMessage("User already logged in");
                 break;
         }
-
     }
 
-    private void enterRegisterPage(){
+    private void enterRegisterPage() {
         ClientStart.rootPanel.add(new RegisterPage().$$$getRootComponent$$$(), "Register");
         ClientStart.cardLayout.show(ClientStart.rootPanel, "Register");
     }
 
-    private void enterMainPage(){
+    private void enterMainPage() {
         new Account(username);
         ClientStart.rootPanel.add(new MainPage().$$$getRootComponent$$$(), "Main");
         ClientStart.cardLayout.show(ClientStart.rootPanel, "Main");
     }
-
 }
