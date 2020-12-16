@@ -79,13 +79,18 @@ public class ServerThread implements Runnable{
 
                 } else if (type.equals("AddFriend")){
                     String friendUsername = accountInfo[1];
-                    if (!database.isUsernameTaken(friendUsername)){
-                        outputMessage = 0;
-                    } else if(database.addFriend(accountInfo)){
-                        outputMessage = 1;
 
-                    /*} else if(database.isAlreadyFriend(accountInfo)){
-                        outputMessage = 2;*/
+                    if(database.canAddFriend(accountInfo)){
+                        outputMessage = 1;
+                        try {
+                            database.addFriend(accountInfo);
+                        } catch (SQLException e) {
+                            outputMessage = 2;
+                        }
+
+                    } else if (!database.isUsernameTaken(friendUsername)){
+                        outputMessage = 0;
+
                     } else
                         outputMessage = -1;
                 }

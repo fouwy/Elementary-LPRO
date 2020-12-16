@@ -98,10 +98,20 @@ public class Database {
         String friendUsername = accountInfo[2];
         PreparedStatement statement = connection.prepareStatement("insert into friends (username, friend_name) values (?, ?);");
 
-        if(isUsernameTaken(friendUsername)){
+        if(canAddFriend(accountInfo)){
             statement.setString(1,username);
             statement.setString(2,friendUsername);
             statement.executeUpdate();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean canAddFriend(String[] accountInfo) throws SQLException{
+        String username = accountInfo[1];
+        String friendUsername = accountInfo[2];
+
+        if(isUsernameTaken(friendUsername)){
             return true;
         }
         return false;

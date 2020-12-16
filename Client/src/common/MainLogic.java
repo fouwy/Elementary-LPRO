@@ -74,9 +74,9 @@ public class MainLogic implements ActionListener {
             case 1:
                 main_page.showMessage("Friend added.");
                 break;
-            /*case 2:
+            case 2:
                 main_page.showMessage("This user is already your friend.");
-                break;*/
+                break;
         }
     }
 
