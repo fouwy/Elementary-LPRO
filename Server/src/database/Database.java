@@ -107,4 +107,32 @@ public class Database {
         return false;
     }
 
+    /*public List<String> getFriends(String[] accountInfo) throws SQLException {
+        List<String>friendsList = new ArrayList<>();
+        String username = accountInfo[1];
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("select friend_name from member join friends using (?)");
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next())
+                friendsList.add(rs.getString(1));
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return friendsList;
+    }
+
+    public boolean isAlreadyFriend(String[] accountInfo) throws SQLException{
+        String friendUsername = accountInfo[2];
+        List<String>friendsList = new ArrayList<>();
+
+        friendsList = getFriends(accountInfo);
+        for(String name: friendsList){
+            if(name.equals(friendUsername)){
+                return true;
+            }
+        }
+        return false;
+    }*/
 }

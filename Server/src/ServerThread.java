@@ -83,6 +83,9 @@ public class ServerThread implements Runnable{
                         outputMessage = 0;
                     } else if(database.addFriend(accountInfo)){
                         outputMessage = 1;
+
+                    /*} else if(database.isAlreadyFriend(accountInfo)){
+                        outputMessage = 2;*/
                     } else
                         outputMessage = -1;
                 }

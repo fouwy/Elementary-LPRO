@@ -65,15 +65,18 @@ public class MainLogic implements ActionListener {
         client.sendInformation(accountInformation);
 
         switch (client.isFriendAdded()) {
+            case -1:
+                main_page.showMessage("Could not add friend. Try again later");
+                break;
             case 0:
                 main_page.showMessage("The friend you are trying to add does not exist.");
                 break;
             case 1:
                 main_page.showMessage("Friend added.");
                 break;
-            case -1:
-                main_page.showMessage("Could not add friend. Try again later");
-                break;
+            /*case 2:
+                main_page.showMessage("This user is already your friend.");
+                break;*/
         }
     }
 
