@@ -6,9 +6,11 @@ import java.awt.event.ActionListener;
 public class Suggestion extends JFrame implements ActionListener {
     JComboBox person;
     JComboBox location;
+    JComboBox weapon;
     JTextPane accusation_sentence;
     Boolean p=false;
     Boolean l=false;
+    Boolean w=false;
     public Suggestion(){
 
 
@@ -17,7 +19,12 @@ public class Suggestion extends JFrame implements ActionListener {
         person.addActionListener(this);
 
 
-        String[] places = {"Place 1", "Place 2", "Place 3"};
+        String[] weapons = {"weapon 1", "weapon 2", "weapon 3"};
+        this.weapon = new JComboBox(weapons);
+        weapon.addActionListener(this);
+
+
+        String[] places = {"place 1", "place 2", "place 3"};
         this.location = new JComboBox(places);
         location.addActionListener(this);
 
@@ -30,8 +37,9 @@ public class Suggestion extends JFrame implements ActionListener {
         this.setLayout(new FlowLayout());
         this.pack();
         this.setVisible(true);
-        this.setSize(400,170);
+        this.setSize(500,170);
         this.add(person);
+        this.add(weapon);
         this.add(location);
         this.add(accusation_sentence);
 
@@ -51,9 +59,14 @@ public class Suggestion extends JFrame implements ActionListener {
             l = true;
 
         }
-        if(p&&l){
-            System.out.println("I suggest that " + person.getSelectedItem() + " murdered the victim on " + location.getSelectedItem());
-            accusation_sentence.setText("I suggest that " + person.getSelectedItem() + " murdered the victim on " + location.getSelectedItem());
+        if(e.getSource()==weapon){
+            System.out.println(weapon.getSelectedItem());
+            w = true;
+
+        }
+        if(p&&l&&w){
+            System.out.println("I suggest that " + person.getSelectedItem() + " murdered the victim with " + weapon.getSelectedItem() + " on " + location.getSelectedItem());
+            accusation_sentence.setText("I suggest that " + person.getSelectedItem() + " murdered the victim with " + weapon.getSelectedItem() + " on " + location.getSelectedItem());
             accusation_sentence.setVisible(true);
         }
     }

@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
                 {
                     //INITIALIZE JFRAME FORM
                     MyTable form=new MyTable();
-                    form.setVisible(true);;
+                    form.setVisible(true);
                 }
             });
 
