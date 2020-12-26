@@ -8,15 +8,17 @@ public class Game extends JFrame {
 
     Panel board;
 
+
     public Game(Map<String, Integer> playerPicks, LobbyLogic lobbyLogic) {
         
-        board = new Panel(playerPicks, 90, 90, 900, 720, lobbyLogic);	//1260, 720
+        //board = new Panel(playerPicks, 90, 90, 900, 720, lobbyLogic);	//1260, 720
+        GamePage gamepage = new GamePage(playerPicks, lobbyLogic);
+        board = gamepage.getBoard();
+        this.add(gamepage.$$$getRootComponent$$$());
         this.setTitle("ELEMENTARY");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(null);
-        this.setSize(750,750);
-        this.getContentPane().setBackground(new Color(0,19,51));
-        this.add(board);
+//        this.setLayout(null);
+        this.pack();
         this.setVisible(true);
     }
 

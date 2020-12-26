@@ -149,7 +149,6 @@ public class LobbyLogic implements ActionListener {
             leaveGame();
         }
         else if(e.getSource().equals(lobby_page.getStartButton())) {
-            System.out.println("here");
             askServerToStartGame();
         }
 
