@@ -28,6 +28,7 @@ public class GamePage {
     private JLabel card1;
     private JLabel card3;
     private JLabel card2;
+    private JLabel card4;
     private Map<String, Integer> playerPicks;
     private LobbyLogic lobbyLogic;
 
