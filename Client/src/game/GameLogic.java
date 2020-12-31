@@ -52,5 +52,8 @@ public class GameLogic implements ActionListener {
             accuse.hide();
             gamePage.getBoard().setFocusable(true);
         }
+        if (e.getSource()==gamePage.getEndTurnButton()) {
+
+        }
     }
 }

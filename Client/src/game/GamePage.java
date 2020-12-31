@@ -63,12 +63,14 @@ public class GamePage {
         return suggButton;
     }
 
-
     public JButton getAccuButton() {
         return accuButton;
     }
 
 
+    public JButton getEndTurnButton() {
+        return endTurnButton;
+    }
 
     public void showMessage(String msg) {
         JOptionPane.showMessageDialog(panel1, msg);

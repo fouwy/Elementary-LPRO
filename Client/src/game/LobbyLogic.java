@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
+import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -67,6 +68,11 @@ public class LobbyLogic implements ActionListener {
                         break;
                     case "MESG":
                         //show popup with the message
+                        showMessage(response);
+                        System.out.println("response = " + response);
+                        break;
+                    case "ENDT":
+                        handleTurn(response);
                         break;
                     default:
                         showMessage(response);
@@ -75,6 +81,14 @@ public class LobbyLogic implements ActionListener {
             System.out.println("no nextLine");
         }
 
+        private void handleTurn(String response) {
+            String playerName = response.substring(4);
+
+            if(playerName.equals(Account.getUsername())) {
+            }
+
+            System.out.println("It's "+playerName+"'s turn.");
+        }
 
         private void handleCharacterPick(String response) throws Exception {
             int characterNumber = Integer.parseInt(String.valueOf(response.charAt(4)));

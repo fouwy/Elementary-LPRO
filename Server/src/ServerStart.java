@@ -15,7 +15,6 @@ public class ServerStart {
 
         usersOnline = new HashSet<>();
 
-
         while(true) {
             System.out.println("Server waiting for connections...");
             Socket socket = serverSocket.accept();
