@@ -53,7 +53,7 @@ public class GameLogic implements ActionListener {
             gamePage.getBoard().setFocusable(true);
         }
         if (e.getSource()==gamePage.getEndTurnButton()) {
-
+            gamePage.getLobbyLogic().tellServertoEndTurn();
         }
     }
 }

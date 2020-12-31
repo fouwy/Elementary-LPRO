@@ -67,9 +67,12 @@ public class GamePage {
         return accuButton;
     }
 
-
     public JButton getEndTurnButton() {
         return endTurnButton;
+    }
+
+    public LobbyLogic getLobbyLogic() {
+        return lobbyLogic;
     }
 
     public void showMessage(String msg) {
