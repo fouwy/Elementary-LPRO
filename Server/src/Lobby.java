@@ -4,6 +4,7 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+//TODO: Change this class name
 public class Lobby {
 
     private final int port;
@@ -90,10 +91,21 @@ public class Lobby {
                         processMovement(command.substring(4));
                         break;
                     case "ENDT": //END TURN
-                        game.endTurn(username);
+                        processEndTurn(username);
+
+                        break;
                     default:
                         broadcast(command);
                 }
+            }
+        }
+
+        private void processEndTurn(String username) {
+            try {
+                String nextPlayer = game.endTurn(username);
+                broadcast(nextPlayer);
+            } catch (IllegalStateException e) {
+                output.println("MESG" + e.getMessage());
             }
         }
 

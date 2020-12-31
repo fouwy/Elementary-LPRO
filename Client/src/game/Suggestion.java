@@ -1,9 +1,11 @@
+package game;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Suggestion extends JFrame implements ActionListener {
+public class Suggestion extends JPanel implements ActionListener {
     JComboBox person;
     JComboBox location;
     JComboBox weapon;
@@ -33,9 +35,7 @@ public class Suggestion extends JFrame implements ActionListener {
         accusation_sentence.setFont(new Font("Arial",Font.BOLD,12));
         accusation_sentence.setVisible(false);
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new FlowLayout());
-        this.pack();
         this.setVisible(true);
         this.setSize(500,170);
         this.add(person);
@@ -66,8 +66,8 @@ public class Suggestion extends JFrame implements ActionListener {
         }
         if(p&&l&&w){
             System.out.println("I suggest that " + person.getSelectedItem() + " murdered the victim with " + weapon.getSelectedItem() + " on " + location.getSelectedItem());
-            accusation_sentence.setText("I suggest that " + person.getSelectedItem() + " murdered the victim with " + weapon.getSelectedItem() + " on " + location.getSelectedItem());
-            accusation_sentence.setVisible(true);
+//            accusation_sentence.setText("I suggest that " + person.getSelectedItem() + " murdered the victim with " + weapon.getSelectedItem() + " on " + location.getSelectedItem());
+//            accusation_sentence.setVisible(true);
         }
     }
 
