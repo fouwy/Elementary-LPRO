@@ -33,11 +33,17 @@ public class ServerStart {
         System.out.println(database.getAllMembers().toString());
     }
 
-    public static boolean userLoggedIn(String username) {
-        return !usersOnline.add(username);
+    public static void addToLoggedInUsers(String username) {
+        usersOnline.add(username);
+    }
+
+    public static boolean isUserLoggedIn(String username) {
+        return usersOnline.contains(username);
     }
 
     public static void userLoggedOut(String username) {
         usersOnline.remove(username);
     }
+
+
 }
