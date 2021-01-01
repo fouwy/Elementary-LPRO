@@ -1,5 +1,6 @@
 package common;
 
+
 import authentication.Client;
 import game.Account;
 import game.LobbyPage;
@@ -36,6 +37,9 @@ public class MainLogic implements ActionListener {
     }
 
     private void enterLoginPage(){
+        Client client = new Client("localhost");
+        String[] accountInformation = {"Logout", Account.getUsername()};
+        client.sendInformation(accountInformation);
         ClientStart.cardLayout.show(ClientStart.rootPanel, "Login");
     }
 

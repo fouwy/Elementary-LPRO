@@ -65,6 +65,7 @@ public class ServerThread implements Runnable{
                         }
                     } else
                         outputMessage = 0;
+
                 } else if (type.equals("Login")) {
                     String username = accountInfo[1];
                     if(ServerStart.userLoggedIn(username))
@@ -75,6 +76,10 @@ public class ServerThread implements Runnable{
                         outputMessage = 0;
                     } else
                         outputMessage = -1;
+
+                } else if (type.equals("Logout")){
+                    String username = accountInfo[1];
+                    ServerStart.userLoggedOut(username);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
