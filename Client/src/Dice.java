@@ -35,10 +35,7 @@ public class Dice extends JFrame implements ActionListener{
     String s;
     char c=' ';
 
-
     Dice(){
-
-
         ImageIcon ic1 = new ImageIcon(getClass().getResource("1.png"));
         ImageIcon ic2 = new ImageIcon(getClass().getResource("2.png"));
         ImageIcon ic3 = new ImageIcon(getClass().getResource("3.png"));
@@ -325,7 +322,6 @@ public class Dice extends JFrame implements ActionListener{
                     dice4.setVisible(false);
                     dice5.setVisible(false);
                     dice6.setVisible(true);
-
 
                     break;
             }

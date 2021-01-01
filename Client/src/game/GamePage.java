@@ -31,9 +31,11 @@ public class GamePage {
     private JLabel card3;
     private JLabel card2;
     private JLabel card4;
+    private JPanel dicePanel;
     private Map<String, Integer> playerPicks;
     private LobbyLogic lobbyLogic;
-    GameLogic handler;
+    private GameLogic handler;
+    private DicePanel dice;
 
     public GamePage(Map<String, Integer> playerPicks, LobbyLogic lobbyLogic) {
         this.playerPicks = playerPicks;
@@ -43,12 +45,14 @@ public class GamePage {
         suggButton.addActionListener(handler);
         accuButton.addActionListener(handler);
         endTurnButton.addActionListener(handler);
+        rollButton.addActionListener(handler);
     }
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
         game = new Panel(playerPicks, 90, 90, 900, 720, lobbyLogic);
         notepad = new MyTable();
+        dice = new DicePanel();
     }
 
     public Panel getBoard() {
@@ -73,6 +77,14 @@ public class GamePage {
 
     public LobbyLogic getLobbyLogic() {
         return lobbyLogic;
+    }
+
+    public JButton getRollButton() {
+        return rollButton;
+    }
+
+    public DicePanel getDicePanel() {
+        return dice;
     }
 
     public void showMessage(String msg) {
@@ -109,7 +121,7 @@ public class GamePage {
         suggButton.setText("Make Suggestion");
         optionPanel.add(suggButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         playerPanel = new JPanel();
-        playerPanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        playerPanel.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
         botPanel.add(playerPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         rollButton = new JButton();
         rollButton.setText("Roll the Dice");
@@ -117,6 +129,10 @@ public class GamePage {
         playerLabel = new JLabel();
         playerLabel.setText("playerName");
         playerPanel.add(playerLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        dicePanel = new JPanel();
+        dicePanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        playerPanel.add(dicePanel, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        dicePanel.add(dice, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         cardPanel = new JPanel();
         cardPanel.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
         botPanel.add(cardPanel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));

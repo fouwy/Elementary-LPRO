@@ -70,9 +70,4 @@ public class Suggestion extends JPanel implements ActionListener {
 //            accusation_sentence.setVisible(true);
         }
     }
-
-
-    public static void main(String[] args) {
-        new Suggestion();
-    }
 }
