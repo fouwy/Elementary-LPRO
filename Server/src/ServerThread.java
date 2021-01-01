@@ -93,6 +93,26 @@ public class ServerThread implements Runnable{
 
                     } else
                         outputMessage = -1;
+
+                } else if (type.equals("RemoveFriend")){
+
+                    if(database.canRemoveFriend(accountInfo)) {
+
+                        try {
+                            database.removeFriend(accountInfo);
+                        } catch (SQLException e) {
+                            outputMessage = -1;
+                        }
+                        outputMessage = 1;
+                    } else
+                        outputMessage = 0;
+
+                } else if (type.equals("ChangePassword")){
+
+                    if(database.ChangePassword(accountInfo)){
+                        outputMessage = 1;
+                    } else
+                        outputMessage = -1;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

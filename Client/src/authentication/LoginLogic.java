@@ -11,6 +11,7 @@ public class LoginLogic implements ActionListener {
 
     private final LoginPage login_page;
     private String username;
+    private char[] password;
 
     public LoginLogic(LoginPage login_page) {
         this.login_page = login_page;
@@ -29,7 +30,7 @@ public class LoginLogic implements ActionListener {
     private void tryLogin(){
 
         username = login_page.getUserField().getText();
-        char[] password = login_page.getPasswordField().getPassword();
+        password = login_page.getPasswordField().getPassword();
         String type = "Login";
 
         //Verify username
@@ -61,7 +62,7 @@ public class LoginLogic implements ActionListener {
     }
 
     private void enterMainPage(){
-        new Account(username);
+        new Account(username, password);
         ClientStart.rootPanel.add(new MainPage().$$$getRootComponent$$$(), "Main");
         ClientStart.cardLayout.show(ClientStart.rootPanel, "Main");
     }

@@ -17,15 +17,20 @@ public class MainLogic implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource().equals(main_page.getLeaveButton())){
+        if (e.getSource().equals(main_page.getLeaveButton())) {
             enterLoginPage();
-        } else if(e.getSource().equals(main_page.getHostButton())){
+        } else if (e.getSource().equals(main_page.getHostButton())) {
             enterLobbyPage();
-        } else if(e.getSource().equals(main_page.getJoinButton())) {
+        } else if (e.getSource().equals(main_page.getJoinButton())) {
             joinLobby();
-        } else if(e.getSource().equals(main_page.getAddButton())){
+        } else if (e.getSource().equals(main_page.getAddButton())) {
             setFriendToAdd();
+        } else if (e.getSource().equals(main_page.getRemoveButton())) {
+            setFriendToRemove();
+        } else if (e.getSource().equals(main_page.getChangeButton())) {
+            setNewPassword();
         }
+
     }
 
     private void joinLobby() {
@@ -79,5 +84,57 @@ public class MainLogic implements ActionListener {
                 break;
         }
     }
+
+    private void setFriendToRemove(){
+        String type = "RemoveFriend";
+        String username = Account.getUsername();
+        String friendUsername = main_page.getRemoveFriend().getText();
+        String[] accountInformation = {type, Account.getUsername(), friendUsername};
+
+        Client client = new  Client("localhost");
+        client.sendInformation(accountInformation);
+
+        switch(client.isFriendRemoved()){
+            case -1:
+                main_page.showMessage("Could not remove friend. Try again later");
+                break;
+            case 0:
+                main_page.showMessage("The friend you are trying to remove does not exist.");
+                break;
+            case 1:
+                main_page.showMessage("Friend removed.");
+                break;
+        }
+    }
+
+    private void setNewPassword(){
+        String type = "ChangePassword";
+        String username = Account.getUsername();
+        char[] pwd = main_page.getNewPassWord().getPassword();
+        String[] accountInformation = {type, String.valueOf(username), String.valueOf(pwd)};
+        /*String[] password = main_page.getNewPassWord().getPassword();*/
+
+        Client client = new Client("localhost");
+        client.sendInformation(accountInformation);
+        int minPwdSize = 3;
+
+
+
+        switch (client.isPasswordChanged()) {
+            case -1:
+                main_page.showMessage("Couldn't change password. Try again later");
+                break;
+            case 1:
+                if(pwd.length < minPwdSize){
+                    main_page.showMessage("Password is too short (min is "+ minPwdSize);
+                    break;
+                }
+                main_page.showMessage("password changed");
+                break;
+        }
+
+
+    }
+
 
 }

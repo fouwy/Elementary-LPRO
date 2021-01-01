@@ -79,7 +79,7 @@ public class Lobby {
                             broadcast("CHAR"+characterNumber+name);
                         }
                         break;
-                    case "STRT": //START
+                    case "START": //START
                         if (name.equals(host)) {
                             waitingToStart = false;
                             startGame();

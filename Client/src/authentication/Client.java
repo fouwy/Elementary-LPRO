@@ -16,6 +16,8 @@ public class Client {
     private int valid_info = 0;
     private int port_number;
     private int addFriendValidation = 0;
+    private int removeFriendValidation = 0;
+    private int changedPasswordValidation = 0;
 
     public Client(String serverIP) {
         this.serverIP = serverIP;
@@ -50,7 +52,13 @@ public class Client {
                 break;
             case "AddFriend":
                 addFriendValidation = (int) input.readObject();
-
+                break;
+            case "RemoveFriend":
+                removeFriendValidation = (int) input.readObject();
+                break;
+            case "ChangePassword":
+                changedPasswordValidation = (int) input.readObject();
+                break;
         }
     }
 
@@ -67,9 +75,11 @@ public class Client {
         return valid_info;
     }
 
-    public int isFriendAdded(){
-        return addFriendValidation;
-    }
+    public int isFriendAdded(){ return addFriendValidation; }
+
+    public int isFriendRemoved() { return removeFriendValidation;}
+
+    public int isPasswordChanged() { return changedPasswordValidation; }
 
     public int getPort_number() {
         return port_number;
