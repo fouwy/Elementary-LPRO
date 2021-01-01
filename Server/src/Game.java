@@ -13,23 +13,21 @@ public class Game {
     private String currentPlayer;
     private int currentNumber;
     private int movesLeft;
+    private String playerOrder;
 
     public Game(NavigableMap<String, Pair<Scanner, PrintWriter>> players) {
         this.players = players;
         currentPlayer = players.firstKey();
-        int i=0;
-        String nextPlayer;
+        playerOrder = "ORDE";
 
         for (Map.Entry<String, Pair<Scanner, PrintWriter>> player : players.entrySet()) {
-
-            if (i < players.size() - 1)
-                nextPlayer = players.higherEntry(player.getKey()).getKey();
-            else
-                nextPlayer = players.firstEntry().getKey();
-
-            System.out.println(nextPlayer);
-            i++;
+            playerOrder += player.getKey() + ",";
         }
+        System.out.println("playerOrder = " + playerOrder);
+    }
+
+    public String getPlayerOrder() {
+        return playerOrder;
     }
 
     public synchronized String move(String direction, String player) {

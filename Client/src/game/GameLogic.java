@@ -59,6 +59,7 @@ public class GameLogic implements ActionListener {
         }
         if (e.getSource()==gamePage.getEndTurnButton()) {
             gamePage.getLobbyLogic().tellServertoEndTurn();
+            gamePage.getBoard().setFocusable(true);
         }
         if (e.getSource()==gamePage.getRollButton()) {
             gamePage.getDicePanel().rollDice();
