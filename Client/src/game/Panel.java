@@ -127,8 +127,17 @@ public class Panel extends JPanel implements KeyListener {
             case 3:
                 characterImage = "Client/src/img/char_red.png";
                 break;
+            case 4:
+                characterImage = "Client/src/img/char_purple.png";
+                break;
+            case 5:
+                characterImage = "Client/src/img/char_green.png";
+                break;
+            case 6:
+                characterImage = "Client/src/img/char_black.png";
+                break;
             default:
-                characterImage = "Client/src/img/char_red.png";
+                throw new IllegalStateException("Unexpected value: " + charNumber);
         }
         return characterImage;
     }
