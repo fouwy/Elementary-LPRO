@@ -16,17 +16,17 @@ public class Suggestion extends JPanel implements ActionListener {
     public Suggestion(){
 
 
-        String[] people = {"Person A","Person B","Person C"};
+        String[] people = {"Person 1","Person 2","Person 3","Person 4","Person 5","Person 6"};
         this.person = new JComboBox(people);
         person.addActionListener(this);
 
 
-        String[] weapons = {"weapon 1", "weapon 2", "weapon 3"};
+        String[] weapons = {"weapon 1", "weapon 2", "weapon 3","weapon 4", "weapon 5", "weapon 6"};
         this.weapon = new JComboBox(weapons);
         weapon.addActionListener(this);
 
 
-        String[] places = {"place 1", "place 2", "place 3"};
+        String[] places = {"place 1", "place 2", "place 3","place 4", "place 5", "place 6","place 7", "place 8"};
         this.location = new JComboBox(places);
         location.addActionListener(this);
 
