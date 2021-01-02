@@ -32,6 +32,7 @@ public class MainPage {
         leaveButton.addActionListener(handler);
         hostButton.addActionListener(handler);
         joinButton.addActionListener(handler);
+        deleteAccountButton.addActionListener(handler);
     }
 
     public JButton getLeaveButton() {
@@ -44,6 +45,10 @@ public class MainPage {
 
     public JButton getJoinButton() {
         return joinButton;
+    }
+
+    public JButton getDeleteAccountButton() {
+        return deleteAccountButton;
     }
 
     public JTextField getPortNumberField() {

@@ -24,6 +24,8 @@ public class MainLogic implements ActionListener {
             enterLobbyPage();
         } else if(e.getSource().equals(main_page.getJoinButton())) {
             joinLobby();
+        } else if(e.getSource().equals(main_page.getDeleteAccountButton())){
+            deleteAccount();
         }
     }
 
@@ -55,6 +57,14 @@ public class MainLogic implements ActionListener {
         int port_number = client.getPort_number();
         System.out.println("Port number is " + port_number);
         return port_number;
+    }
+
+
+    private void deleteAccount(){
+        Client client = new Client("localhost");
+        String[] accountInformation = {"Logout", Account.getUsername()};
+        client.sendInformation(accountInformation);
+        ClientStart.cardLayout.show(ClientStart.rootPanel, "Logout");
     }
 
 
