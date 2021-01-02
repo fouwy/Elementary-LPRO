@@ -85,6 +85,7 @@ public class Lobby {
                         if (username.equals(host)) {
                             waitingToStart = false;
                             startGame();
+                            broadcast(game.getPlayerOrder());
                         }
                         break;
                     case "MOVE":

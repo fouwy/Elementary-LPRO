@@ -67,13 +67,15 @@ public class ServerThread implements Runnable{
                         outputMessage = 0;
                 } else if (type.equals("Login")) {
                     String username = accountInfo[1];
-                    if(ServerStart.userLoggedIn(username))
-                        outputMessage = 2;                      //User Already Logged in
-                    else if (database.canLogin(accountInfo)) {
+
+                    if (database.canLogin(accountInfo)) {
+                        ServerStart.addToLoggedInUsers(username);
                         outputMessage = 1;
-                    } else if (!database.isUsernameTaken(username)) {
+                    } else if (!database.isUsernameTaken(username))
                         outputMessage = 0;
-                    } else
+                    else if(ServerStart.isUserLoggedIn(username))
+                        outputMessage = 2;                      //User Already Logged in
+                    else
                         outputMessage = -1;
                 }
             } catch (SQLException e) {
