@@ -3,7 +3,7 @@ package game;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-    public class MyTable extends JPanel {
+    public class MyTable extends JFrame {
 
         public MyTable()
         {
@@ -62,6 +62,7 @@ import javax.swing.table.DefaultTableModel;
             model.setValueAt("Place B", 11, 0);
         }
 
+        public static void main(String[] args) {new MyTable();}
     }
 
 
