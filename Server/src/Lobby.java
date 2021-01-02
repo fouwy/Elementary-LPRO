@@ -91,8 +91,7 @@ public class Lobby {
                         processMovement(command.substring(4));
                         break;
                     case "ENDT": //END TURN
-                        processEndTurn(username);
-
+                        processEndTurn();
                         break;
                     default:
                         broadcast(command);
@@ -100,10 +99,10 @@ public class Lobby {
             }
         }
 
-        private void processEndTurn(String username) {
+        private void processEndTurn() {
             try {
                 String nextPlayer = game.endTurn(username);
-                broadcast(nextPlayer);
+                broadcast("ENDT"+nextPlayer);
             } catch (IllegalStateException e) {
                 output.println("MESG" + e.getMessage());
             }

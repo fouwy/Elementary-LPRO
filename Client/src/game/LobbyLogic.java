@@ -1,5 +1,7 @@
 package game;
 
+import common.ClientStart;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
@@ -128,6 +130,7 @@ public class LobbyLogic implements ActionListener {
     }
 
     private void startGame() {
+        ClientStart.frame.setVisible(false);
         game = new Game(playerPicks, this);
     }
 
@@ -172,6 +175,11 @@ public class LobbyLogic implements ActionListener {
     public void tellServerToUpdatePosition(String message) {
         out.println(message);
     }
+
+    public void tellServertoEndTurn() {
+        out.println("ENDT");
+    }
+
     private void askServerToStartGame() {
         out.println("STRT");
     }

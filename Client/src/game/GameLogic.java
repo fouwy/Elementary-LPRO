@@ -31,6 +31,8 @@ public class GameLogic implements ActionListener {
             //TODO:Verificar se está dentro da sala onde faz a acusaçao
             //podia mandar como argumento do Suggestion a sala onde está
 
+            hidePreviousPopup();
+
             Suggestion suggestionPanel = new Suggestion();
             suggestionPanel.add(suggestB);
             PopupFactory pf = new PopupFactory();
@@ -38,6 +40,9 @@ public class GameLogic implements ActionListener {
             suggest.show();
         }
         if (e.getSource()==gamePage.getAccuButton()) {
+
+            hidePreviousPopup();
+
             Suggestion accusationPanel = new Suggestion();
             accusationPanel.add(accuseB);
             PopupFactory pf = new PopupFactory();
@@ -53,7 +58,18 @@ public class GameLogic implements ActionListener {
             gamePage.getBoard().setFocusable(true);
         }
         if (e.getSource()==gamePage.getEndTurnButton()) {
-
+            gamePage.getLobbyLogic().tellServertoEndTurn();
         }
+        if (e.getSource()==gamePage.getRollButton()) {
+            gamePage.getDicePanel().rollDice();
+            gamePage.getBoard().setFocusable(true);
+        }
+    }
+
+    private void hidePreviousPopup() {
+        if (accuse != null)
+            accuse.hide();
+        if (suggest != null)
+            suggest.hide();
     }
 }
