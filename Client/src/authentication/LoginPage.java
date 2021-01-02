@@ -26,19 +26,7 @@ public class LoginPage {
     private JPanel panel5;
     private JLabel icon;
 
-    JFrame login_frame;
-
     public LoginPage() {
-//        login_frame = new JFrame();
-//        $$$setupUI$$$();
-//        login_frame.setContentPane(panel1);
-//        login_frame.pack();
-//        login_frame.setLocationRelativeTo(null);
-//        login_frame.setTitle("ELEMENTARY");
-//        login_frame.setSize(560, 560);
-//        login_frame.setVisible(true);
-//        login_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         ActionListener handler = new LoginLogic(this);
         registerButton.addActionListener(handler);
         loginButton.addActionListener(handler);
@@ -51,10 +39,6 @@ public class LoginPage {
 
     public JButton getLoginButton() {
         return loginButton;
-    }
-
-    public void disposeLogin() {
-        login_frame.dispose();
     }
 
     public void setVisible(boolean b) {
@@ -70,7 +54,7 @@ public class LoginPage {
     }
 
     public void showMessage(String msg) {
-        JOptionPane.showMessageDialog(login_frame, msg);
+        JOptionPane.showMessageDialog(panel1, msg);
     }
 
     public void setLoginButtonEnabled(boolean condition) {

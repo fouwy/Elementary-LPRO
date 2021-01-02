@@ -4,6 +4,7 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+//TODO: Change this class name
 public class Lobby {
 
     private final int port;
@@ -84,16 +85,27 @@ public class Lobby {
                         if (username.equals(host)) {
                             waitingToStart = false;
                             startGame();
+                            broadcast(game.getPlayerOrder());
                         }
                         break;
                     case "MOVE":
                         processMovement(command.substring(4));
                         break;
                     case "ENDT": //END TURN
-                        game.endTurn(username);
+                        processEndTurn();
+                        break;
                     default:
                         broadcast(command);
                 }
+            }
+        }
+
+        private void processEndTurn() {
+            try {
+                String nextPlayer = game.endTurn(username);
+                broadcast("ENDT"+nextPlayer);
+            } catch (IllegalStateException e) {
+                output.println("MESG" + e.getMessage());
             }
         }
 

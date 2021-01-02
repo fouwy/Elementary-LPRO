@@ -81,8 +81,6 @@ public class Panel extends JPanel implements KeyListener {
         players = new ArrayList<>();
 
         backgroundImage = new ImageIcon("Client/src/img/map4.png").getImage();
-        //this.setBounds(xpanel, ypanel, width, height);
-//        this.setLayout(null);
         this.setFocusable(true);
         addKeyListener(this);
 

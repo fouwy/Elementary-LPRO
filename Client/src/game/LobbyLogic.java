@@ -1,9 +1,13 @@
 package game;
 
+import common.ClientStart;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
+import java.sql.SQLOutput;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -13,6 +17,7 @@ public class LobbyLogic implements ActionListener {
     Scanner in;
     PrintWriter out;
 
+    private String[] playersInOrder;
     private final Map<String, Integer> playerPicks;
     private Game game;
 
@@ -59,7 +64,9 @@ public class LobbyLogic implements ActionListener {
                         handleCharacterPick(response);
                         break;
                     case "GAME":
-                        startGame();
+                        //startGame();
+                        //GAME WILL START IN CASE "ORDE" after getting the player names in order
+                        System.out.println("Game Starting...");
                         break;
                     case "MOVE":
                         //handle the movement of this char or other
@@ -67,7 +74,14 @@ public class LobbyLogic implements ActionListener {
                         break;
                     case "MESG":
                         //show popup with the message
+                        showMessage(response);
+                        System.out.println("response = " + response);
                         break;
+                    case "ENDT":
+                        handleTurn(response);
+                        break;
+                    case "ORDE":
+                        handlePlayerOrder(response);
                     default:
                         showMessage(response);
                 }
@@ -75,6 +89,23 @@ public class LobbyLogic implements ActionListener {
             System.out.println("no nextLine");
         }
 
+        private void handlePlayerOrder(String response) {
+            String players = response.substring(4);
+            playersInOrder = players.split(",");
+            System.out.println("Players in order: "+ Arrays.toString(playersInOrder));
+            startGame();
+        }
+
+        private void handleTurn(String response) {
+            //TODO: Need to tell GameLogic that its a new turn
+            String playerName = response.substring(4);
+
+            if(playerName.equals(Account.getUsername())) {
+            }
+
+            System.out.println("It's "+playerName+"'s turn.");
+            game.nextTurn();
+        }
 
         private void handleCharacterPick(String response) throws Exception {
             int characterNumber = Integer.parseInt(String.valueOf(response.charAt(4)));
@@ -113,20 +144,8 @@ public class LobbyLogic implements ActionListener {
         }
     }
 
-    private void startGame() {
-        game = new Game(playerPicks, this);
-    }
-
-    private void setOtherPlayerChar(String playerName, int characterNumber) throws Exception {
-        playerPicks.put(playerName, characterNumber);
-        chooseCharacter(characterNumber, playerName);
-        showMessage(playerName+ " picked char " +characterNumber);
-    }
-
-    private void showMessage(String message) {
-        SwingUtilities.invokeLater(
-                () -> lobby_page.getInfoWindow().append(message + "\n")
-        );
+    public String[] getPlayersInOrder() {
+        return playersInOrder;
     }
 
     @Override
@@ -158,6 +177,11 @@ public class LobbyLogic implements ActionListener {
     public void tellServerToUpdatePosition(String message) {
         out.println(message);
     }
+
+    public void tellServertoEndTurn() {
+        out.println("ENDT");
+    }
+
     private void askServerToStartGame() {
         out.println("STRT");
     }
@@ -186,5 +210,22 @@ public class LobbyLogic implements ActionListener {
                 setOtherPlayerChar(characters[i], i);
             }
         }
+    }
+
+    private void startGame() {
+        ClientStart.frame.setVisible(false);
+        game = new Game(playerPicks, this);
+    }
+
+    private void setOtherPlayerChar(String playerName, int characterNumber) throws Exception {
+        playerPicks.put(playerName, characterNumber);
+        chooseCharacter(characterNumber, playerName);
+        showMessage(playerName+ " picked char " +characterNumber);
+    }
+
+    private void showMessage(String message) {
+        SwingUtilities.invokeLater(
+                () -> lobby_page.getInfoWindow().append(message + "\n")
+        );
     }
 }
