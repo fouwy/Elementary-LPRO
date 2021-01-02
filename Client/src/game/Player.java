@@ -44,7 +44,6 @@ public class Player {
         int dice2value = diceRoll();
         char chosenDirection=' ';
 
-        showDice(dice1value,dice2value);
 
         if((dice2value==1)&&(dice1value==1)) {
             watsonClue();
@@ -103,10 +102,5 @@ public class Player {
 
     }
 
-    private void showDice(int dice1value, int dice2value) {
-        Dice dicePanel = new Dice(dice1value,dice2value);
-        PopupFactory dicePf = new PopupFactory();
-        dicePopup = dicePf.getPopup(gamePage.$$$getRootComponent$$$(), dicePanel, 300, 500);
-        dicePopup.show();
-    }
+
 }
