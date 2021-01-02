@@ -61,7 +61,6 @@ import javax.swing.table.DefaultTableModel;
             model.setValueAt("Place A", 10, 0);
             model.setValueAt("Place B", 11, 0);
         }
-
     }
 
 

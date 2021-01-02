@@ -1,4 +1,4 @@
-import database.Database;
+//import database.Database;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -28,10 +28,10 @@ public class ServerStart {
 
     }
 
-    private static void printNumberAndNameOfMembers(Database database) {
-        System.out.println("Number of members: " + database.getAllMembers().size());
-        System.out.println(database.getAllMembers().toString());
-    }
+//    private static void printNumberAndNameOfMembers(Database database) {
+//        System.out.println("Number of members: " + database.getAllMembers().size());
+//        System.out.println(database.getAllMembers().toString());
+//    }
 
     public static void addToLoggedInUsers(String username) {
         usersOnline.add(username);
