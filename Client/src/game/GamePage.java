@@ -30,9 +30,12 @@ public class GamePage {
     private JLabel card2;
     private JLabel card4;
     private JPanel dicePanel;
+
     private final Map<String, Integer> playerPicks;
     private final LobbyLogic lobbyLogic;
     private DicePanel dice;
+    private DicePanel dice2;
+
     private JLabel player1;
     private JLabel player2;
     private JLabel player3;
@@ -44,6 +47,7 @@ public class GamePage {
     JLabel[] playerLabels;
     private final int numberOfPlayers;
     private int turnCount;
+
 
     public GamePage(Map<String, Integer> playerPicks, LobbyLogic lobbyLogic) {
         this.playerPicks = playerPicks;
@@ -72,6 +76,7 @@ public class GamePage {
         game = new Panel(playerPicks, 90, 90, 900, 720, lobbyLogic);
         notepad = new MyTable();
         dice = new DicePanel();
+        dice2 = new DicePanel();
     }
 
     public void nextTurn() {
@@ -111,8 +116,11 @@ public class GamePage {
         return rollButton;
     }
 
-    public DicePanel getDicePanel() {
-        return dice;
+    public DicePanel getDice(int number) {
+        if (number == 1)
+            return dice;
+        else
+            return dice2;
     }
 
     /**
@@ -154,9 +162,10 @@ public class GamePage {
         playerLabel.setText("playerName");
         playPanel.add(playerLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         dicePanel = new JPanel();
-        dicePanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        dicePanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         playPanel.add(dicePanel, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         dicePanel.add(dice, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        dicePanel.add(dice2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         cardPanel = new JPanel();
         cardPanel.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
         botPanel.add(cardPanel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));

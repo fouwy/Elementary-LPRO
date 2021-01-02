@@ -89,6 +89,10 @@ public class Panel extends JPanel implements KeyListener {
             setOtherPlayersCharacter();
     }
 
+    public void setDiceRoll(int total) {
+        //TODO: Set in Player
+    }
+
     private int getDistanceUp() {
         return getHeight()/20 + 1;
     }
