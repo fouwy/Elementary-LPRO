@@ -72,51 +72,59 @@ public class Game {
     }
 
     private void dealCards(){
-        //get number of players
-        String[] playersInOrder = lobbyLogic.getPlayersInOrder();
-        int numberOfPlayers = playersInOrder.length;
-
-        Random random = new Random();
-        int mysteryCards [];
-        mysteryCards = choose3MysteryCards();
-        String [] player1Cards, player2Cards, player3Cards, player4Cards, player5Cards, player6Cards;
-        int card1, card2, card3, card4;
-        int pickedCards [];
 
         String[] cards = {"person 1","person 2","person 3","person 4","person 5","person 6",
-                "weapon 1", "weapon 2", "weapon 3","weapon 4", "weapon 5",
-                "place 1", "place 2", "place 3","place 4", "place 5", "place 6","place 7", "place 8"};
+                          "weapon 1", "weapon 2", "weapon 3","weapon 4", "weapon 5",
+                          "place 1", "place 2", "place 3","place 4", "place 5", "place 6","place 7", "place 8"};
 
-        switch(numberOfPlayers) {
-            case 4:
-                for (int i = 0; i < numberOfPlayers; i++) {
-                    card1 = random.nextInt(19);
+        String[] cardsToDeal = choose3MysteryCards(cards);
+
+        int numberOfPlayers = players.size();
+        int numberOfCardsToDeal = cardsToDeal.length - 3;
+        int randomCard;
+
+        int playerCard = 4;
+        String playerCards[][] = new String[numberOfPlayers][playerCard];
+
+        Random random = new Random();
+
+        while(numberOfCardsToDeal > 0){
+            for(int i=0; i<playerCard; i++){
+                for(int j=0; j<numberOfPlayers; j++){
+                    randomCard = random.nextInt(numberOfCardsToDeal);
+                    playerCards[j][i] = cardsToDeal[randomCard];
+                    cardsToDeal = shiftCards(cardsToDeal, randomCard, numberOfCardsToDeal);
+                    numberOfCardsToDeal--;
                 }
-
-
-                playersInOrder[i] =;
-                break;
-
-            case 5:
-                break;
-
-            case 6:
-                break;
+            }
         }
 
+
     }
 
 
-    private int [] choose3MysteryCards(String[] cards){
+    private String [] choose3MysteryCards(String[] cards){
         Random random = new Random();
-        int mysteryCards [];
-        mysteryCards = new int[3];
+        int cardsNumber = cards.length;
 
-        mysteryCards[0] = random.nextInt(6);        //0 a 5 - Person
-        for(int i=)
-            mysteryCards[1] = 6 + random.nextInt(12);   // 6 a 10 - Weapon
-        mysteryCards[2] = 12 + random.nextInt(20);  // 11 a 18 - Place
+        int mysteryPerson = random.nextInt(6);        //0 a 5 - Person
+        cards = shiftCards(cards, mysteryPerson, cardsNumber);
+        cardsNumber--;
+        int mysteryWeapon = 5 + random.nextInt(10);   // 5 a 9 - Weapon
+        cards = shiftCards(cards, mysteryWeapon, cardsNumber);
+        cardsNumber--;
+        int mysteryPlace = 9 + random.nextInt(17);  // 9 a 16 - Place
+        cards = shiftCards(cards, mysteryPlace, cardsNumber);
+        cardsNumber--;
 
-        return mysteryCards;
+        return cards;
     }
+
+    private String[] shiftCards(String[] cards, int init, int end){
+        for(int i=init; i<end; i++){
+            cards[i] = cards[i+1];
+        }
+        return cards;
+    }
+
 }
