@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.List;
 
 public class Client {
     String serverIP;
@@ -12,6 +13,7 @@ public class Client {
     ObjectInputStream input;
     ObjectOutputStream output;
     private String[] accountInfo;
+    private List<String> friends;
     private int validated = 0;
     private int valid_info = 0;
     private int port_number;
@@ -59,12 +61,18 @@ public class Client {
             case "ChangePassword":
                 changedPasswordValidation = (int) input.readObject();
                 break;
+            case "FriendsList":
+                friends = (List<String>) input.readObject();
         }
     }
 
     public void sendInformation(String[] accountInfo) {
         this.accountInfo = accountInfo;
         startRunning();
+    }
+
+    public List<String> getFriends() {
+        return friends;
     }
 
     public int isValidated() {

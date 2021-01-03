@@ -93,18 +93,20 @@ public class Database {
         return query;
     }
 
-    public boolean addFriend(String[] accountInfo) throws SQLException{
+    public void addFriend(String[] accountInfo) throws SQLException{
         String username = accountInfo[1];
         String friendUsername = accountInfo[2];
         PreparedStatement statement = connection.prepareStatement("insert into friends (username, friend_name) values (?, ?);");
+        PreparedStatement statement2 = connection.prepareStatement("insert into friends (username, friend_name) values (?, ?);");
 
-        if(canAddFriend(accountInfo)){
-            statement.setString(1,username);
-            statement.setString(2,friendUsername);
+        if(canAddFriend(accountInfo)) {
+            statement.setString(1, username);
+            statement.setString(2, friendUsername);
             statement.executeUpdate();
-            return true;
+            statement2.setString(1, friendUsername);
+            statement2.setString(2, username);
+            statement2.executeUpdate();
         }
-        return false;
     }
 
     public boolean canAddFriend(String[] accountInfo) throws SQLException{
@@ -163,13 +165,13 @@ public class Database {
     }
 
 
-   /* public List<String> getFriends(String[] accountInfo) throws SQLException {
+    public List<String> getFriends(String[] accountInfo) {
 
         List<String>friendsList = new ArrayList<>();
         String username = accountInfo[1];
 
         try {
-            PreparedStatement statement = connection.prepareStatement("select friend_name from member join friends using ?");
+            PreparedStatement statement = connection.prepareStatement("select friend_name from member join friends using(username) where username=?");
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
             while (rs.next())
@@ -178,7 +180,7 @@ public class Database {
             System.err.println(e.getMessage());
         }
         return friendsList;
-    }*/
+    }
 
     /*public List<String> getAllMembers() {
         List<String>members = new ArrayList<>();
