@@ -97,11 +97,15 @@ public class Database {
         String username = accountInfo[1];
         String friendUsername = accountInfo[2];
         PreparedStatement statement = connection.prepareStatement("insert into friends (username, friend_name) values (?, ?);");
+        PreparedStatement statement2 = connection.prepareStatement("insert into friends (username, friend_name) values (?, ?);");
 
-        if(canAddFriend(accountInfo)){
-            statement.setString(1,username);
-            statement.setString(2,friendUsername);
+        if(canAddFriend(accountInfo)) {
+            statement.setString(1, username);
+            statement.setString(2, friendUsername);
             statement.executeUpdate();
+            statement2.setString(1, friendUsername);
+            statement2.setString(2, username);
+            statement2.executeUpdate();
             return true;
         }
         return false;
