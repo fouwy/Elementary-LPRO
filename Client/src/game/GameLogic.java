@@ -76,5 +76,4 @@ public class GameLogic implements ActionListener {
             suggest.hide();
     }
 
-
 }

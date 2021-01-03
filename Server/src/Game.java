@@ -71,7 +71,7 @@ public class Game {
     private void makeAccusation(String command) {
     }
 
-    private void dealCards(){
+    private String[][] dealCards(){
 
         String[] cards = {"person 1","person 2","person 3","person 4","person 5","person 6",
                           "weapon 1", "weapon 2", "weapon 3","weapon 4", "weapon 5",
@@ -98,8 +98,7 @@ public class Game {
                 }
             }
         }
-
-
+        return playerCards;
     }
 
 
