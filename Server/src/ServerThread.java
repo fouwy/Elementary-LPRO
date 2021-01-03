@@ -50,8 +50,8 @@ public class ServerThread implements Runnable{
             output.writeObject(port_number);
             output.flush();
             new Lobby(accountInfo[1], port_number);
-        }
-        else {
+
+        } else {
             Database database = connectToDatabase();
 
             try {
@@ -77,6 +77,43 @@ public class ServerThread implements Runnable{
                     else if(ServerStart.isUserLoggedIn(username))
                         outputMessage = 2;                      //User Already Logged in
                     else
+                        outputMessage = -1;
+
+                } else if (type.equals("AddFriend")){
+                    String friendUsername = accountInfo[1];
+
+                    if(database.canAddFriend(accountInfo)){
+                        outputMessage = 1;
+                        try {
+                            database.addFriend(accountInfo);
+                        } catch (SQLException e) {
+                            outputMessage = 2;
+                        }
+
+                    } else if (!database.isUsernameTaken(friendUsername)){
+                        outputMessage = 0;
+
+                    } else
+                        outputMessage = -1;
+
+                } else if (type.equals("RemoveFriend")){
+
+                    if(database.canRemoveFriend(accountInfo)) {
+
+                        try {
+                            database.removeFriend(accountInfo);
+                        } catch (SQLException e) {
+                            outputMessage = -1;
+                        }
+                        outputMessage = 1;
+                    } else
+                        outputMessage = 0;
+
+                } else if (type.equals("ChangePassword")){
+
+                    if(database.ChangePassword(accountInfo)){
+                        outputMessage = 1;
+                    } else
                         outputMessage = -1;
                 }
             } catch (SQLException e) {
