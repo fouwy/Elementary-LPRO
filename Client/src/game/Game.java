@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Map;
 import javax.swing.*;
@@ -29,5 +30,17 @@ public class Game extends JFrame {
 
     public void nextTurn() {
         gamePage.nextTurn();
+    }
+
+    public void showWinStatus(String status, String player) {
+        System.out.println("status = " + status);
+        System.out.println("player = " + player);
+        if (status.equals("WIN")) {
+            JOptionPane.showMessageDialog(this, "GAME OVER\n"+player+" WON!");
+            this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        } else if (status.equals("LOSE")) {
+            JOptionPane.showMessageDialog(this, player+" lost the game.\nTheir accusation was wrong");
+
+        }
     }
 }

@@ -88,11 +88,19 @@ public class LobbyLogic implements ActionListener {
                         out.println("CARD");
                         handlePlayerOrder(response);
                         break;
+                    case "WIN_":
+                        handleWinStatus(response);
+                        break;
                     default:
                         showMessage(response);
                 }
             }
             System.out.println("no nextLine");
+        }
+
+        private void handleWinStatus(String response) {
+            String[] status = response.substring(4).split(",");
+            game.showWinStatus(status[0], status[1]);
         }
 
         private void handleCards(String response) {
@@ -109,7 +117,6 @@ public class LobbyLogic implements ActionListener {
         }
 
         private void handleTurn(String response) {
-            //TODO: Need to tell GameLogic that its a new turn
             String playerName = response.substring(4);
 
             if(playerName.equals(Account.getUsername())) {
@@ -187,6 +194,10 @@ public class LobbyLogic implements ActionListener {
         }
 
         //TODO: OPTIONS, START GAME, LEAVE GAME
+    }
+
+    public void sendAccusationToServer(String accusationChosen) {
+        out.println("ACCU"+accusationChosen);
     }
 
     public void tellServerToUpdatePosition(String message) {

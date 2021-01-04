@@ -97,10 +97,22 @@ public class Lobby {
                     case "ENDT": //END TURN
                         processEndTurn();
                         break;
+                    case "ACCU":
+                        processAccusation(command.substring(4));
+                        break;
                     default:
                         broadcast(command);
                 }
             }
+        }
+
+        private void processAccusation(String accusation) {
+            String[] accusationAttempt = accusation.split(",");
+            System.out.println("accusationAttempt = " + Arrays.toString(accusationAttempt));
+            if (game.isAccusationCorrect(accusationAttempt))
+                broadcast("WIN_WIN,"+username);
+            else
+                broadcast("WIN_LOSE,"+username);
         }
 
         private void processEndTurn() {

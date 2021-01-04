@@ -3,15 +3,16 @@ package game;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
-import game.LobbyLogic;
 
 public class GameLogic implements ActionListener {
 
-    private Panel board;
-    private GamePage gamePage;
+    private final Panel board;
+    private final GamePage gamePage;
+    private Suggestion accusationPanel, suggestionPanel;
     private Popup suggest, accuse;
     private JButton suggestB, accuseB;
+    private String[] suggestionChosen, accusationChosen;
+    private String currentRoom;
 
     public GameLogic(GamePage gamePage, Panel board) {
         this.board = board;
@@ -34,8 +35,12 @@ public class GameLogic implements ActionListener {
             //podia mandar como argumento do Suggestion a sala onde está
 
             hidePreviousPopup();
+            if (checkIfPlayerInRoom()) {
+                board.requestFocus();
+                return;
+            }
 
-            Suggestion suggestionPanel = new Suggestion();
+            suggestionPanel = new Suggestion(currentRoom);
             suggestionPanel.add(suggestB);
             PopupFactory pf = new PopupFactory();
             suggest = pf.getPopup(gamePage.$$$getRootComponent$$$(), suggestionPanel, 300, 500);
@@ -44,24 +49,33 @@ public class GameLogic implements ActionListener {
         if (e.getSource()==gamePage.getAccuButton()) {
 
             hidePreviousPopup();
-
-            Suggestion accusationPanel = new Suggestion();
+            if (checkIfPlayerInRoom()) {
+                board.requestFocus();
+                return;
+            }
+            currentRoom = board.getCurrentRoom();
+            accusationPanel = new Suggestion(currentRoom);
             accusationPanel.add(accuseB);
             PopupFactory pf = new PopupFactory();
             accuse = pf.getPopup(gamePage.$$$getRootComponent$$$(), accusationPanel, 300, 500);
             accuse.show();
         }
         if (e.getSource()==suggestB) {
+            suggestionChosen = suggestionPanel.getSelectedSuggestion();
             suggest.hide();
-            gamePage.getBoard().setFocusable(true);
+            board.requestFocus();
+
         }
         if (e.getSource()==accuseB) {
+            accusationChosen = accusationPanel.getSelectedSuggestion();
             accuse.hide();
-            gamePage.getBoard().setFocusable(true);
+            board.requestFocus();
+            gamePage.getLobbyLogic().sendAccusationToServer(
+                    accusationChosen[0]+","+accusationChosen[1]+","+currentRoom);
         }
         if (e.getSource()==gamePage.getEndTurnButton()) {
             gamePage.getLobbyLogic().tellServertoEndTurn();
-            gamePage.getBoard().setFocusable(true);
+            board.requestFocus();
         }
         if (e.getSource()==gamePage.getRollButton()) {
             int value1 = gamePage.getDice(1).rollDice();
@@ -70,8 +84,16 @@ public class GameLogic implements ActionListener {
             //TODO: Send to Player the sum of these two values
             board.setDiceRoll(value1+value2);
 
-            gamePage.getBoard().setFocusable(true);
+            board.requestFocus();
         }
+    }
+
+    private boolean checkIfPlayerInRoom() {
+        if (board.getCurrentRoom() == null) {
+            gamePage.showMessage("You are not in a room");
+            return true;
+        }
+        return false;
     }
 
     private void hidePreviousPopup() {

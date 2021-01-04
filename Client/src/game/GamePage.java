@@ -86,6 +86,10 @@ public class GamePage {
         dice2 = new DicePanel();
     }
 
+    public void showMessage(String msg) {
+        JOptionPane.showMessageDialog($$$getRootComponent$$$(), msg);
+    }
+
     public void nextTurn() {
         playerLabels[turnCount].setIcon(null);
         turnCount++;
@@ -237,5 +241,4 @@ public class GamePage {
     public JComponent $$$getRootComponent$$$() {
         return panel1;
     }
-
 }
