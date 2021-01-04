@@ -29,14 +29,14 @@ public class Game {
         System.out.println("playerOrder = " + playerOrder);
 
         playerCards = dealCards();
-        System.out.println("cardsToDeal = " + Arrays.toString(playerCards));
+        System.out.println("cardsToDeal = " + Arrays.deepToString(playerCards));
     }
 
-    public String getPlayerOrder() {
+    public synchronized String getPlayerOrder() {
         return playerOrder;
     }
 
-    public String[] getPlayerCards(String username) {
+    public synchronized String[] getPlayerCards(String username) {
         return playerCards[playerList.indexOf(username)];
     }
 
@@ -89,6 +89,7 @@ public class Game {
         mysteryCards = choose3MysteryCards(cards);
         System.out.println("cardsToDeal = " + Arrays.toString(cards));
         int numberOfPlayers = players.size();
+        System.out.println("numberOfPlayers = " + numberOfPlayers);
         int numberOfCardsToDeal = cards.length - 3;
         int randomCard;
 

@@ -55,8 +55,14 @@ public class GamePage {
         this.lobbyLogic = lobbyLogic;
         leftArrow = new ImageIcon((getClass().getResource("/img/left-arrow-20px.gif")));
         $$$setupUI$$$();
+        JLabel[] cardLabels = {card1, card2, card3, card4};
+        String[] cards = lobbyLogic.getCards();
+        for (int i = 0; i < cards.length; i++) {
+            cardLabels[i].setText(cards[i]);
+        }
 
         String[] playersInOrder = lobbyLogic.getPlayersInOrder();
+
         numberOfPlayers = playersInOrder.length;
         playerLabels = new JLabel[]{player1, player2, player3, player4, player5, player6};
 

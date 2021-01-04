@@ -16,6 +16,7 @@ public class LobbyLogic implements ActionListener {
     PrintWriter out;
 
     private String[] playersInOrder;
+    private String[] cardArray;
     private final Map<String, Integer> playerPicks;
     private Game game;
 
@@ -63,9 +64,8 @@ public class LobbyLogic implements ActionListener {
                         break;
                     case "GAME":
                         //startGame();
-                        //GAME WILL START IN CASE "ORDE" after getting the player names in order
+                        //GAME WILL START IN CASE "CARD" after getting the player names in order and the cards for this client
                         System.out.println("Game Starting...");
-                        out.println("CARD");
                         break;
                     case "MOVE":
                         //handle the movement of this char or other
@@ -81,8 +81,11 @@ public class LobbyLogic implements ActionListener {
                         break;
                     case "CARD":
                         System.out.println("response = " + response);
+                        handleCards(response);
+                        startGame();
                         break;
                     case "ORDE":
+                        out.println("CARD");
                         handlePlayerOrder(response);
                         break;
                     default:
@@ -92,11 +95,17 @@ public class LobbyLogic implements ActionListener {
             System.out.println("no nextLine");
         }
 
+        private void handleCards(String response) {
+            String cards = response.substring(4);
+            cardArray = convertToStringArray(cards);
+            for (String card : cardArray)
+                System.out.println("card = " + card);
+        }
+
         private void handlePlayerOrder(String response) {
             String players = response.substring(4);
             playersInOrder = players.split(",");
             System.out.println("Players in order: "+ Arrays.toString(playersInOrder));
-            startGame();
         }
 
         private void handleTurn(String response) {
@@ -149,6 +158,9 @@ public class LobbyLogic implements ActionListener {
 
     public String[] getPlayersInOrder() {
         return playersInOrder;
+    }
+    public String[] getCards() {
+        return cardArray;
     }
 
     @Override
