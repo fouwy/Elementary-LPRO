@@ -92,9 +92,6 @@ public class Panel extends JPanel implements KeyListener {
     public void setDiceRoll(int total) {
         //TODO: Set in Player
     }
-    public String getCurrentRoom() {
-        return "place 1";
-    }
 
     private int getDistanceUp() {
         return getHeight()/20 + 1;
@@ -167,6 +164,10 @@ public class Panel extends JPanel implements KeyListener {
         for (Player player : players) {
             g2D.drawImage(player.getCharacter(), player.getX()*getWidth()/900, player.getY()*getHeight()/720, getDistanceSide(), getDistanceUp(),this);
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
     }
 
     @Override
@@ -414,7 +415,8 @@ public class Panel extends JPanel implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
-    @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+        // TODO Auto-generated method stub
+
+    }
 }

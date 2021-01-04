@@ -2,7 +2,6 @@ package common;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +29,7 @@ public class MainPage {
     private JButton removeButton;
     private JTextField removeFriendTextField;
     private JButton changeButton;
-    private JPasswordField newPassWordTextField;
+    private JPasswordField newPasswordTextField;
     private JLabel friendsLabel;
     private JPanel friendListPanel;
 
@@ -45,7 +44,6 @@ public class MainPage {
         addButton.addActionListener(handler);
         removeButton.addActionListener(handler);
         changeButton.addActionListener(handler);
-        deleteAccountButton.addActionListener(handler);
     }
 
     public JPanel getFriendListPanel() {
@@ -54,6 +52,10 @@ public class MainPage {
 
     public JButton getLeaveButton() {
         return leaveButton;
+    }
+
+    public JButton getDeleteAccountButton() {
+        return deleteAccountButton;
     }
 
     public JButton getHostButton() {
@@ -72,10 +74,6 @@ public class MainPage {
         return removeButton;
     }
 
-    public JButton getDeleteAccountButton() {
-        return deleteAccountButton;
-    }
-
     public JTextField getPortNumberField() {
         return portNumberField;
     }
@@ -92,10 +90,17 @@ public class MainPage {
         return changeButton;
     }
 
-    public JPasswordField getNewPassWord() {
-        return newPassWordTextField;
+    public JPasswordField getNewPassword() {
+        return newPasswordTextField;
     }
 
+    public void setChangeButtonEnabled(boolean condition) {
+        changeButton.setEnabled(condition);
+    }
+
+    public void setNewPasswordTextFieldEmpty() {
+        newPasswordTextField.setText("");
+    }
 
     public void showMessage(String msg) {
         JOptionPane.showMessageDialog(main_frame, msg);
@@ -230,8 +235,8 @@ public class MainPage {
         changeButton = new JButton();
         changeButton.setText("Change");
         panel9.add(changeButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        newPassWordTextField = new JPasswordField();
-        panel9.add(newPassWordTextField, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        newPasswordTextField = new JPasswordField();
+        panel9.add(newPasswordTextField, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         friendsPanel = new JPanel();
         friendsPanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
         friendsPanel.setBackground(new Color(-11398558));

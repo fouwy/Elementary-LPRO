@@ -125,14 +125,19 @@ public class ServerThread implements Runnable{
 
                         break;
                     case "ChangePassword":
+
                         if (database.ChangePassword(accountInfo)) {
                             outputMessage = 1;
                         } else
                             outputMessage = -1;
                         break;
-                    case "Logout":
-                        String user = accountInfo[1];
-                        ServerStart.userLoggedOut(user);
+
+                    case "DeleteAccount":
+                        if(database.deleteUser(accountInfo)){
+                            outputMessage = 1;
+                        } else{
+                            outputMessage = -1;
+                        }
                         break;
                 }
             } catch (SQLException e) {

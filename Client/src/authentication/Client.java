@@ -22,6 +22,7 @@ public class Client {
     private int addFriendValidation = 0;
     private int removeFriendValidation = 0;
     private int changedPasswordValidation = 0;
+    private int deleteAccountValidation = 0;
     private MainLogic communicator;
 
     public Client(String serverIP) {
@@ -55,9 +56,6 @@ public class Client {
             case "Host":
                 port_number = (int) input.readObject();
                 break;
-            case "Logout":
-
-                break;
             case "AddFriend":
                 addFriendValidation = (int) input.readObject();
                 break;
@@ -66,6 +64,9 @@ public class Client {
                 break;
             case "ChangePassword":
                 changedPasswordValidation = (int) input.readObject();
+                break;
+            case "DeleteAccount":
+                deleteAccountValidation = (int) input.readObject();
                 break;
             case "FriendsList":
                 friends = (List<String>) input.readObject();
@@ -105,6 +106,8 @@ public class Client {
     public int isFriendRemoved() { return removeFriendValidation;}
 
     public int isPasswordChanged() { return changedPasswordValidation; }
+
+    public int isAccountDeleted() { return deleteAccountValidation;}
 
     public int getPort_number() {
         return port_number;

@@ -1,11 +1,9 @@
-package game;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Accusation extends JPanel implements ActionListener {
+public class Accusation extends JFrame implements ActionListener {
     JComboBox person;
     JComboBox weapon;
     JComboBox location;
@@ -16,15 +14,15 @@ public class Accusation extends JPanel implements ActionListener {
     public Accusation(){
 
 
-        String[] people = {"Person 1","Person 2","Person 3","Person 4","Person 5","Person 6"};
+        String[] people = {"Person A","Person B","Person C"};
         this.person = new JComboBox(people);
         person.addActionListener(this);
 
-        String[] weapons = {"weapon 1", "weapon 2", "weapon 3","weapon 4", "weapon 5", "weapon 6"};
+        String[] weapons = {"weapon 1", "weapon 2", "weapon 3"};
         this.weapon = new JComboBox(weapons);
         weapon.addActionListener(this);
 
-        String[] places = {"place 1", "place 2", "place 3","place 4", "place 5", "place 6","place 7", "place 8"};
+        String[] places = {"place 1", "place 2", "place 3"};
         this.location = new JComboBox(places);
         location.addActionListener(this);
 
@@ -33,9 +31,9 @@ public class Accusation extends JPanel implements ActionListener {
         accusation_sentence.setFont(new Font("Arial",Font.BOLD,12));
         accusation_sentence.setVisible(false);
 
-        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      //  this.setLayout(new FlowLayout());
-       // this.pack();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(new FlowLayout());
+        this.pack();
         this.setVisible(true);
         this.setSize(500,170);
         this.add(person);
@@ -67,7 +65,7 @@ public class Accusation extends JPanel implements ActionListener {
         }
         if(p&&l&&w){
             System.out.println("I accuse " + person.getSelectedItem() + " of murdering the victim with " + weapon.getSelectedItem() + " on " + location.getSelectedItem());
-            accusation_sentence.setText("I accuse " + person.getSelectedItem() + " of murdering the victim with " + weapon.getSelectedItem() + " on " + location.getSelectedItem());
+            accusation_sentence.setText("I accuse " + person.getSelectedItem() + "of murdering the victim with " + weapon.getSelectedItem() + " on " + location.getSelectedItem());
             accusation_sentence.setVisible(true);
         }
     }
