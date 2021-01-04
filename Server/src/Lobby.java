@@ -100,10 +100,22 @@ public class Lobby {
                     case "ACCU":
                         processAccusation(command.substring(4));
                         break;
+                    case "SUGG":
+                        processSuggestion(command.substring(4));
+                        break;
                     default:
                         broadcast(command);
                 }
             }
+        }
+
+        private void processSuggestion(String suggestion) {
+            String[] suggestionAttempt = suggestion.split(",");
+            String result = game.makeSuggestion(suggestionAttempt, username, username); //need to send twice bc its recursive
+            if (result == null)
+                System.out.println("nobody has that card");
+            else
+                System.out.println("result = " + result);
         }
 
         private void processAccusation(String accusation) {
@@ -160,8 +172,4 @@ public class Lobby {
             writer.getValue1().println(message);
         }
     }
-
-
-
-
 }

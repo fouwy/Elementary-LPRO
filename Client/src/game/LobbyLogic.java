@@ -196,6 +196,10 @@ public class LobbyLogic implements ActionListener {
         //TODO: OPTIONS, START GAME, LEAVE GAME
     }
 
+    public void sendSuggestionToServer(String suggestionChosen) {
+        out.println("SUGG"+suggestionChosen);
+    }
+
     public void sendAccusationToServer(String accusationChosen) {
         out.println("ACCU"+accusationChosen);
     }

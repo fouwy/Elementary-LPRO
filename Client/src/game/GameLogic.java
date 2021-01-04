@@ -39,7 +39,7 @@ public class GameLogic implements ActionListener {
                 board.requestFocus();
                 return;
             }
-
+            currentRoom = board.getCurrentRoom();
             suggestionPanel = new Suggestion(currentRoom);
             suggestionPanel.add(suggestB);
             PopupFactory pf = new PopupFactory();
@@ -64,6 +64,8 @@ public class GameLogic implements ActionListener {
             suggestionChosen = suggestionPanel.getSelectedSuggestion();
             suggest.hide();
             board.requestFocus();
+            gamePage.getLobbyLogic().sendSuggestionToServer(
+                    suggestionChosen[0]+","+suggestionChosen[1]+","+currentRoom);
 
         }
         if (e.getSource()==accuseB) {

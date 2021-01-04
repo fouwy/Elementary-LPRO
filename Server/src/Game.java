@@ -14,8 +14,8 @@ public class Game {
     private String playerOrder;
     private String[] mysteryCards;
 
-    private String[][] playerCards;
-    private ArrayList<String> playerList;
+    private final String[][] playerCards;
+    private final ArrayList<String> playerList;
 
     public Game(NavigableMap<String, Pair<Scanner, PrintWriter>> players) {
         this.players = players;
@@ -32,7 +32,32 @@ public class Game {
         System.out.println("mysteryCards = " + Arrays.toString(mysteryCards));
     }
 
+    public String makeSuggestion(String[] suggestionAttempt, String username, String currentPlayer) {
+        //TODO: Check if it is their turn
+        int nextPlayerNumber = playerList.indexOf(currentPlayer) + 1;
+
+        if (nextPlayerNumber == playerList.size())
+            nextPlayerNumber = 0;
+
+        if (playerList.get(nextPlayerNumber).equals(username))
+            return null;
+
+        String[] nextPlayerCards = playerCards[nextPlayerNumber];
+
+        for (String card : nextPlayerCards) {
+            if (card.equals(suggestionAttempt[0]))
+                return card;
+            if (card.equals(suggestionAttempt[1]))
+                return card;
+            if (card.equals(suggestionAttempt[2]))
+                return card;
+        }
+
+        return makeSuggestion(suggestionAttempt, username, playerList.get(nextPlayerNumber));
+    }
+
     public boolean isAccusationCorrect(String[] cards) {
+        //TODO:check if it is their turn, could do this in client tbh
         //TODO:delete this line, just for testing
         mysteryCards[2] = "place 1";
 
@@ -131,5 +156,4 @@ public class Game {
             cards[i] = cards[i+1];
         }
     }
-
 }
