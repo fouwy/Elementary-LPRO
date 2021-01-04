@@ -88,6 +88,9 @@ public class Lobby {
                             broadcast(game.getPlayerOrder());
                         }
                         break;
+                    case "CARD":
+                        output.println("CARD"+Arrays.toString(game.getPlayerCards(username)));
+                        break;
                     case "MOVE":
                         processMovement(command.substring(4));
                         break;

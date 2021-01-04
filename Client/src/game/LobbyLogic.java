@@ -1,12 +1,10 @@
 package game;
 
 import common.ClientStart;
-
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
-import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,6 +65,7 @@ public class LobbyLogic implements ActionListener {
                         //startGame();
                         //GAME WILL START IN CASE "ORDE" after getting the player names in order
                         System.out.println("Game Starting...");
+                        out.println("CARD");
                         break;
                     case "MOVE":
                         //handle the movement of this char or other
@@ -80,8 +79,12 @@ public class LobbyLogic implements ActionListener {
                     case "ENDT":
                         handleTurn(response);
                         break;
+                    case "CARD":
+                        System.out.println("response = " + response);
+                        break;
                     case "ORDE":
                         handlePlayerOrder(response);
+                        break;
                     default:
                         showMessage(response);
                 }
