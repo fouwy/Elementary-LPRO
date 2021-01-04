@@ -1,5 +1,6 @@
 package database;
 
+import javax.swing.colorchooser.AbstractColorChooserPanel;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,8 @@ public class Database {
         return members;
     }
 
-    public void deleteUser(String username) {
+    public boolean deleteUser(String [] accountInfo){
+        String username = accountInfo[1];
         try {
             PreparedStatement statement = connection.prepareStatement("delete from member " +
                     "where username= ?;");
@@ -67,7 +69,9 @@ public class Database {
             statement.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+            return false;
         }
+        return true;
     }
 
     public boolean isRegisterAllowed(String[] accountInfo) throws SQLException{
@@ -110,7 +114,6 @@ public class Database {
     }
 
     public boolean canAddFriend(String[] accountInfo) throws SQLException{
-        String username = accountInfo[1];
         String friendUsername = accountInfo[2];
 
         if(isUsernameTaken(friendUsername)){
@@ -120,7 +123,6 @@ public class Database {
     }
 
     public boolean canRemoveFriend(String[] accountInfo) throws SQLException{
-
         String friendUsername = accountInfo[2];
         PreparedStatement statement = connection.prepareStatement("select friend_name from friends "+ "where friend_name=?;");
         statement.setString(1, friendUsername);
@@ -130,13 +132,18 @@ public class Database {
     }
 
     public boolean removeFriend(String[] accountInfo) throws SQLException{
-
+        String username = accountInfo[1];
         String friendUsername = accountInfo[2];
-        PreparedStatement statement = connection.prepareStatement("delete from friends" + " where friend_name= ?;");
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM friends WHERE username = ? AND friend_name=?");
+        PreparedStatement statement2 = connection.prepareStatement("DELETE FROM friends WHERE username = ? AND friend_name=?");
 
         try{
             statement.setString(1,friendUsername);
+            statement.setString(2,username);
             statement.executeUpdate();
+            statement2.setString(1,username);
+            statement2.setString(2,friendUsername);
+            statement2.executeUpdate();
             return true;
         } catch (SQLException e){
             System.err.println(e.getMessage());
@@ -144,11 +151,10 @@ public class Database {
         return false;
     }
 
-
     public boolean ChangePassword(String[] accountInfo) throws SQLException{
         String username = accountInfo[1];
         String password = accountInfo[2];
-        PreparedStatement statement = connection.prepareStatement("update member set password=? where username=?" );
+        PreparedStatement statement = connection.prepareStatement("UPDATE member SET password=? WHERE username=?" );
         try{
             statement.setString(1, password);
             statement.setString(2, username);
@@ -164,9 +170,7 @@ public class Database {
 
     }
 
-
     public List<String> getFriends(String[] accountInfo) {
-
         List<String>friendsList = new ArrayList<>();
         String username = accountInfo[1];
 
@@ -181,22 +185,6 @@ public class Database {
         }
         return friendsList;
     }
-
-    /*public List<String> getAllMembers() {
-        List<String>members = new ArrayList<>();
-
-        try {
-            PreparedStatement statement = connection.prepareStatement("select username from member;");
-            ResultSet rs = statement.executeQuery();
-            while (rs.next())
-                members.add(rs.getString(1));
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
-        return members;
-    }*/
-
 
     /*public boolean isAlreadyFriend(String[] accountInfo) throws SQLException{
         String friendUsername = accountInfo[2];

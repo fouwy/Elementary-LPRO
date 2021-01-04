@@ -32,9 +32,13 @@ public class MainLogic implements ActionListener, MouseListener {
         if (type.equals("Add")) {
             int result = main_page.openOptionDialog("Friend Request from: "+ serverMessage[1]+ "\n Do to accept?", "Friend Request");
             if (result == JOptionPane.YES_OPTION) {
+                setFriendToAdd(Account.getUsername() ,serverMessage[1]);
+                getFriendsList();
+                showFriendsList();
                 System.out.println("Friend Request Accepted");
             } else {
                 //Maybe tell them they go denied lol
+                System.out.println("Friend Request Refused");
             }
         }
     }
@@ -92,13 +96,13 @@ public class MainLogic implements ActionListener, MouseListener {
             joinLobby();
         } else if (e.getSource().equals(main_page.getAddButton())) {
             canIBeYourFriend(main_page.getFriendToAdd().getText());
-//            setFriendToAdd();
-//            getFriendsList();
-//            showFriendsList();
         } else if (e.getSource().equals(main_page.getRemoveButton())) {
             setFriendToRemove();
         } else if (e.getSource().equals(main_page.getChangeButton())) {
             setNewPassword();
+        } else if (e.getSource().equals(main_page.getDeleteAccountButton())){
+            deleteAccount();
+            //enterLoginPage();
         }
     }
 
@@ -135,10 +139,9 @@ public class MainLogic implements ActionListener, MouseListener {
         return port_number;
     }
 
-    private void setFriendToAdd(){
+    private void setFriendToAdd(String username, String friendUsername){
         String type = "AddFriend";
-        String friendUsername = main_page.getFriendToAdd().getText();
-        String[] accountInformation = {type, Account.getUsername(), friendUsername};
+        String[] accountInformation = {type, username, friendUsername};
 
         Client client = new Client(ClientStart.serverIP);
         client.sendInformation(accountInformation);
@@ -161,8 +164,9 @@ public class MainLogic implements ActionListener, MouseListener {
 
     private void setFriendToRemove(){
         String type = "RemoveFriend";
+        String username = Account.getUsername();
         String friendUsername = main_page.getRemoveFriend().getText();
-        String[] accountInformation = {type, Account.getUsername(), friendUsername};
+        String[] accountInformation = {type, username, friendUsername};
 
         Client client = new  Client(ClientStart.serverIP);
         client.sendInformation(accountInformation);
@@ -183,24 +187,55 @@ public class MainLogic implements ActionListener, MouseListener {
     private void setNewPassword(){
         String type = "ChangePassword";
         String username = Account.getUsername();
-        char[] pwd = main_page.getNewPassWord().getPassword();
-        String[] accountInformation = {type, String.valueOf(username), String.valueOf(pwd)};
-        /*String[] password = main_page.getNewPassWord().getPassword();*/
+        char[] pwd = main_page.getNewPassword().getPassword();
+        String[] accountInformation = {type, username, String.valueOf(pwd)};
 
-        Client client = new Client(ClientStart.serverIP);
-        client.sendInformation(accountInformation);
+        if (!isÑewPasswordAcceptable()) {
+            main_page.setNewPasswordTextFieldEmpty();
+            main_page.setChangeButtonEnabled(true);
+        } else {
+
+            Client client = new Client(ClientStart.serverIP);
+            client.sendInformation(accountInformation);
+
+            switch (client.isPasswordChanged()) {
+                case -1:
+                    main_page.showMessage("Couldn't change password. Try again later");
+                    break;
+                case 1:
+                    main_page.showMessage("password changed");
+                    break;
+
+            }
+        }
+    }
+
+    private boolean isÑewPasswordAcceptable() {
+        char[] pwd = main_page.getNewPassword().getPassword();
+
         int minPwdSize = 3;
+        if (pwd.length < minPwdSize)
+            main_page.showMessage("Password is too short (min is "+ minPwdSize);
+        else
+            return true;
 
-        switch (client.isPasswordChanged()) {
+        return false;
+    }
+
+    private void deleteAccount(){
+        String type = "DeleteAccount";
+        String username = Account.getUsername();
+        String[] accountInformation = {type, username};
+
+        Client client = new  Client(ClientStart.serverIP);
+        client.sendInformation(accountInformation);
+
+        switch(client.isAccountDeleted()){
             case -1:
-                main_page.showMessage("Couldn't change password. Try again later");
+                main_page.showMessage("Could not delete account. Try again later");
                 break;
             case 1:
-                if(pwd.length < minPwdSize){
-                    main_page.showMessage("Password is too short (min is "+ minPwdSize);
-                    break;
-                }
-                main_page.showMessage("password changed");
+                main_page.showMessage("Account deleted.");
                 break;
         }
     }

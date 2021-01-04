@@ -131,6 +131,14 @@ public class ServerThread implements Runnable{
                         } else
                             outputMessage = -1;
                         break;
+
+                    case "DeleteAccount":
+                        if(database.deleteUser(accountInfo)){
+                            outputMessage = 1;
+                        } else{
+                            outputMessage = -1;
+                        }
+                        break;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

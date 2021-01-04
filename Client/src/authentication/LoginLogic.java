@@ -26,14 +26,12 @@ public class LoginLogic implements ActionListener {
         }
     }
 
-    //For login button
     private void tryLogin(){
 
         username = login_page.getUserField().getText();
         password = login_page.getPasswordField().getPassword();
         String type = "Login";
 
-        //Verify username
         String[] accountInformation = {type, username, String.valueOf(password)};
 
         Client client = new Client(ClientStart.serverIP);
