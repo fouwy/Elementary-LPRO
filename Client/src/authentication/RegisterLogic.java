@@ -33,7 +33,7 @@ public class RegisterLogic implements ActionListener {
         } else {
             registerPage.setRegisterButtonEnabled(false);
 
-            Client client = new Client("localhost");
+            Client client = new Client(ClientStart.serverIP);
             client.sendInformation(accountInformation);
 
             switch (client.isValidated()) {

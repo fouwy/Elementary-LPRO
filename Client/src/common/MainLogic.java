@@ -1,27 +1,42 @@
 package common;
 
 import authentication.Client;
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.Spacer;
 import game.Account;
 import game.LobbyPage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.Arrays;
 import java.util.List;
 
-public class MainLogic implements ActionListener {
+public class MainLogic implements ActionListener, MouseListener {
 
     private final MainPage main_page;
     private List<String> friends;
 
     public MainLogic(MainPage main_page) {
         this.main_page = main_page;
+        System.out.println("I'm " + Account.getUsername());
+        CommsFromServerThread comms = new CommsFromServerThread(this);
+        Thread thread = new Thread(comms);
+        thread.start();
 
         getFriendsList();
         showFriendsList();
+    }
+
+    public void receiveMessage(String[] serverMessage) {
+        System.out.println("serverMessage = " + Arrays.toString(serverMessage));
+        String type = serverMessage[0];
+        if (type.equals("Add")) {
+            int result = main_page.openOptionDialog("Friend Request from: "+ serverMessage[1]+ "\n Do to accept?", "Friend Request");
+            if (result == JOptionPane.YES_OPTION) {
+                System.out.println("Friend Request Accepted");
+            } else {
+                //Maybe tell them they go denied lol
+            }
+        }
     }
 
     private void showFriendsList() {
@@ -36,6 +51,7 @@ public class MainLogic implements ActionListener {
 
         for(String friend : friends) {
             JLabel friendLabel = new JLabel(friend);
+            friendLabel.addMouseListener(this);
             friendLabel.setAlignmentX(JLabel.CENTER);
             friendLabel.setHorizontalAlignment(SwingConstants.CENTER);
             if (c.gridy % 2 == 0)
@@ -54,9 +70,14 @@ public class MainLogic implements ActionListener {
         });
     }
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println(((JLabel)e.getSource()).getText());
+    }
+
     private void getFriendsList() {
         String[] accountInformation = {"FriendsList", Account.getUsername()};
-        Client client = new Client("localhost");
+        Client client = new Client(ClientStart.serverIP);
         client.sendInformation(accountInformation);
         friends = client.getFriends();
     }
@@ -70,12 +91,21 @@ public class MainLogic implements ActionListener {
         } else if (e.getSource().equals(main_page.getJoinButton())) {
             joinLobby();
         } else if (e.getSource().equals(main_page.getAddButton())) {
-            setFriendToAdd();
+            canIBeYourFriend(main_page.getFriendToAdd().getText());
+//            setFriendToAdd();
+//            getFriendsList();
+//            showFriendsList();
         } else if (e.getSource().equals(main_page.getRemoveButton())) {
             setFriendToRemove();
         } else if (e.getSource().equals(main_page.getChangeButton())) {
             setNewPassword();
         }
+    }
+
+    private void canIBeYourFriend(String potencialFriend) {
+        String[] info = {"askFriendship", Account.getUsername(), potencialFriend};
+        Client client = new Client(ClientStart.serverIP);
+        client.sendInformation(info);
     }
 
     private void joinLobby() {
@@ -97,7 +127,7 @@ public class MainLogic implements ActionListener {
     }
 
     private int tellServerToCreateLobby() {
-        Client client = new Client("localhost");
+        Client client = new Client(ClientStart.serverIP);
         String[] lobbyInfo = {"Host", Account.getUsername()};
         client.sendInformation(lobbyInfo);
         int port_number = client.getPort_number();
@@ -110,7 +140,7 @@ public class MainLogic implements ActionListener {
         String friendUsername = main_page.getFriendToAdd().getText();
         String[] accountInformation = {type, Account.getUsername(), friendUsername};
 
-        Client client = new Client("localhost");
+        Client client = new Client(ClientStart.serverIP);
         client.sendInformation(accountInformation);
 
         switch (client.isFriendAdded()) {
@@ -134,7 +164,7 @@ public class MainLogic implements ActionListener {
         String friendUsername = main_page.getRemoveFriend().getText();
         String[] accountInformation = {type, Account.getUsername(), friendUsername};
 
-        Client client = new  Client("localhost");
+        Client client = new  Client(ClientStart.serverIP);
         client.sendInformation(accountInformation);
 
         switch(client.isFriendRemoved()){
@@ -157,7 +187,7 @@ public class MainLogic implements ActionListener {
         String[] accountInformation = {type, String.valueOf(username), String.valueOf(pwd)};
         /*String[] password = main_page.getNewPassWord().getPassword();*/
 
-        Client client = new Client("localhost");
+        Client client = new Client(ClientStart.serverIP);
         client.sendInformation(accountInformation);
         int minPwdSize = 3;
 
@@ -174,4 +204,14 @@ public class MainLogic implements ActionListener {
                 break;
         }
     }
+
+
+    @Override
+    public void mousePressed(MouseEvent e) {}
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }

@@ -10,6 +10,7 @@ public class ClientStart extends JFrame {
     public static JFrame frame;
     public static CardLayout cardLayout;
     public static JPanel rootPanel;
+    public static String serverIP = "localhost";
 
     public static void main(String[] args) {
 

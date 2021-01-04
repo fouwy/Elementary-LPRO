@@ -26,7 +26,7 @@ public class LobbyLogic implements ActionListener {
         playerPicks = new HashMap<>();
 
         try {
-            Socket socket = new Socket("localhost", port_number);
+            Socket socket = new Socket(ClientStart.serverIP, port_number);
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException e) {

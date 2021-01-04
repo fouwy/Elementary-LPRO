@@ -36,7 +36,7 @@ public class LoginLogic implements ActionListener {
         //Verify username
         String[] accountInformation = {type, username, String.valueOf(password)};
 
-        Client client = new Client("localhost");
+        Client client = new Client(ClientStart.serverIP);
         client.sendInformation(accountInformation);
 
         switch (client.isInfoCorrect()) {

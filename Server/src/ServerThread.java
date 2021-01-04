@@ -28,7 +28,6 @@ public class ServerThread implements Runnable{
             setupStreams();
             while (!connection.isClosed())
                 sendAndReceiveInfo();
-
         } catch (EOFException e) {
             System.out.println("EOF");
         } catch (IOException | ClassNotFoundException e) {
@@ -39,10 +38,10 @@ public class ServerThread implements Runnable{
 
     private void sendAndReceiveInfo() throws IOException, ClassNotFoundException {
         String[] accountInfo = (String[]) input.readObject();
-        if (input == null)  return;
-
+        if (input == null) return;
         String type = accountInfo[0];
         System.out.println(Arrays.toString(accountInfo));
+
         Database database = connectToDatabase();
 
         if (type.equals("Host")) {
@@ -55,6 +54,19 @@ public class ServerThread implements Runnable{
             List<String> friends = database.getFriends(accountInfo);
             output.writeObject(friends);
             output.flush();
+
+        } else if (type.equals("Comms")) {
+            String clientMessage;
+            ServerStart.addUserComms(accountInfo[1], output);
+            do {
+                clientMessage = (String) input.readObject();
+            } while (!clientMessage.equals("END"));
+
+        } else if (type.equals("askFriendship")) {
+            ObjectOutputStream friendOutput = ServerStart.getUserOutput(accountInfo[2]);
+            String[] message = {"Add", accountInfo[1]};
+            friendOutput.writeObject(message);
+            friendOutput.flush();
         } else {
             try {
                 //TODO: replace outputMessage with enums to be easier to understand
