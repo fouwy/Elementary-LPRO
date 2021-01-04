@@ -59,9 +59,15 @@ public class GameLogic implements ActionListener {
         }
         if (e.getSource()==gamePage.getEndTurnButton()) {
             gamePage.getLobbyLogic().tellServertoEndTurn();
+            gamePage.getBoard().setFocusable(true);
         }
         if (e.getSource()==gamePage.getRollButton()) {
-            gamePage.getDicePanel().rollDice();
+            int value1 = gamePage.getDice(1).rollDice();
+            int value2 = gamePage.getDice(2).rollDice();
+
+            //TODO: Send to Player the sum of these two values
+            board.setDiceRoll(value1+value2);
+
             gamePage.getBoard().setFocusable(true);
         }
     }

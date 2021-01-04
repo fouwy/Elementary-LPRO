@@ -208,14 +208,17 @@ public class LobbyPage {
         characterPanel.add(character2Button, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         character4Button = new JButton();
         character4Button.setForeground(new Color(-16777216));
+        character4Button.setIcon(new ImageIcon(getClass().getResource("/img/char_purple.png")));
         character4Button.setText("Character 4");
         characterPanel.add(character4Button, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         character5Button = new JButton();
         character5Button.setForeground(new Color(-16777216));
+        character5Button.setIcon(new ImageIcon(getClass().getResource("/img/char_green.png")));
         character5Button.setText("Character 5");
         characterPanel.add(character5Button, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         character6Button = new JButton();
         character6Button.setForeground(new Color(-16777216));
+        character6Button.setIcon(new ImageIcon(getClass().getResource("/img/char_black.png")));
         character6Button.setText("Character 6");
         characterPanel.add(character6Button, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         char1Label = new JLabel();

@@ -13,7 +13,7 @@ public class Panel extends JPanel implements KeyListener {
     final Image backgroundImage;
     int dx = 324;
     int dy = 324;
-    final int distance = 36;
+    private final int distance = 36;
     boolean edge = false;
     boolean canMove = false;
 
@@ -89,6 +89,18 @@ public class Panel extends JPanel implements KeyListener {
             setOtherPlayersCharacter();
     }
 
+    public void setDiceRoll(int total) {
+        //TODO: Set in Player
+    }
+
+    private int getDistanceUp() {
+        return getHeight()/20 + 1;
+    }
+
+    private int getDistanceSide() {
+        return getWidth()/25 + 1;
+    }
+
     public void movePlayerCharacter(String playerName, char direction) {
         for (Player player : players) {
             if (player.getName().equals(playerName)) {
@@ -127,8 +139,17 @@ public class Panel extends JPanel implements KeyListener {
             case 3:
                 characterImage = "Client/src/img/char_red.png";
                 break;
+            case 4:
+                characterImage = "Client/src/img/char_purple.png";
+                break;
+            case 5:
+                characterImage = "Client/src/img/char_green.png";
+                break;
+            case 6:
+                characterImage = "Client/src/img/char_black.png";
+                break;
             default:
-                characterImage = "Client/src/img/char_red.png";
+                throw new IllegalStateException("Unexpected value: " + charNumber);
         }
         return characterImage;
     }
@@ -136,12 +157,12 @@ public class Panel extends JPanel implements KeyListener {
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2D = (Graphics2D)g;
-        g2D.drawImage(backgroundImage, 0, 0, null);
+        g2D.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         //my character - could put it in the players list
-        g2D.drawImage(character, dx, dy, null);
+        g2D.drawImage(character, dx*getWidth()/900, dy*getHeight()/720, getDistanceSide(), getDistanceUp(),this);
 
         for (Player player : players) {
-            g2D.drawImage(player.getCharacter(), player.getX(), player.getY(), null);
+            g2D.drawImage(player.getCharacter(), player.getX()*getWidth()/900, player.getY()*getHeight()/720, getDistanceSide(), getDistanceUp(),this);
         }
     }
 

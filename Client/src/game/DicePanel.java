@@ -45,12 +45,14 @@ public class DicePanel extends JPanel {
         return new ImageIcon(newimg);
     }
 
-    public void rollDice() {
+    public int rollDice() {
         Random rand = new Random();
         int diceValue = rand.nextInt(6) + 1;
 
         setAllDicesInvisible();
         diceFaces[diceValue-1].setVisible(true);
+
+        return diceValue;
     }
 
     private void setAllDicesInvisible() {

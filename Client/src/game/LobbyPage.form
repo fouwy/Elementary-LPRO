@@ -142,6 +142,7 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
+                  <icon value="img/char_purple.png"/>
                   <text value="Character 4"/>
                 </properties>
               </component>
@@ -151,6 +152,7 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
+                  <icon value="img/char_green.png"/>
                   <text value="Character 5"/>
                 </properties>
               </component>
@@ -160,6 +162,7 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
+                  <icon value="img/char_black.png"/>
                   <text value="Character 6"/>
                 </properties>
               </component>

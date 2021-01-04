@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 
 public class ServerThread implements Runnable{
 
@@ -26,7 +27,6 @@ public class ServerThread implements Runnable{
             setupStreams();
             while (!connection.isClosed())
                 sendAndReceiveInfo();
-
         } catch (EOFException e) {
             System.out.println("EOF");
         } catch (IOException | ClassNotFoundException e) {
@@ -37,44 +37,100 @@ public class ServerThread implements Runnable{
 
     private void sendAndReceiveInfo() throws IOException, ClassNotFoundException {
         String[] accountInfo = (String[]) input.readObject();
-        if (input == null)  return;
-
+        if (input == null) return;
         String type = accountInfo[0];
         System.out.println(Arrays.toString(accountInfo));
 
+        Database database = connectToDatabase();
+
         if (type.equals("Host")) {
-            //TODO:-Generate port number and send it back;
-            //     -Start Lobby and open a socket with that port number;
             int port_number = 6666;     //this is just for test, later can generate port numbers random
             output.writeObject(port_number);
             output.flush();
             new Lobby(accountInfo[1], port_number);
-        }
-        else {
-            Database database = connectToDatabase();
 
+        } else if (type.equals("FriendsList")) {
+            List<String> friends = database.getFriends(accountInfo);
+            output.writeObject(friends);
+            output.flush();
+
+        } else if (type.equals("Comms")) {
+            String clientMessage;
+            ServerStart.addUserComms(accountInfo[1], output);
+            do {
+                clientMessage = (String) input.readObject();
+            } while (!clientMessage.equals("END"));
+
+        } else if (type.equals("askFriendship")) {
+            ObjectOutputStream friendOutput = ServerStart.getUserOutput(accountInfo[2]);
+            String[] message = {"Add", accountInfo[1]};
+            friendOutput.writeObject(message);
+            friendOutput.flush();
+        } else {
             try {
-                if (type.equals("Register")) {
-                    if (database.isRegisterAllowed(accountInfo)) {
-                        outputMessage = 1;
-                        try {
-                            database.registerNewUser(accountInfo);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+                //TODO: replace outputMessage with enums to be easier to understand
+                switch (type) {
+                    case "Register":
+                        if (database.isRegisterAllowed(accountInfo)) {
+                            outputMessage = 1;
+                            try {
+                                database.registerNewUser(accountInfo);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                                outputMessage = -1;
+                            }
+                        } else
+                            outputMessage = 0;
+                        break;
+                    case "Login":
+                        String username = accountInfo[1];
+
+                        if (database.canLogin(accountInfo)) {
+                            ServerStart.addToLoggedInUsers(username);
+                            outputMessage = 1;
+                        } else if (!database.isUsernameTaken(username))
+                            outputMessage = 0;
+                        else if (ServerStart.isUserLoggedIn(username))
+                            outputMessage = 2;                      //User Already Logged in
+                        else
                             outputMessage = -1;
-                        }
-                    } else
-                        outputMessage = 0;
-                } else if (type.equals("Login")) {
-                    String username = accountInfo[1];
-                    if(ServerStart.userLoggedIn(username))
-                        outputMessage = 2;                      //User Already Logged in
-                    else if (database.canLogin(accountInfo)) {
-                        outputMessage = 1;
-                    } else if (!database.isUsernameTaken(username)) {
-                        outputMessage = 0;
-                    } else
-                        outputMessage = -1;
+
+                        break;
+                    case "AddFriend":
+                        String friendUsername = accountInfo[1];
+
+                        if (database.canAddFriend(accountInfo)) {
+                            outputMessage = 1;
+                            database.addFriend(accountInfo);
+
+                        } else if (!database.isUsernameTaken(friendUsername)) {
+                            outputMessage = 0;
+
+                        } else
+                            outputMessage = -1;
+
+                        break;
+                    case "RemoveFriend":
+
+                        if (database.canRemoveFriend(accountInfo)) {
+
+                            try {
+                                database.removeFriend(accountInfo);
+                            } catch (SQLException e) {
+                                outputMessage = -1;
+                            }
+                            outputMessage = 1;
+                        } else
+                            outputMessage = 0;
+
+                        break;
+                    case "ChangePassword":
+
+                        if (database.ChangePassword(accountInfo)) {
+                            outputMessage = 1;
+                        } else
+                            outputMessage = -1;
+                        break;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

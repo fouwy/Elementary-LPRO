@@ -11,6 +11,7 @@ public class LoginLogic implements ActionListener {
 
     private final LoginPage login_page;
     private String username;
+    private char[] password;
 
     public LoginLogic(LoginPage login_page) {
         this.login_page = login_page;
@@ -29,19 +30,18 @@ public class LoginLogic implements ActionListener {
     private void tryLogin(){
 
         username = login_page.getUserField().getText();
-        char[] password = login_page.getPasswordField().getPassword();
+        password = login_page.getPasswordField().getPassword();
         String type = "Login";
 
         //Verify username
         String[] accountInformation = {type, username, String.valueOf(password)};
 
-        Client client = new Client("localhost");
+        Client client = new Client(ClientStart.serverIP);
         client.sendInformation(accountInformation);
 
         switch (client.isInfoCorrect()) {
             case 1:
                 enterMainPage();
-                login_page.setLoginButtonEnabled(false);
                 break;
             case 0:
                 login_page.showMessage("Username is not registered.");
@@ -60,8 +60,8 @@ public class LoginLogic implements ActionListener {
         ClientStart.cardLayout.show(ClientStart.rootPanel, "Register");
     }
 
-    private void enterMainPage() {
-        new Account(username);
+    private void enterMainPage(){
+        new Account(username, password);
         ClientStart.rootPanel.add(new MainPage().$$$getRootComponent$$$(), "Main");
         ClientStart.cardLayout.show(ClientStart.rootPanel, "Main");
     }
