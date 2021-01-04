@@ -89,7 +89,7 @@ public class MainLogic implements ActionListener {
         String type = "RemoveFriend";
         String username = Account.getUsername();
         String friendUsername = main_page.getRemoveFriend().getText();
-        String[] accountInformation = {type, Account.getUsername(), friendUsername};
+        String[] accountInformation = {type, username, friendUsername};
 
         Client client = new  Client("localhost");
         client.sendInformation(accountInformation);

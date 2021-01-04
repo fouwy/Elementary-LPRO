@@ -132,13 +132,16 @@ public class Database {
     }
 
     public boolean removeFriend(String[] accountInfo) throws SQLException{
-
+        String username = accountInfo[1];
         String friendUsername = accountInfo[2];
         PreparedStatement statement = connection.prepareStatement("delete from friends" + " where friend_name= ?;");
+        PreparedStatement statement2 = connection.prepareStatement("delete from friends" + " where friend_name= ?;");
 
         try{
             statement.setString(1,friendUsername);
             statement.executeUpdate();
+            statement2.setString(1,username);
+            statement2.executeUpdate();
             return true;
         } catch (SQLException e){
             System.err.println(e.getMessage());
