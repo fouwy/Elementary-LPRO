@@ -9,12 +9,12 @@ public class DicePanel extends JPanel {
 
     DicePanel() {
         diceFaces = new JLabel[6];
-        ImageIcon ic1 = new ImageIcon("Client/src/1.png");
-        ImageIcon ic2 = new ImageIcon("Client/src/2.png");
-        ImageIcon ic3 = new ImageIcon("Client/src/3.png");
-        ImageIcon ic4 = new ImageIcon("Client/src/4.png");
-        ImageIcon ic5 = new ImageIcon("Client/src/5.png");
-        ImageIcon ic6 = new ImageIcon("Client/src/6.png");
+        ImageIcon ic1 = new ImageIcon("Client/src/img/1.png");
+        ImageIcon ic2 = new ImageIcon("Client/src/img/2.png");
+        ImageIcon ic3 = new ImageIcon("Client/src/img/3.png");
+        ImageIcon ic4 = new ImageIcon("Client/src/img/4.png");
+        ImageIcon ic5 = new ImageIcon("Client/src/img/5.png");
+        ImageIcon ic6 = new ImageIcon("Client/src/img/6.png");
 
         ic1 = scaleIcon(ic1, 60, 60);
         ic2 = scaleIcon(ic2, 60, 60);

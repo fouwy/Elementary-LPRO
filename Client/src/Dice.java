@@ -3,7 +3,6 @@
 import java.awt.*;
 
 
-import java.util.Scanner;
 import java.awt.event.*;
 import java.util.Random;
 import javax.swing.*;
@@ -36,18 +35,18 @@ public class Dice extends JFrame implements ActionListener{
     char c=' ';
 
     Dice(){
-        ImageIcon ic1 = new ImageIcon(getClass().getResource("1.png"));
-        ImageIcon ic2 = new ImageIcon(getClass().getResource("2.png"));
-        ImageIcon ic3 = new ImageIcon(getClass().getResource("3.png"));
-        ImageIcon ic4 = new ImageIcon(getClass().getResource("4.png"));
-        ImageIcon ic5 = new ImageIcon(getClass().getResource("5.png"));
-        ImageIcon ic6 = new ImageIcon(getClass().getResource("6.png"));
-        ImageIcon dado1 = new ImageIcon(getClass().getResource("dice1.png"));
-        ImageIcon dado2 = new ImageIcon(getClass().getResource("dice2.png"));
-        ImageIcon dado3 = new ImageIcon(getClass().getResource("dice3.png"));
-        ImageIcon dado4 = new ImageIcon(getClass().getResource("dice4.png"));
-        ImageIcon dado5 = new ImageIcon(getClass().getResource("dice5.png"));
-        ImageIcon dado6 = new ImageIcon(getClass().getResource("dice6.png"));
+        ImageIcon ic1 = new ImageIcon(getClass().getResource("img/1.png"));
+        ImageIcon ic2 = new ImageIcon(getClass().getResource("img/2.png"));
+        ImageIcon ic3 = new ImageIcon(getClass().getResource("img/3.png"));
+        ImageIcon ic4 = new ImageIcon(getClass().getResource("img/4.png"));
+        ImageIcon ic5 = new ImageIcon(getClass().getResource("img/5.png"));
+        ImageIcon ic6 = new ImageIcon(getClass().getResource("img/6.png"));
+        ImageIcon dado1 = new ImageIcon(getClass().getResource("img/dice1.png"));
+        ImageIcon dado2 = new ImageIcon(getClass().getResource("img/dice2.png"));
+        ImageIcon dado3 = new ImageIcon(getClass().getResource("img/dice3.png"));
+        ImageIcon dado4 = new ImageIcon(getClass().getResource("img/dice4.png"));
+        ImageIcon dado5 = new ImageIcon(getClass().getResource("img/dice5.png"));
+        ImageIcon dado6 = new ImageIcon(getClass().getResource("img/dice6.png"));
 
         this.position = new JTextPane();
         position.setText("Current position: [ " + x +  " ]  [ " + y + " ]");
