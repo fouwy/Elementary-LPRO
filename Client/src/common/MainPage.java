@@ -45,6 +45,7 @@ public class MainPage {
         addButton.addActionListener(handler);
         removeButton.addActionListener(handler);
         changeButton.addActionListener(handler);
+        deleteAccountButton.addActionListener(handler);
     }
 
     public JPanel getFriendListPanel() {
@@ -69,6 +70,10 @@ public class MainPage {
 
     public JButton getRemoveButton() {
         return removeButton;
+    }
+
+    public JButton getDeleteAccountButton() {
+        return deleteAccountButton;
     }
 
     public JTextField getPortNumberField() {

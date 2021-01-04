@@ -55,6 +55,9 @@ public class Client {
             case "Host":
                 port_number = (int) input.readObject();
                 break;
+            case "Logout":
+
+                break;
             case "AddFriend":
                 addFriendValidation = (int) input.readObject();
                 break;

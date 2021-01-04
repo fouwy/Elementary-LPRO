@@ -3,6 +3,8 @@ package game;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
+import game.LobbyLogic;
 
 public class GameLogic implements ActionListener {
 
@@ -78,4 +80,5 @@ public class GameLogic implements ActionListener {
         if (suggest != null)
             suggest.hide();
     }
+
 }

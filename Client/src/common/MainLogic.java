@@ -90,6 +90,8 @@ public class MainLogic implements ActionListener, MouseListener {
             enterLobbyPage();
         } else if (e.getSource().equals(main_page.getJoinButton())) {
             joinLobby();
+        } else if(e.getSource().equals(main_page.getDeleteAccountButton())){
+            deleteAccount();
         } else if (e.getSource().equals(main_page.getAddButton())) {
             canIBeYourFriend(main_page.getFriendToAdd().getText());
 //            setFriendToAdd();
@@ -214,4 +216,13 @@ public class MainLogic implements ActionListener, MouseListener {
     public void mouseEntered(MouseEvent e) {}
     @Override
     public void mouseExited(MouseEvent e) {}
+
+    private void deleteAccount(){
+        Client client = new Client("localhost");
+        String[] accountInformation = {"Logout", Account.getUsername()};
+        client.sendInformation(accountInformation);
+        ClientStart.cardLayout.show(ClientStart.rootPanel, "Logout");
+    }
+
+
 }
