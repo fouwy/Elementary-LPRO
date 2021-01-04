@@ -112,10 +112,11 @@ public class Lobby {
         private void processSuggestion(String suggestion) {
             String[] suggestionAttempt = suggestion.split(",");
             String result = game.makeSuggestion(suggestionAttempt, username, username); //need to send twice bc its recursive
+            System.out.println("result = " + result);
             if (result == null)
-                System.out.println("nobody has that card");
+                broadcast("SUGGNOCARD");
             else
-                System.out.println("result = " + result);
+                broadcast("SUGG"+result);
         }
 
         private void processAccusation(String accusation) {

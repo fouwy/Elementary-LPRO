@@ -39,21 +39,22 @@ public class Game {
         if (nextPlayerNumber == playerList.size())
             nextPlayerNumber = 0;
 
-        if (playerList.get(nextPlayerNumber).equals(username))
+        String player = playerList.get(nextPlayerNumber);
+        if (player.equals(username))
             return null;
 
         String[] nextPlayerCards = playerCards[nextPlayerNumber];
 
         for (String card : nextPlayerCards) {
             if (card.equals(suggestionAttempt[0]))
-                return card;
+                return player+","+card;
             if (card.equals(suggestionAttempt[1]))
-                return card;
+                return player+","+card;
             if (card.equals(suggestionAttempt[2]))
-                return card;
+                return player+","+card;
         }
 
-        return makeSuggestion(suggestionAttempt, username, playerList.get(nextPlayerNumber));
+        return makeSuggestion(suggestionAttempt, username, player);
     }
 
     public boolean isAccusationCorrect(String[] cards) {

@@ -91,11 +91,30 @@ public class LobbyLogic implements ActionListener {
                     case "WIN_":
                         handleWinStatus(response);
                         break;
+                    case "SUGG":
+                        handleSuggestion(response);
+                        break;
                     default:
                         showMessage(response);
                 }
             }
             System.out.println("no nextLine");
+        }
+
+        private void handleSuggestion(String response) {
+            String result = response.substring(4);
+            System.out.println("result = " + result);
+            if (result.equals("NOCARD"))
+                game.showNoOneHadCard();
+            else {
+                String[] status = result.split(",");
+                String whoHasTheCard = status[0];
+                String cardToShow = status[1];
+                if (whoHasTheCard.equals(Account.getUsername()))
+                    game.showMyCard(cardToShow);
+                else
+                    game.showOtherPlayerCard(whoHasTheCard);
+            }
         }
 
         private void handleWinStatus(String response) {
