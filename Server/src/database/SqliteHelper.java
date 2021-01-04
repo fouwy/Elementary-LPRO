@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class SqliteHelper {
     private static Connection connection = null;
-    private static String pathToDB = "C:/sqlite3/jdbc-test/accounts_friends.db";
+    private static String pathToDB = "C:\\Users\\Carolina Marques\\Desktop\\A4 S1\\LPROG\\bedrock-diggers\\accounts_friends.db";
 
     //Only have one connection for for everyone accessing
     public static synchronized Connection getConnection() throws SQLException {
