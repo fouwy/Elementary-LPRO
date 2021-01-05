@@ -12,6 +12,9 @@ public class Player {
     private int line;
     private int column;
     private int room;
+    private int movesLeft;
+    private boolean rolledTheDice;
+    private boolean noMoreMoves;
 
                             //   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
     final int[][] board ={      {2, 2, 2,-1, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2}, //0
@@ -41,7 +44,27 @@ public class Player {
         this.character = character;
         this.line = positionX;
         this.column = positionY;
+        movesLeft = 0;
         room = 0;
+        rolledTheDice = false;
+        noMoreMoves = false;
+    }
+
+    public void setMovesLeft(int movesLeft) {
+        this.movesLeft = movesLeft;
+        rolledTheDice = true;
+    }
+
+    public boolean AlreadyRolleddTheDice() {
+        return rolledTheDice;
+    }
+
+    public boolean hasNoMoreMoves() {
+        return noMoreMoves;
+    }
+
+    public int getRoom() {
+        return room;
     }
 
     private void setRoom() {
@@ -54,24 +77,29 @@ public class Player {
     }
 
     public void moveInDirection(char direction) {
-        switch (direction) {
-            case 'W':
-                line -= 1;
-                break;
-            case 'A':
-                column -= 1;
-                break;
-            case 'S':
-                line += 1;
-                break;
-            case 'D':
-                column += 1;
-                break;
+        if (movesLeft == 0)
+            noMoreMoves = true;
+        else{
+            switch (direction) {
+                case 'W':
+                    line -= 1;
+                    break;
+                case 'A':
+                    column -= 1;
+                    break;
+                case 'S':
+                    line += 1;
+                    break;
+                case 'D':
+                    column += 1;
+                    break;
+            }
+            setRoom();
+            movesLeft--;
+            System.out.println("room = " + room);
+    //        System.out.println("pos   = (" + line + ", " + column + ")");
+    //        System.out.println("board =  " + board[line][column]);
         }
-        setRoom();
-        System.out.println("room = " + room);
-//        System.out.println("pos   = (" + line + ", " + column + ")");
-//        System.out.println("board =  " + board[line][column]);
     }
 
     public boolean canMove(char direction) {
@@ -130,5 +158,13 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+    public void setRolledTheDice(boolean rolledTheDice) {
+        this.rolledTheDice = rolledTheDice;
+    }
+
+    public void setNoMoreMoves(boolean noMoreMoves) {
+        this.noMoreMoves = noMoreMoves;
     }
 }

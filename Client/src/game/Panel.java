@@ -74,11 +74,39 @@ public class Panel extends JPanel implements KeyListener {
     }
 
     public void setDiceValue(int total) {
+        myPlayer.setMovesLeft(total);
+    }
 
+    public boolean IAlreadyRolledTheDice() {
+        return myPlayer.AlreadyRolleddTheDice();
+    }
+
+    public void resetAttributes() {
+        myPlayer.setNoMoreMoves(false);
+        myPlayer.setRolledTheDice(false);
     }
 
     public String getCurrentRoom() {
-        return "place 1";
+        switch (myPlayer.getRoom()) {
+            case 1:
+                return "place 1";
+            case 2:
+                return "place 2";
+            case 3:
+                return "place 3";
+            case 4:
+                return "place 4";
+            case 5:
+                return "place 5";
+            case 6:
+                return "place 6";
+            case 7:
+                return "place 7";
+            case 8:
+                return "place 8";
+            default:
+                return "";
+       }
     }
 
     @Override
@@ -86,27 +114,33 @@ public class Panel extends JPanel implements KeyListener {
         int key = e.getKeyCode();
         char direction;
 
-        switch (key) {
-            case (KeyEvent.VK_W):
-                direction = 'W';
-                break;
+        if (!myPlayer.AlreadyRolleddTheDice())
+            JOptionPane.showMessageDialog(null, "You need to roll the dice before trying to move!");
+        else if (myPlayer.hasNoMoreMoves())
+            JOptionPane.showMessageDialog(null, "You have no more moves!\nTry to make a suggestion!");
+        else {
+            switch (key) {
+                case (KeyEvent.VK_W):
+                    direction = 'W';
+                    break;
 
-            case (KeyEvent.VK_S):
-                direction = 'S';
-                break;
+                case (KeyEvent.VK_S):
+                    direction = 'S';
+                    break;
 
-            case (KeyEvent.VK_A):
-                direction = 'A';
-                break;
+                case (KeyEvent.VK_A):
+                    direction = 'A';
+                    break;
 
-            case (KeyEvent.VK_D):
-                direction = 'D';
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + key);
-        }
-        if (myPlayer.canMove(direction)) {
-            lobbyLogic.tellServerToUpdatePosition("MOVE"+direction);
+                case (KeyEvent.VK_D):
+                    direction = 'D';
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + key);
+            }
+            if (myPlayer.canMove(direction)) {
+                lobbyLogic.tellServerToUpdatePosition("MOVE" + direction);
+            }
         }
     }
 

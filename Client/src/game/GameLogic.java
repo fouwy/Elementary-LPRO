@@ -10,55 +10,60 @@ public class GameLogic implements ActionListener {
     private final GamePage gamePage;
     private Suggestion accusationPanel, suggestionPanel;
     private Popup suggest, accuse, cluePopup;
-    private JButton suggestB, accuseB;
+    private JButton suggestB, accuseB, clueB;
     private String[] suggestionChosen, accusationChosen;
     private String currentRoom;
+    private boolean alreadyMadeASuggestion;
 
     public GameLogic(GamePage gamePage, Panel board) {
         this.board = board;
         this.gamePage = gamePage;
         gamePage.getPlayerLabel().setText(Account.getUsername());
+        alreadyMadeASuggestion = false;
         setup();
     }
 
     private void setup() {
         suggestB = new JButton("Suggest!");
         accuseB = new JButton("Accuse!");
+        clueB = new JButton("Thanks!");
         suggestB.addActionListener(this);
         accuseB.addActionListener(this);
+        clueB.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==gamePage.getSuggButton()) {
-            //TODO:Verificar se está dentro da sala onde faz a acusaçao
-            //podia mandar como argumento do Suggestion a sala onde está
-
             hidePreviousPopup();
-            if (checkIfPlayerInRoom()) {
-                board.requestFocus();
-                return;
-            }
+
             currentRoom = board.getCurrentRoom();
-            suggestionPanel = new Suggestion(currentRoom);
-            suggestionPanel.add(suggestB);
-            PopupFactory pf = new PopupFactory();
-            suggest = pf.getPopup(gamePage.$$$getRootComponent$$$(), suggestionPanel, 300, 500);
-            suggest.show();
+            if (alreadyMadeASuggestion)
+                gamePage.showMessage("You can only make one suggestion per turn");
+            else if (currentRoom.isBlank())
+                gamePage.showMessage("You need to be in a room to make a suggestion");
+            else {
+                alreadyMadeASuggestion = true;
+                suggestionPanel = new Suggestion(currentRoom);
+                suggestionPanel.add(suggestB);
+                PopupFactory pf = new PopupFactory();
+                suggest = pf.getPopup(gamePage.$$$getRootComponent$$$(), suggestionPanel, 300, 500);
+                suggest.show();
+            }
         }
         if (e.getSource()==gamePage.getAccuButton()) {
-
             hidePreviousPopup();
-            if (checkIfPlayerInRoom()) {
-                board.requestFocus();
-                return;
-            }
+
             currentRoom = board.getCurrentRoom();
-            accusationPanel = new Suggestion(currentRoom);
-            accusationPanel.add(accuseB);
-            PopupFactory pf = new PopupFactory();
-            accuse = pf.getPopup(gamePage.$$$getRootComponent$$$(), accusationPanel, 300, 500);
-            accuse.show();
+            if (currentRoom.isBlank())
+                gamePage.showMessage("You need to be in a room to make a accusation");
+            else {
+                accusationPanel = new Suggestion(currentRoom);
+                accusationPanel.add(accuseB);
+                PopupFactory pf = new PopupFactory();
+                accuse = pf.getPopup(gamePage.$$$getRootComponent$$$(), accusationPanel, 300, 500);
+                accuse.show();
+            }
         }
         if (e.getSource()==suggestB) {
             suggestionChosen = suggestionPanel.getSelectedSuggestion();
@@ -76,26 +81,28 @@ public class GameLogic implements ActionListener {
                     accusationChosen[0]+","+accusationChosen[1]+","+currentRoom);
         }
         if (e.getSource()==gamePage.getEndTurnButton()) {
+            alreadyMadeASuggestion = false;
+            board.resetAttributes();
             gamePage.getLobbyLogic().tellServertoEndTurn();
             board.requestFocus();
         }
         if (e.getSource()==gamePage.getRollButton()) {
-            int value1 = gamePage.getDice(1).rollDice();
-            int value2 = gamePage.getDice(2).rollDice();
-            if((value1==1)&&(value2==1)) {
-                watsonClue();
+            if (board.IAlreadyRolledTheDice())
+                gamePage.showMessage("You already rolled the dice!\nMove or End Turn.");
+            else {
+                int value1 = gamePage.getDice(1).rollDice();
+                int value2 = gamePage.getDice(2).rollDice();
+                if ((value1 == 1) && (value2 == 1)) {
+                    watsonClue();
+                }
+                board.requestFocus();
+                board.setDiceValue(value1 + value2);
             }
+        }
+        if (e.getSource()==clueB) {
+            cluePopup.hide();
             board.requestFocus();
-            board.setDiceValue(value1+value2);
         }
-    }
-
-    private boolean checkIfPlayerInRoom() {
-        if (board.getCurrentRoom() == null) {
-            gamePage.showMessage("You are not in a room");
-            return true;
-        }
-        return false;
     }
 
     private void hidePreviousPopup() {
@@ -103,9 +110,13 @@ public class GameLogic implements ActionListener {
             accuse.hide();
         if (suggest != null)
             suggest.hide();
+        if (cluePopup != null)
+            cluePopup.hide();
     }
     private void watsonClue() {
+        hidePreviousPopup();
         WatsonClue cluePanel = new WatsonClue();
+        cluePanel.add(clueB);
         PopupFactory cluePf = new PopupFactory();
         cluePopup = cluePf.getPopup(gamePage.$$$getRootComponent$$$(), cluePanel, 300, 500);
         cluePopup.show();

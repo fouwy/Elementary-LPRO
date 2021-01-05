@@ -38,7 +38,7 @@ public class DiceClue extends JFrame implements ActionListener {
         clue.setVisible(false);
         clue.setBackground(null);
 
-        ImageIcon ic_john = new ImageIcon(getClass().getResource("john.jpg"));
+        ImageIcon ic_john = new ImageIcon(getClass().getResource("img/john.jpg"));
         john = new JLabel();
         john.setIcon(ic_john);
        // john.setBounds(100,100,50,50);
