@@ -152,7 +152,7 @@ public class Panel extends JPanel implements KeyListener {
                 characterImage = "Client/src/img/char_black.png";
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + charNumber);
+                characterImage = "Client/src/img/nocolor.gif";
         }
         return characterImage;
     }

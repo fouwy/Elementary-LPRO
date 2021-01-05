@@ -1,7 +1,6 @@
 package game;
 
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
+import common.ClientStart;
 import java.util.Map;
 import javax.swing.*;
 
@@ -30,11 +29,11 @@ public class Game extends JFrame {
     }
 
     public void showWinStatus(String status, String player) {
-        System.out.println("status = " + status);
-        System.out.println("player = " + player);
         if (status.equals("WIN")) {
             JOptionPane.showMessageDialog(this, "GAME OVER\n"+player+" WON!");
-            this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+            ClientStart.frame.setVisible(true);
+            ClientStart.cardLayout.show(ClientStart.rootPanel, "Lobby");
+            this.dispose();
         } else if (status.equals("LOSE")) {
             JOptionPane.showMessageDialog(this, player+" lost the game.\nTheir accusation was wrong");
             gamePage.addLoser(player);
