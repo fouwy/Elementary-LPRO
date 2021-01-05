@@ -131,7 +131,7 @@ public class LobbyLogic implements ActionListener {
             if(playerName.equals(Account.getUsername())) {
                 //something
             } else {
-                game.movePlayer(playerName, direction);
+                game.movePlayer(playerName);
             }
 
         }

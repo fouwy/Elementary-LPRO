@@ -10,9 +10,8 @@ public class Player {
     private final Image character;
     private int positionX;
     private int positionY;
-    private Popup cluePopup;
     private Popup dicePopup;
-    private GamePage gamePage;
+    private DicePanel dicePanel;
 
     public Player(String name, Image character, int positionX, int positionY, int distance) {
         this.name = name;
@@ -38,22 +37,6 @@ public class Player {
     public String getName() {
         return name;
     }
-
-    public void moveAfterDiceRoll(){
-        int dice1value = diceRoll();
-        int dice2value = diceRoll();
-        char chosenDirection=' ';
-
-
-        if((dice2value==1)&&(dice1value==1)) {
-            watsonClue();
-        }
-
-        for(int i=dice1value+dice2value ; i>0 ; i--){
-            moveInDirection(chosenDirection);
-        }
-    }
-
 
 
     public void moveInDirection(char direction) {
@@ -94,13 +77,7 @@ public class Player {
         return rand.nextInt(6) + 1;
     }
 
-    private void watsonClue() {
-        WatsonClue cluePanel = new WatsonClue();
-        PopupFactory cluePf = new PopupFactory();
-        cluePopup = cluePf.getPopup(gamePage.$$$getRootComponent$$$(), cluePanel, 300, 500);
-        cluePopup.show();
 
-    }
 
 
 }

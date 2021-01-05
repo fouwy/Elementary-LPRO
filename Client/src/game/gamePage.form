@@ -72,7 +72,7 @@
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Roll the game.Dice"/>
+                  <text value="Roll the dice"/>
                 </properties>
               </component>
               <component id="e7542" class="javax.swing.JLabel" binding="playerLabel">
@@ -161,9 +161,9 @@
         <children>
           <component id="cda49" class="game.MyTable" binding="notepad" custom-create="true">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="5" fill="0" indent="0" use-parent-layout="false">
                 <minimum-size width="600" height="400"/>
-                <preferred-size width="600" height="400"/>
+                <preferred-size width="600" height="700"/>
               </grid>
             </constraints>
             <properties/>

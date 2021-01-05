@@ -23,8 +23,8 @@ public class Game extends JFrame {
         this.setVisible(true);
     }
 
-    public void movePlayer(String playerName, char direction) {
-        board.movePlayerCharacter(playerName, direction);
+    public void movePlayer(String playerName) {
+        board.movePlayerCharacter(playerName, gamePage.getDice(1).die.getValue(),gamePage.getDice(2).die.getValue());
     }
 
     public void nextTurn() {
