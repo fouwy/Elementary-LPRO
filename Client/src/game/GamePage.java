@@ -6,6 +6,7 @@ import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class GamePage {
@@ -42,18 +43,22 @@ public class GamePage {
     private JLabel player4;
     private JLabel player5;
     private JLabel player6;
-    private JPanel cardsPanel;
 
-    private final ImageIcon leftArrow;
-    JLabel[] playerLabels;
+    private final ImageIcon leftArrow, redx;
+    private final JLabel[] playerLabels;
+    private final ArrayList<String> playersInOrderList;
     private final int numberOfPlayers;
-    private int turnCount;
+    private final ArrayList<Integer> losers;
 
 
     public GamePage(Map<String, Integer> playerPicks, LobbyLogic lobbyLogic) {
         this.playerPicks = playerPicks;
         this.lobbyLogic = lobbyLogic;
         leftArrow = new ImageIcon((getClass().getResource("/img/left-arrow-20px.gif")));
+        redx = new ImageIcon(getClass().getResource("/img/redx.png"));
+        losers = new ArrayList<>();
+        playersInOrderList = new ArrayList<>();
+
         $$$setupUI$$$();
         JLabel[] cardLabels = {card1, card2, card3, card4};
         String[] cards = lobbyLogic.getCards();
@@ -67,9 +72,9 @@ public class GamePage {
         playerLabels = new JLabel[]{player1, player2, player3, player4, player5, player6};
 
         for (int i = 0; i < numberOfPlayers; i++) {
+            playersInOrderList.add(playersInOrder[i]);
             playerLabels[i].setText(playersInOrder[i]);
         }
-        turnCount = 0;
 
         GameLogic handler = new GameLogic(this, game);
         suggButton.addActionListener(handler);
@@ -90,13 +95,20 @@ public class GamePage {
         JOptionPane.showMessageDialog($$$getRootComponent$$$(), msg);
     }
 
-    public void nextTurn() {
-        playerLabels[turnCount].setIcon(null);
-        turnCount++;
-        if (turnCount == numberOfPlayers)
-            turnCount = 0;
+    public void addLoser(String player) {
+        for (int turn = 0; turn < numberOfPlayers; turn++) {
+            if (playersInOrderList.get(turn).equals(player))
+                losers.add(turn);
+        }
+    }
 
-        playerLabels[turnCount].setIcon(leftArrow);
+    public void nextTurn(String playerName) {
+        for (JLabel player : playerLabels)
+            player.setIcon(null);
+        for (Integer loser : losers)
+            playerLabels[loser].setIcon(redx);
+        int turn = playersInOrderList.indexOf(playerName);
+        playerLabels[turn].setIcon(leftArrow);
     }
 
     public Panel getBoard() {

@@ -1,25 +1,22 @@
 package game;
 
-import java.awt.*;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.*;
 
 public class Game extends JFrame {
 
-    Panel board;
-    GamePage gamePage;
+    private final Panel board;
+    private final GamePage gamePage;
 
     public Game(Map<String, Integer> playerPicks, LobbyLogic lobbyLogic) {
-        
-        //board = new Panel(playerPicks, 90, 90, 900, 720, lobbyLogic);	//1260, 720
+
         gamePage = new GamePage(playerPicks, lobbyLogic);
         board = gamePage.getBoard();
         this.add(gamePage.$$$getRootComponent$$$());
         this.setTitle("ELEMENTARY");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        this.setLayout(null);
         this.pack();
         this.setVisible(true);
     }
@@ -28,8 +25,8 @@ public class Game extends JFrame {
         board.movePlayerCharacter(playerName, direction);
     }
 
-    public void nextTurn() {
-        gamePage.nextTurn();
+    public void nextTurn(String playerName) {
+        gamePage.nextTurn(playerName);
     }
 
     public void showWinStatus(String status, String player) {
@@ -40,7 +37,7 @@ public class Game extends JFrame {
             this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         } else if (status.equals("LOSE")) {
             JOptionPane.showMessageDialog(this, player+" lost the game.\nTheir accusation was wrong");
-
+            gamePage.addLoser(player);
         }
     }
 

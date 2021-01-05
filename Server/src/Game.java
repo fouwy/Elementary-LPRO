@@ -10,15 +10,16 @@ public class Game {
 
     private String currentPlayer;
     private int currentNumber;
-    private int movesLeft;
     private String playerOrder;
     private String[] mysteryCards;
 
     private final String[][] playerCards;
     private final ArrayList<String> playerList;
+    private final ArrayList<String> losers;
 
     public Game(NavigableMap<String, Pair<Scanner, PrintWriter>> players) {
         this.players = players;
+        losers = new ArrayList<>();
         currentPlayer = players.firstKey();
         playerOrder = "ORDE";
         playerList = new ArrayList<>();
@@ -30,6 +31,9 @@ public class Game {
 
         playerCards = dealCards();
         System.out.println("mysteryCards = " + Arrays.toString(mysteryCards));
+    }
+    public void addLoser(String username) {
+        losers.add(username);
     }
 
     public String makeSuggestion(String[] suggestionAttempt, String username, String currentPlayer) {
@@ -77,7 +81,6 @@ public class Game {
         if (!player.equals(currentPlayer)) {
             throw new IllegalStateException("Not your turn");
         }
-        movesLeft--;
 
         return "MOVE"+direction+""+player;
     }
@@ -98,6 +101,9 @@ public class Game {
         } else {
             currentPlayer = players.firstKey();
             currentNumber = 0;
+        }
+        if (losers.contains(currentPlayer)) {
+            nextPlayer();
         }
     }
 
@@ -153,8 +159,7 @@ public class Game {
     }
 
     private void shiftCards(String[] cards, int init, int end){
-        for(int i=init; i<end-1; i++){
-            cards[i] = cards[i+1];
-        }
+        for(int i=init; i<end-1; i++)
+            cards[i] = cards[i + 1];
     }
 }

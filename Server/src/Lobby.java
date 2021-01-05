@@ -124,8 +124,10 @@ public class Lobby {
             System.out.println("accusationAttempt = " + Arrays.toString(accusationAttempt));
             if (game.isAccusationCorrect(accusationAttempt))
                 broadcast("WIN_WIN,"+username);
-            else
-                broadcast("WIN_LOSE,"+username);
+            else {
+                game.addLoser(username);
+                broadcast("WIN_LOSE," + username);
+            }
         }
 
         private void processEndTurn() {

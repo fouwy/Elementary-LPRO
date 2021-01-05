@@ -138,11 +138,8 @@ public class LobbyLogic implements ActionListener {
         private void handleTurn(String response) {
             String playerName = response.substring(4);
 
-            if(playerName.equals(Account.getUsername())) {
-            }
-
             System.out.println("It's "+playerName+"'s turn.");
-            game.nextTurn();
+            game.nextTurn(playerName);
         }
 
         private void handleCharacterPick(String response) throws Exception {
