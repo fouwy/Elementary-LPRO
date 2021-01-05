@@ -158,12 +158,7 @@ public class LobbyLogic implements ActionListener {
             char direction = response.charAt(4);
             String playerName = response.substring(5);
 
-            if(playerName.equals(Account.getUsername())) {
-                //something
-            } else {
-                game.movePlayer(playerName, direction);
-            }
-
+            game.movePlayer(playerName, direction);
         }
 
         private String[] convertToStringArray(String charsTaken) {

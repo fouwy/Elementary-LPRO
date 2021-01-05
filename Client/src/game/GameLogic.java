@@ -9,7 +9,7 @@ public class GameLogic implements ActionListener {
     private final Panel board;
     private final GamePage gamePage;
     private Suggestion accusationPanel, suggestionPanel;
-    private Popup suggest, accuse;
+    private Popup suggest, accuse, cluePopup;
     private JButton suggestB, accuseB;
     private String[] suggestionChosen, accusationChosen;
     private String currentRoom;
@@ -82,11 +82,11 @@ public class GameLogic implements ActionListener {
         if (e.getSource()==gamePage.getRollButton()) {
             int value1 = gamePage.getDice(1).rollDice();
             int value2 = gamePage.getDice(2).rollDice();
-
-            //TODO: Send to Player the sum of these two values
-            board.setDiceRoll(value1+value2);
-
+            if((value1==1)&&(value2==1)) {
+                watsonClue();
+            }
             board.requestFocus();
+            board.setDiceValue(value1+value2);
         }
     }
 
@@ -104,5 +104,10 @@ public class GameLogic implements ActionListener {
         if (suggest != null)
             suggest.hide();
     }
-
+    private void watsonClue() {
+        WatsonClue cluePanel = new WatsonClue();
+        PopupFactory cluePf = new PopupFactory();
+        cluePopup = cluePf.getPopup(gamePage.$$$getRootComponent$$$(), cluePanel, 300, 500);
+        cluePopup.show();
+    }
 }

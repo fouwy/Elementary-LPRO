@@ -147,14 +147,11 @@ public class Lobby {
                String message = game.move(direction, username);
                broadcast(message);
             } catch (IllegalStateException e) {
-                output.println("MESG" + e.getMessage()); //MESG-MESSAGE
+                output.println("MESG" + e.getMessage());
             }
         }
 
         private void startGame() {
-            //TODO:-Start game logic in server
-            //     -Kill all player threads in this Lobby class
-            //     -Tell players to go to game panel
             broadcast("GAME");
             game = new Game(players);
         }
@@ -173,7 +170,6 @@ public class Lobby {
 
 
     private void broadcast(String message) {
-        //System.out.println("broadcast: "+message);
         for (Pair<Scanner, PrintWriter> writer : players.values()) {
             writer.getValue1().println(message);
         }

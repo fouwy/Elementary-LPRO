@@ -85,7 +85,7 @@ public class GamePage {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-        game = new Panel(playerPicks, 90, 90, 900, 720, lobbyLogic);
+        game = new Panel(playerPicks, lobbyLogic);
         notepad = new MyTable();
         dice = new DicePanel();
         dice2 = new DicePanel();
