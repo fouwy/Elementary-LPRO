@@ -44,7 +44,7 @@ import javax.swing.table.DefaultTableModel;
             model.addColumn("Eliminated");
 
             //THE ROW
-            for(int i=0;i<25;i++)
+            for(int i=0;i<24;i++)
             {
                 model.addRow(new Object[0]);
                 model.setValueAt(false,i,1);
@@ -74,11 +74,10 @@ import javax.swing.table.DefaultTableModel;
             model.setValueAt("Place 6", 21, 0);
             model.setValueAt("Place 7", 22, 0);
             model.setValueAt("Place 8", 23, 0);
-            model.setValueAt("Place 8", 24, 0);
 
 
-            scroll.setBounds(380,0,200,500);
-            scroll.setBounds(380,0,200,500);
+            scroll.setBounds(380,0,200,407);
+            scroll.setBounds(380,0,200,407);
             this.add(scroll);
         }
 

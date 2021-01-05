@@ -162,8 +162,8 @@
           <component id="cda49" class="game.MyTable" binding="notepad" custom-create="true">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="5" fill="0" indent="0" use-parent-layout="false">
-                <minimum-size width="600" height="400"/>
-                <preferred-size width="600" height="700"/>
+                <minimum-size width="600" height="500"/>
+                <preferred-size width="600" height="500"/>
               </grid>
             </constraints>
             <properties/>
@@ -252,8 +252,8 @@
       <grid id="a93d4" binding="gamePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="900" height="720"/>
-            <maximum-size width="900" height="720"/>
+            <preferred-size width="1000" height="720"/>
+            <maximum-size width="1000" height="720"/>
           </grid>
         </constraints>
         <properties/>
