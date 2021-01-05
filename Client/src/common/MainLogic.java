@@ -7,8 +7,12 @@ import game.LobbyPage;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class MainLogic implements ActionListener, MouseListener {
 
@@ -113,12 +117,20 @@ public class MainLogic implements ActionListener, MouseListener {
     }
 
     private void joinLobby() {
-        String port = main_page.getPortNumberField().getText();
-
-        if (port != null) {
-            ClientStart.rootPanel.add(new LobbyPage(Integer.parseInt(port)).$$$getRootComponent$$$(), "Lobby");
-            ClientStart.cardLayout.show(ClientStart.rootPanel, "Lobby");
+        int port = Integer.parseInt(main_page.getPortNumberField().getText());
+        Scanner in;
+        PrintWriter out;
+        try {
+            Socket socket = new Socket(ClientStart.serverIP, port);
+            in = new Scanner(socket.getInputStream());
+            out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException e) {
+            main_page.showMessage("Could not join this lobby.\nTry again with a valid code.");
+            return;
         }
+        Account.setLobbyCode(port);
+        ClientStart.rootPanel.add(new LobbyPage(in, out).$$$getRootComponent$$$(), "Lobby");
+        ClientStart.cardLayout.show(ClientStart.rootPanel, "Lobby");
     }
 
     private void enterLoginPage(){
@@ -126,7 +138,18 @@ public class MainLogic implements ActionListener, MouseListener {
     }
 
     private void enterLobbyPage(){
-        ClientStart.rootPanel.add(new LobbyPage(tellServerToCreateLobby()).$$$getRootComponent$$$(), "Lobby");
+        int port = tellServerToCreateLobby();
+        Scanner in = null;
+        PrintWriter out = null;
+        try {
+            Socket socket = new Socket(ClientStart.serverIP, port);
+            in = new Scanner(socket.getInputStream());
+            out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            main_page.showMessage("Could not create this lobby.\nTry again later (or click run on ServerStart).");
+        }
+        ClientStart.rootPanel.add(new LobbyPage(in, out).$$$getRootComponent$$$(), "Lobby");
         ClientStart.cardLayout.show(ClientStart.rootPanel, "Lobby");
     }
 
@@ -135,7 +158,8 @@ public class MainLogic implements ActionListener, MouseListener {
         String[] lobbyInfo = {"Host", Account.getUsername()};
         client.sendInformation(lobbyInfo);
         int port_number = client.getPort_number();
-        System.out.println("Port number is " + port_number);
+        Account.setLobbyCode(port_number);
+        System.out.println("Lobby code is " + port_number);
         return port_number;
     }
 

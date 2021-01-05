@@ -20,17 +20,12 @@ public class LobbyLogic implements ActionListener {
     private final Map<String, Integer> playerPicks;
     private Game game;
 
-    public LobbyLogic(LobbyPage lobby_page, int port_number) {
+    public LobbyLogic(LobbyPage lobby_page, Scanner in, PrintWriter out) {
         this.lobby_page = lobby_page;
-        playerPicks = new HashMap<>();
+        this.in = in;
+        this.out = out;
 
-        try {
-            Socket socket = new Socket(ClientStart.serverIP, port_number);
-            in = new Scanner(socket.getInputStream());
-            out = new PrintWriter(socket.getOutputStream(), true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        playerPicks = new HashMap<>();
         Handler handler = new Handler();
         Thread thread = new Thread(handler);
         thread.start();
@@ -190,26 +185,21 @@ public class LobbyLogic implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(lobby_page.getCharacterButton(1))){
             askServerForChar(1);
-        }else if(e.getSource().equals(lobby_page.getCharacterButton(2))){
+        } else if(e.getSource().equals(lobby_page.getCharacterButton(2))){
             askServerForChar(2);
-        }else if(e.getSource().equals(lobby_page.getCharacterButton(3))){
+        } else if(e.getSource().equals(lobby_page.getCharacterButton(3))){
             askServerForChar(3);
-        }else if(e.getSource().equals(lobby_page.getCharacterButton(4))){
+        } else if(e.getSource().equals(lobby_page.getCharacterButton(4))){
             askServerForChar(4);
-        }else if(e.getSource().equals(lobby_page.getCharacterButton(5))){
+        } else if(e.getSource().equals(lobby_page.getCharacterButton(5))){
             askServerForChar(5);
-        }else if(e.getSource().equals(lobby_page.getCharacterButton(6))){
+        } else if(e.getSource().equals(lobby_page.getCharacterButton(6))){
             askServerForChar(6);
-        }
-        //LEAVE GAME
-        else if(e.getSource().equals(lobby_page.getLeaveGameButton())){
+        } else if(e.getSource().equals(lobby_page.getLeaveGameButton())){
             leaveGame();
-        }
-        else if(e.getSource().equals(lobby_page.getStartButton())) {
+        } else if(e.getSource().equals(lobby_page.getStartButton())) {
             askServerToStartGame();
         }
-
-        //TODO: OPTIONS, START GAME, LEAVE GAME
     }
 
     public void sendSuggestionToServer(String suggestionChosen) {
@@ -237,8 +227,7 @@ public class LobbyLogic implements ActionListener {
     }
 
     private void leaveGame() {
-        out.println("QUIT");
-        //Leaves Lobby
+        lobby_page.showMessage("You can't leave.");
     }
 
     private void chooseCharacter(int characterNumber, String playerName) throws Exception {

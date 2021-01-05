@@ -6,6 +6,7 @@ public class Account {
     private static char[] password;
     private static int myCharacter;
     private static String friendUsername;
+    private static int currentLobbyCode;
 
     public Account(String username, char[] password) {
         Account.username = username;
@@ -28,5 +29,13 @@ public class Account {
 
     public static int getCharNumber() {
         return myCharacter;
+    }
+
+    public static void setLobbyCode(int port_number) {
+        currentLobbyCode = port_number;
+    }
+
+    public static int getCurrentLobbyCode() {
+        return currentLobbyCode;
     }
 }

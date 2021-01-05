@@ -74,6 +74,9 @@ public class Lobby {
                 String type = command.substring(0, 4);
                 System.out.println(command);
                 switch (type) {
+                    case "QUIT":
+
+                        break;
                     case "CHAR":
                         int characterNumber = Integer.parseInt(String.valueOf(command.charAt(4)));
                         if (charactersTaken[characterNumber].isBlank()) {

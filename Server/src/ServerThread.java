@@ -5,6 +5,7 @@ import java.net.*;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class ServerThread implements Runnable{
 
@@ -44,7 +45,8 @@ public class ServerThread implements Runnable{
         Database database = connectToDatabase();
 
         if (type.equals("Host")) {
-            int port_number = 6666;     //this is just for test, later can generate port numbers random
+            Random randomPort = new Random();
+            int port_number = 4000 + randomPort.nextInt(3000);
             output.writeObject(port_number);
             output.flush();
             new Lobby(accountInfo[1], port_number);
