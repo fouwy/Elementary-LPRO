@@ -3,8 +3,6 @@ import org.javatuples.Pair;
 import java.io.PrintWriter;
 import java.util.*;
 
-//TODO: Can only be one object of this class and the multiple player threads like in lobby
-
 public class Game {
     private final NavigableMap<String, Pair<Scanner, PrintWriter>> players;
 
@@ -81,7 +79,6 @@ public class Game {
     }
 
     public synchronized String endTurn(String player) {
-        //TODO:Refactor this
         if (!player.equals(currentPlayer))
             throw new IllegalStateException("Not your turn");
 

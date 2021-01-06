@@ -141,6 +141,10 @@ public class ServerThread implements Runnable{
                             outputMessage = -1;
                         }
                         break;
+                    case "Logout":
+                        String userToLogout = accountInfo[1];
+                        ServerStart.userLoggedOut(userToLogout);
+                        break;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

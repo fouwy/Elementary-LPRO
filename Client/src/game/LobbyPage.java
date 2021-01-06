@@ -355,6 +355,5 @@ public class LobbyPage {
 
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
 }

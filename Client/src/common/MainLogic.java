@@ -134,6 +134,9 @@ public class MainLogic implements ActionListener, MouseListener {
     }
 
     private void enterLoginPage(){
+        Client client = new Client(ClientStart.serverIP);
+        String[] accountInformation = {"Logout", Account.getUsername()};
+        client.sendInformation(accountInformation);
         ClientStart.cardLayout.show(ClientStart.rootPanel, "Login");
     }
 
