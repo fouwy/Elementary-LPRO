@@ -5,7 +5,7 @@ import game.Account;
 
 public class CommsFromServerThread implements Runnable{
 
-    MainLogic communicator;
+    private final MainLogic communicator;
     public CommsFromServerThread(MainLogic communicator) {
         this.communicator = communicator;
     }

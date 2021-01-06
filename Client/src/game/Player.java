@@ -96,9 +96,26 @@ public class Player {
             }
             setRoom();
             movesLeft--;
+            if (movesLeft == 0)
+                noMoreMoves = true;
             System.out.println("room = " + room);
-    //        System.out.println("pos   = (" + line + ", " + column + ")");
-    //        System.out.println("board =  " + board[line][column]);
+        }
+    }
+
+    public void moveOtherCharacters(char direction) {
+        switch (direction) {
+            case 'W':
+                line -= 1;
+                break;
+            case 'A':
+                column -= 1;
+                break;
+            case 'S':
+                line += 1;
+                break;
+            case 'D':
+                column += 1;
+                break;
         }
     }
 

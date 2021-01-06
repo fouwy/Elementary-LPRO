@@ -2,9 +2,12 @@ package game;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Panel extends JPanel implements KeyListener {
@@ -13,18 +16,22 @@ public class Panel extends JPanel implements KeyListener {
     private static final int startingColumn = 9;
     private static final int distance = 36;
 
-    private final Image backgroundImage;
+    private Image backgroundImage;
     private Player myPlayer;
     private final Map<String, Integer> playerPicks;
     private final List<Player> players;
     private final LobbyLogic lobbyLogic;
 
-    Panel(Map<String, Integer> playerPicks, LobbyLogic lobbyLogic){
+    Panel(Map<String, Integer> playerPicks, LobbyLogic lobbyLogic) {
         this.playerPicks = playerPicks;
         this.lobbyLogic = lobbyLogic;
         players = new ArrayList<>();
-
-        backgroundImage = new ImageIcon("Client/src/img/map4.png").getImage();
+        backgroundImage = null;
+        try {
+            backgroundImage = ImageIO.read(getClass().getResource("/img/map4.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.setFocusable(true);
         addKeyListener(this);
 
@@ -34,18 +41,22 @@ public class Panel extends JPanel implements KeyListener {
     }
 
     public void movePlayerCharacter(String playerName, char direction) {
-        for (Player player : players) {
-            if (player.getName().equals(playerName)) {
-                player.moveInDirection(direction);
-                repaint();
+        if (playerName.equals(Account.getUsername()))
+            myPlayer.moveInDirection(direction);
+        else {
+            for (Player player : players) {
+                if (player.getName().equals(playerName)) {
+                    player.moveOtherCharacters(direction);
+                }
             }
         }
+        repaint();
     }
 
     private void setOtherPlayersCharacter() {
         for (Map.Entry<String, Integer> entry: playerPicks.entrySet()) {
             String imagePath = getImagePath(entry.getValue());
-            Image characterImg = new ImageIcon(imagePath).getImage();
+            Image characterImg = new ImageIcon(getClass().getResource(imagePath)).getImage();
             Player player = new Player (entry.getKey(), characterImg,
                     startingLine, startingColumn);
             players.add(player);
@@ -57,7 +68,7 @@ public class Panel extends JPanel implements KeyListener {
         String characterImage;
 
         characterImage = getImagePath(charNumber);
-        Image characterImg = new ImageIcon(characterImage).getImage();
+        Image characterImg = new ImageIcon(getClass().getResource(characterImage)).getImage();
         myPlayer = new Player(Account.getUsername(), characterImg, startingLine, startingColumn);
         players.add(myPlayer);
     }
@@ -156,25 +167,25 @@ public class Panel extends JPanel implements KeyListener {
         String characterImage;
         switch (charNumber) {
             case 1:
-                characterImage = "Client/src/img/char/char_yellow.png";
+                characterImage = "/img/char/char_yellow.png";
                 break;
             case 2:
-                characterImage = "Client/src/img/char/char_blue.png";
+                characterImage = "/img/char/char_blue.png";
                 break;
             case 3:
-                characterImage = "Client/src/img/char/char_red.png";
+                characterImage = "/img/char/char_red.png";
                 break;
             case 4:
-                characterImage = "Client/src/img/char/char_purple.png";
+                characterImage = "/img/char/char_purple.png";
                 break;
             case 5:
-                characterImage = "Client/src/img/char/char_green.png";
+                characterImage = "/img/char/char_green.png";
                 break;
             case 6:
-                characterImage = "Client/src/img/char/char_black.png";
+                characterImage = "/img/char/char_black.png";
                 break;
             default:
-                characterImage = "Client/src/img/char/nocolor.gif";
+                characterImage = "/img/char/nocolor.gif";
         }
         return characterImage;
     }
