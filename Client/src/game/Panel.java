@@ -156,25 +156,25 @@ public class Panel extends JPanel implements KeyListener {
         String characterImage;
         switch (charNumber) {
             case 1:
-                characterImage = "Client/src/img/char_yellow.png";
+                characterImage = "Client/src/img/char/char_yellow.png";
                 break;
             case 2:
-                characterImage = "Client/src/img/char_blue.png";
+                characterImage = "Client/src/img/char/char_blue.png";
                 break;
             case 3:
-                characterImage = "Client/src/img/char_red.png";
+                characterImage = "Client/src/img/char/char_red.png";
                 break;
             case 4:
-                characterImage = "Client/src/img/char_purple.png";
+                characterImage = "Client/src/img/char/char_purple.png";
                 break;
             case 5:
-                characterImage = "Client/src/img/char_green.png";
+                characterImage = "Client/src/img/char/char_green.png";
                 break;
             case 6:
-                characterImage = "Client/src/img/char_black.png";
+                characterImage = "Client/src/img/char/char_black.png";
                 break;
             default:
-                characterImage = "Client/src/img/nocolor.gif";
+                characterImage = "Client/src/img/char/nocolor.gif";
         }
         return characterImage;
     }

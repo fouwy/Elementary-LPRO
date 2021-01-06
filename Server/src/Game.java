@@ -37,7 +37,6 @@ public class Game {
     }
 
     public String makeSuggestion(String[] suggestionAttempt, String username, String currentPlayer) {
-        //TODO: Check if it is their turn
         int nextPlayerNumber = playerList.indexOf(currentPlayer) + 1;
 
         if (nextPlayerNumber == playerList.size())
@@ -62,10 +61,6 @@ public class Game {
     }
 
     public boolean isAccusationCorrect(String[] cards) {
-        //TODO:check if it is their turn, could do this in client tbh
-        //TODO:delete this line, just for testing
-        mysteryCards[2] = "place 1";
-
         return Arrays.equals(cards, mysteryCards);
     }
 

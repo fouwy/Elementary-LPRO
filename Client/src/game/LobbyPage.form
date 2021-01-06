@@ -112,7 +112,7 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
-                  <icon value="img/char_yellow.png"/>
+                  <icon value="img/char/char_yellow.png"/>
                   <text value="Character 1"/>
                 </properties>
               </component>
@@ -122,7 +122,7 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
-                  <icon value="img/char_red.png"/>
+                  <icon value="img/char/char_red.png"/>
                   <text value="Character 3"/>
                 </properties>
               </component>
@@ -132,7 +132,7 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
-                  <icon value="img/char_blue.png"/>
+                  <icon value="img/char/char_blue.png"/>
                   <text value="Character 2"/>
                 </properties>
               </component>
@@ -142,7 +142,7 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
-                  <icon value="img/char_purple.png"/>
+                  <icon value="img/char/char_purple.png"/>
                   <text value="Character 4"/>
                 </properties>
               </component>
@@ -152,7 +152,7 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
-                  <icon value="img/char_green.png"/>
+                  <icon value="img/char/char_green.png"/>
                   <text value="Character 5"/>
                 </properties>
               </component>
@@ -162,7 +162,7 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
-                  <icon value="img/char_black.png"/>
+                  <icon value="img/char/char_black.png"/>
                   <text value="Character 6"/>
                 </properties>
               </component>
