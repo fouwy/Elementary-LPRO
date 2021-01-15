@@ -7,6 +7,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This class handles all the communication with the clients,
+ * except the Lobby and Game, using a Socket and ObjectOutputStream
+ * and ObjectInputStream.
+ */
 public class ServerThread implements Runnable{
 
     private final Socket connection;
@@ -14,6 +19,10 @@ public class ServerThread implements Runnable{
     private ObjectInputStream input;
     private int outputMessage = -1;
 
+    /**
+     * Creates an unconnected ServerThread.
+     * @param socket The socket used to connect to the client.
+     */
     public ServerThread(Socket socket) {
         this.connection = socket;
     }
@@ -23,6 +32,42 @@ public class ServerThread implements Runnable{
         startRunning();
     }
 
+    /**
+     * Makes the connection to the client and keeps it open until
+     * it is closed by the client.
+     * The behavior of this method depends on the "type" or the
+     * first String from the String array received in the input.
+     * <p>
+     * For the following "types" this is the behavior:<p>
+     * <b>Host</b><p>
+     * -Creates a new Lobby hosted on a random port number between
+     * 4000 and 6999 and outputs the port chosen.
+     * <b>Note:</b> If having connectivity problems
+     * check if this range of ports are open on the router.
+     * <br><br>
+     * <b>FriendsList</b><p>
+     * -Query database for friends list and output the list of friends.
+     * <br><br>
+     * <b>Comms</b><p>
+     * -Adds a reference of the output connection and the client's
+     * username to a HashMap {@code userComms} in {@link ServerStart}
+     * to be used to communicate between players when they are NOT in
+     * a game or lobby together.
+     * <br><br>
+     * <b>askFriendship</b><p>
+     * -Sends a friend request to the username indicated at index "1" of
+     * the String array received in input, using the the HashMap {@code userComms}
+     * to know where to send the message. <b>Note:</b> The Client will
+     * receive this message in the "type" Comms.
+     * <br><br>
+     * <b>Register, Login, AddFriend, RemoveFriend, ChangePassword,
+     * DeleteAccount, Logout</b><p>
+     * -All these types talk to database to try to perform their
+     * respective tasks indicated by their names and output the answer.
+     * <p>
+     * If Login is succesfull the username will be saved in a HashSet of
+     * logged in users in {@link ServerStart}.
+     */
     public void startRunning() {
         try {
             setupStreams();
