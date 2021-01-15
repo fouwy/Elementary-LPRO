@@ -217,7 +217,7 @@ public class MainLogic implements ActionListener, MouseListener {
         char[] pwd = main_page.getNewPassword().getPassword();
         String[] accountInformation = {type, username, String.valueOf(pwd)};
 
-        if (!isÑewPasswordAcceptable()) {
+        if (!isNewPasswordAcceptable()) {
             main_page.setNewPasswordTextFieldEmpty();
             main_page.setChangeButtonEnabled(true);
         } else {
@@ -237,7 +237,7 @@ public class MainLogic implements ActionListener, MouseListener {
         }
     }
 
-    private boolean isÑewPasswordAcceptable() {
+    private boolean isNewPasswordAcceptable() {
         char[] pwd = main_page.getNewPassword().getPassword();
 
         int minPwdSize = 3;
