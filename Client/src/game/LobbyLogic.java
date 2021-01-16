@@ -10,6 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * This class handles the communication with the server
+ * for the Lobby and Game using a Socket and a Scanner
+ * as input and a PrintWriter as output.
+ */
 public class LobbyLogic implements ActionListener {
     private final LobbyPage lobby_page;
     Scanner in;
@@ -20,6 +25,12 @@ public class LobbyLogic implements ActionListener {
     private final Map<String, Integer> playerPicks;
     private Game game;
 
+    /**
+     * Creates a handler for the Lobby and Game pages.
+     * @param lobby_page the object that ...
+     * @param in the input to be used to receive messages from the server
+     * @param out the output to be used to send messages the server
+     */
     public LobbyLogic(LobbyPage lobby_page, Scanner in, PrintWriter out) {
         this.lobby_page = lobby_page;
         this.in = in;
@@ -42,6 +53,68 @@ public class LobbyLogic implements ActionListener {
             }
         }
 
+        /**
+         * Starts the communication with the server and handles the
+         * incoming messages while the connection is open.
+         * <br>
+         * The incoming messages (or response) from the server
+         * are a String in the format where the first 4 characters
+         * determine the type of message and the rest depend on the type.
+         * If the type is not recognized, the incoming message is displayed
+         * in the lobby page.
+         * <br><br>
+         * The recognized <b>types</b> and the respective format of the messages
+         * are the following:<br>
+         * <br><b>CHAR</b><br>
+         *     Used to show characters that other players picked.<br>
+         *     Format: CHAR(character number)(username)<br>
+         *     Example: "CHAR5nickname"
+         *     <br>
+         * <br><b>GAME</b><br>
+         *     Used to start the game.<br>
+         *     Format: GAME
+         *     <br>
+         * <br><b>MOVE</b><br>
+         *     Used to update the position of this and the other
+         *     player characters.<br>
+         *     Format: MOVE(direction)(username)<br>
+         *     Example: "MOVEDnickname"
+         *     <br>
+         * <br><b>MESG</b><br>
+         *     Used to show a message from the server.<br>
+         *     Format: MESG(message)<br>
+         *     Example: "MESGNot your turn"
+         *     <br>
+         * <br><b>ENDT</b><br>
+         *     Used to move on to next turn.<br>
+         *     Format: ENDT(next player)<br>
+         *     Example: "ENDTnickname"
+         *     <br>
+         * <br><b>CARD</b><br>
+         *     Used to get the card assigned to this player.<br>
+         *     Format: CARD(card names)<br>
+         *     Example: "CARD[place3, weapon1, place5]"
+         *     <br>
+         * <br><b>ORDE</b><br>
+         *     Used at the start of the game to get the player order.<br>
+         *     Format: ORDE(username1),(username2),(username3)...<br>
+         *     Example: "ORDEnickname1,nick2,nick3"
+         *     <br>
+         * <br><b>WIN_</b><br>
+         *     Used to know if some player won or lost the game.<br>
+         *     Format: WIN_(result),(username)<br>
+         *     Example: "WIN_LOSE,nick" or "WIN_WIN,nick2"
+         *     <br>
+         * <br><b>SUGG</b><br>
+         *     Used to know if someone showed a card, and if
+         *     it is this player who showed the card also what
+         *     card they showed.<br>
+         *     If no one showed a card, will receive "SUGGNOCARD"<br>
+         *     Format: SUGG(player who has the card)(card)<br>
+         *     Example: "SUGGnick2,place3"
+         * @throws Exception when it can no longer communicate
+         * with the server.
+         */
         private void startCommunication() throws Exception {
             out.println(Account.getUsername());
             String charsTaken = in.nextLine();
@@ -169,9 +242,21 @@ public class LobbyLogic implements ActionListener {
         }
     }
 
+    /**
+     * Returns the players ordered by their turns.
+     * @return a array of usernames of the players
+     * in the game in order of turns.
+     */
     public String[] getPlayersInOrder() {
         return playersInOrder;
     }
+
+    /**
+     * Returns the cards attributed by the server to
+     * this player.
+     * @return a array of strings with the name of
+     * the cards.
+     */
     public String[] getCards() {
         return cardArray;
     }
@@ -197,26 +282,73 @@ public class LobbyLogic implements ActionListener {
         }
     }
 
+    /**
+     * Sends a suggestion to the server to check if
+     * any players have any of the cards suggested.
+     * <br>
+     * A suggestion is composed of 3 cards: One person,
+     * one weapon and one room card.
+     * @param suggestionChosen the suggestion in the
+     *        format (person),(weapon),(room)
+     */
     public void sendSuggestionToServer(String suggestionChosen) {
         out.println("SUGG"+suggestionChosen);
     }
 
+    /**
+     * Sends a accusation to the server to check if
+     * they match the mystery cards.
+     * <br>
+     * A accusation is composed of 3 cards: One person,
+     * one weapon and one room card.
+     * @param accusationChosen the accusation in the
+     *        format (person),(weapon),(room)
+     */
     public void sendAccusationToServer(String accusationChosen) {
         out.println("ACCU"+accusationChosen);
     }
 
+    /**
+     * Tell the server to update the position of this player
+     * to all the other players in the game. <b>NOTE:</b> If
+     * it is not this player's turn, the position will not be
+     * updated.
+     * <br>
+     * The message parameter is in the format MOVE(direction).
+     * This "direction" is represented by a {@code char}: W is up,
+     * A is left, D is right and S is down.
+     * <br>
+     * For example, if this player moves up, the message parameter
+     * should be: "MOVEW"
+     * @param message String in the format: MOVE(direction).
+     */
     public void tellServerToUpdatePosition(String message) {
         out.println(message);
     }
 
+    /**
+     * Tell the server to end this player's turn.
+     * If it is not their turn, the server will
+     * do nothing and send a message to this player
+     * warning them that it is not their turn.
+     */
     public void tellServertoEndTurn() {
         out.println("ENDT");
     }
 
+    /**
+     * Tell the server to start the game.
+     */
     private void askServerToStartGame() {
         out.println("STRT");
     }
 
+    /**
+     * Tells the server the character this player
+     * picked.
+     * @param charNumber the number corresponding
+     *                   to the picked character.
+     */
     private void askServerForChar(int charNumber) {
         out.println("CHAR"+charNumber);
     }
