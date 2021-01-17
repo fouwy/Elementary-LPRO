@@ -4,7 +4,12 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-//TODO: Change this class name
+/**
+ * This class handles the communication with the clients
+ * for the Lobby and Game, having a thread for each connected
+ * client and using a Socket and a Scanner as input and a
+ * PrintWriter as output.
+ */
 public class Lobby {
 
     private final int port;
@@ -14,6 +19,13 @@ public class Lobby {
     private static final NavigableMap<String, Pair<Scanner, PrintWriter>> players =  new TreeMap<>();
     private Game game;
 
+    /**
+     * Creates a new lobby on the specified port and accepts
+     * players into it until a maximum of 6 players.
+     * @param host the username of the host of the lobby.
+     * @param port the port this lobby is hosted on.
+     * @throws IOException if error occurs when connecting to lobby.
+     */
     public Lobby(String host, int port) throws IOException {
         this.host = host;
         this.port = port;
@@ -34,6 +46,10 @@ public class Lobby {
         }
     }
 
+    /**
+     * This class represents each player in a lobby which is
+     * identified by their username.
+     */
     class Player implements Runnable {
         private String username;
         private final Socket socket;
@@ -60,6 +76,11 @@ public class Lobby {
             }
         }
 
+        /**
+         * Handles the messages received according to the type of
+         * message. The type is specified in the first 4 characters
+         * of the message.
+         */
         private void processCommands() {
             username = input.nextLine();
             if (username == null)
@@ -112,6 +133,12 @@ public class Lobby {
             }
         }
 
+        /**
+         * Processes the suggestion and sends a response to all
+         * clients depending on the result.
+         * @param suggestion a string with the components of the
+         *                  suggestion separated by commas.
+         */
         private void processSuggestion(String suggestion) {
             String[] suggestionAttempt = suggestion.split(",");
             String result = game.makeSuggestion(suggestionAttempt, username, username); //need to send twice bc its recursive
@@ -122,6 +149,12 @@ public class Lobby {
                 broadcast("SUGG"+result);
         }
 
+        /**
+         * Processes the accusation and sends a response to all
+         * clients depending on the result.
+         * @param accusation a string with the components of the
+         *                   accusation separated by commas.
+         */
         private void processAccusation(String accusation) {
             String[] accusationAttempt = accusation.split(",");
             System.out.println("accusationAttempt = " + Arrays.toString(accusationAttempt));
@@ -133,6 +166,10 @@ public class Lobby {
             }
         }
 
+        /**
+         * Processes the request to end a player's turn and
+         * broadcasts the result.
+         */
         private void processEndTurn() {
             try {
                 String nextPlayer = game.endTurn(username);
@@ -142,6 +179,12 @@ public class Lobby {
             }
         }
 
+        /**
+         * Processes the request to move a character and
+         * tells all players where this player moved if
+         * the request was valid.
+         * @param direction the direction where to move.
+         */
         private void processMovement(String direction) {
             try {
                String message = game.move(direction, username);
@@ -151,11 +194,19 @@ public class Lobby {
             }
         }
 
+        /**
+         * Starts the game and tells all players
+         * to start it on their clients.
+         */
         private void startGame() {
             broadcast("GAME");
             game = new Game(players);
         }
 
+        /**
+         * Sends a welcome message when a player
+         * joins a lobby.
+         */
         private void welcomePlayer() {
             output.println(Arrays.toString(charactersTaken));
             output.println("Welcome " + username);
@@ -168,7 +219,10 @@ public class Lobby {
         }
     }
 
-
+    /**
+     * Broadcasts a message to all players in a lobby.
+     * @param message the message to be sent.
+     */
     private void broadcast(String message) {
         for (Pair<Scanner, PrintWriter> writer : players.values()) {
             writer.getValue1().println(message);
