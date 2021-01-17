@@ -1,17 +1,31 @@
 package database;
 
-import javax.swing.colorchooser.AbstractColorChooserPanel;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is responsible for communication with
+ * the database.
+ */
 public class Database {
     Connection connection;
 
+    /**
+     * Creates a connection to the database.
+     * @throws SQLException if it cannot connect to
+     * the database.
+     */
     public Database() throws SQLException {
         connection = SqliteHelper.getConnection();
     }
 
+    /**
+     * Attempts to add a new user to the database.
+     * The username must be unique or a {@code SQLException} will be thrown.
+     * @param accountInfo the username, password and email of the new user.
+     * @throws SQLException if it could not register add the user.
+     */
     public void registerNewUser(String[] accountInfo) throws SQLException {
         String username = accountInfo[1];
         String password = accountInfo[2];
@@ -27,6 +41,14 @@ public class Database {
         statement.executeUpdate();
     }
 
+    /**
+     * Checks if the username and password specified match
+     * the entry in the database.
+     * @param accountInfo the username and password.
+     * @return true if username exists and password is correct,
+     * false otherwise.
+     * @throws SQLException a database connection error occurs.
+     */
     public boolean canLogin(String[] accountInfo) throws SQLException{
         String username = accountInfo[1];
         String password = accountInfo[2];
@@ -45,6 +67,10 @@ public class Database {
         return false;
     }
 
+    /**
+     * Queries the database for all the members in it.
+     * @return a {@code List} of all usernames in the database.
+     */
     public List<String> getAllMembers() {
         List<String>members = new ArrayList<>();
 
@@ -60,6 +86,13 @@ public class Database {
         return members;
     }
 
+    /**
+     * Attempts to delete a member from the database
+     * with the specified username.
+     * @param accountInfo the username.
+     * @return true if the user was deleted,
+     * false if could not delete the user.
+     */
     public boolean deleteUser(String [] accountInfo){
         String username = accountInfo[1];
         try {
@@ -74,10 +107,27 @@ public class Database {
         return true;
     }
 
+    /**
+     * Checks if the specified username is allowed
+     * to register.
+     * @param accountInfo the username.
+     * @return true if register is allowed,
+     * false if not.
+     * @throws SQLException a database connection error occurs.
+     */
     public boolean isRegisterAllowed(String[] accountInfo) throws SQLException{
         return !isUsernameTaken(accountInfo[1]);
     }
 
+    /**
+     * Checks if the username specified is taken.
+     * The database is queried to check if there is
+     * a member whose username is the same as the specified.
+     * @param username the username of the member.
+     * @return true if the username is taken,
+     * false if it is not.
+     * @throws SQLException a database connection error occurs.
+     */
     public boolean isUsernameTaken(String username) throws SQLException{   //change to private
 
         PreparedStatement statement = connection.prepareStatement("select username from member "+
@@ -97,6 +147,13 @@ public class Database {
         return query;
     }
 
+    /**
+     * Turns two members into friends.
+     * Inserts the other user as a friend to each member specified
+     * in the database.
+     * @param accountInfo the usernames of the members to be added as friends.
+     * @throws SQLException a database connection error occurs.
+     */
     public void addFriend(String[] accountInfo) throws SQLException{
         String username = accountInfo[1];
         String friendUsername = accountInfo[2];
@@ -113,6 +170,14 @@ public class Database {
         }
     }
 
+    /**
+     * Checks if the specified member can be added as a friend.
+     * @param accountInfo the username of the friend
+     *                    to add.
+     * @return true if friend can be added,
+     * false if they cannot be added.
+     * @throws SQLException a database connection error occurs.
+     */
     public boolean canAddFriend(String[] accountInfo) throws SQLException{
         String friendUsername = accountInfo[2];
 
@@ -122,6 +187,15 @@ public class Database {
         return false;
     }
 
+    /**
+     * Checks if the specified member exists and
+     * therefore can be removed from the friends
+     * of this user.
+     * @param accountInfo the friend's username.
+     * @return true if friend can be removed,
+     * false if they cannot be removed.
+     * @throws SQLException a database connection error occurs.
+     */
     public boolean canRemoveFriend(String[] accountInfo) throws SQLException{
         String friendUsername = accountInfo[2];
         PreparedStatement statement = connection.prepareStatement("select friend_name from friends "+ "where friend_name=?;");
@@ -131,6 +205,15 @@ public class Database {
         return rs.next();
     }
 
+    /**
+     * Removes a friend from the specified user.
+     * Deletes the specified friend from the friend entries of
+     * this specified user in the database.
+     * @param accountInfo usernames of user and friend.
+     * @return true if removed friend succesfully,
+     * false if could not remove friend.
+     * @throws SQLException a database connection error occurs.
+     */
     public boolean removeFriend(String[] accountInfo) throws SQLException{
         String username = accountInfo[1];
         String friendUsername = accountInfo[2];
@@ -151,6 +234,14 @@ public class Database {
         return false;
     }
 
+    /**
+     * Changes the password of a member.
+     * Updates the database with the new password of the specified
+     * member.
+     * @param accountInfo username and new password of the member.
+     * @return
+     * @throws SQLException a database connection error occurs.
+     */
     public boolean ChangePassword(String[] accountInfo) throws SQLException{
         String username = accountInfo[1];
         String password = accountInfo[2];
@@ -170,6 +261,13 @@ public class Database {
 
     }
 
+    /**
+     * Queries the database for the friends of the
+     * specified member.
+     * @param accountInfo the username of the member.
+     * @return a {@code List} of all the friends of this
+     * member.
+     */
     public List<String> getFriends(String[] accountInfo) {
         List<String>friendsList = new ArrayList<>();
         String username = accountInfo[1];
