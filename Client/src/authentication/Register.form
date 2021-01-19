@@ -116,7 +116,6 @@
         <properties>
           <background color="-10077786"/>
           <foreground color="-1"/>
-          <icon value="img/back-arrow.png"/>
           <text value="Leave"/>
         </properties>
       </component>

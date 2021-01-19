@@ -1,13 +1,20 @@
 package game;
-import common.MainLogic;
 
+/**
+ * Stores information about this client.
+ */
 public class Account {
     private static String username;
     private static char[] password;
     private static int myCharacter;
-    private static String friendUsername;
     private static int currentLobbyCode;
 
+    /**
+     * Creates the account and stores the information
+     * specified.
+     * @param username the username of this client.
+     * @param password the password of this client.
+     */
     public Account(String username, char[] password) {
         Account.username = username;
         Account.password = password;
@@ -19,10 +26,6 @@ public class Account {
 
     public static void setMyCharacter(int character) {
         myCharacter = character;
-    }
-
-    public static String getFriendUsername (){
-        return friendUsername;
     }
 
     public static char[] getPassword() { return password;}

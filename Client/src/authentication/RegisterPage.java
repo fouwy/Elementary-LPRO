@@ -146,7 +146,6 @@ public class RegisterPage {
         leaveButton = new JButton();
         leaveButton.setBackground(new Color(-10077786));
         leaveButton.setForeground(new Color(-1));
-        leaveButton.setIcon(new ImageIcon(getClass().getResource("/img/back-arrow.png")));
         leaveButton.setText("Leave");
         panel1.add(leaveButton, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         userLabel.setLabelFor(userField);

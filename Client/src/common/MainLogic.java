@@ -14,11 +14,40 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This class handles the logic and actions performed
+ * by a client in the  the main page.
+ * <br><br>
+ * If the user clicks "HOST", it is created a lobby and the
+ * lobby page appears.
+ * <br>
+ * If the user clicks "Join", it attempts to join the lobby
+ * with the code specified in the adjacent textbox.
+ * <br>
+ * If the user clicks "Remove", it attempts to remove the
+ * friend with the username specified in the adjacent textbox.
+ * <br>
+ * If the user clicks "Change", it attempts to change the
+ * password of this client to the one specified in the
+ * adjacent textbox.
+ * <br>
+ * If the user clicks "LEAVE", it logs the user out and returns
+ * to the login page.
+ * <br>
+ * If the user clicks "DELETE ACCOUNT", it attempts to delete
+ * the account and return to the login page.
+ */
 public class MainLogic implements ActionListener, MouseListener {
 
     private final MainPage main_page;
     private List<String> friends;
 
+    /**
+     * Creates the handler for the main page and
+     * creates a thread of {@link CommsFromServerThread}.
+     * @param main_page the object responsible for the
+     *                  main page UI.
+     */
     public MainLogic(MainPage main_page) {
         this.main_page = main_page;
         System.out.println("I'm " + Account.getUsername());
@@ -30,6 +59,19 @@ public class MainLogic implements ActionListener, MouseListener {
         showFriendsList();
     }
 
+    /**
+     * Receives a message from the server.
+     * <br>
+     * The first string in {@code serverMessage}
+     * determines the type.
+     * <br>
+     * If the type is "Add", a popup appears
+     * asking if you want to accept as a friend the user
+     * with the username specified in the second string
+     * of {@code serverMessage}. If so, a request is
+     * sent to the server to set them as friends.
+     * @param serverMessage the message received.
+     */
     public void receiveMessage(String[] serverMessage) {
         System.out.println("serverMessage = " + Arrays.toString(serverMessage));
         String type = serverMessage[0];

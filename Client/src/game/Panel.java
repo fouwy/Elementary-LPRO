@@ -10,6 +10,10 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+/**
+ * This class represents the game board and handles
+ * the interactions the players have with it.
+ */
 public class Panel extends JPanel implements KeyListener {
 
     private static final int startingLine = 9;
@@ -22,6 +26,13 @@ public class Panel extends JPanel implements KeyListener {
     private final List<Player> players;
     private final LobbyLogic lobbyLogic;
 
+    /**
+     *  Creates the board panel and the player characters
+     *  according to the specified {@link #playerPicks}.
+     *  @param playerPicks the characters each player picked.
+     *  @param lobbyLogic a reference to the object to be used to
+     *                   communicate with the server.
+     */
     Panel(Map<String, Integer> playerPicks, LobbyLogic lobbyLogic) {
         this.playerPicks = playerPicks;
         this.lobbyLogic = lobbyLogic;
@@ -40,6 +51,13 @@ public class Panel extends JPanel implements KeyListener {
             setOtherPlayersCharacter();
     }
 
+    /**
+     * Tells the specified player to move and updates
+     * the board after moving.
+     * @param playerName the username of the player to move.
+     * @param direction the direction in which to move
+     *                  (W,A,S,D).
+     */
     public void movePlayerCharacter(String playerName, char direction) {
         if (playerName.equals(Account.getUsername()))
             myPlayer.moveInDirection(direction);
@@ -73,6 +91,12 @@ public class Panel extends JPanel implements KeyListener {
         players.add(myPlayer);
     }
 
+    /**
+     * Renders the image of the board and the player characters
+     * to fit the game page correctly, using the width and height
+     * of the screen.
+     * @param g the Graphics to paint.
+     */
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2D = (Graphics2D)g;
@@ -84,19 +108,41 @@ public class Panel extends JPanel implements KeyListener {
         }
     }
 
+    /**
+     * Sets the number of moves this client's
+     * player can move in this turn.
+     * @param total the sum of the 2 dice rolled.
+     */
     public void setDiceValue(int total) {
         myPlayer.setMovesLeft(total);
     }
 
+    /**
+     * Checks if this player already rolled the
+     * dice this turn.
+     * @return true if they already rolled the
+     * dice once this turn, false if they did not.
+     */
     public boolean IAlreadyRolledTheDice() {
         return myPlayer.AlreadyRolleddTheDice();
     }
 
+    /**
+     * Used when a player ends their turn to
+     * reset the indicators of no more moves
+     * and if the dice was already rolled.
+     */
     public void resetAttributes() {
         myPlayer.setNoMoreMoves(false);
         myPlayer.setRolledTheDice(false);
     }
 
+    /**
+     * Tells in which room this players is.
+     * @return the name of the current room
+     * or a empty string if they are not in
+     * a room.
+     */
     public String getCurrentRoom() {
         switch (myPlayer.getRoom()) {
             case 1:
@@ -120,6 +166,13 @@ public class Panel extends JPanel implements KeyListener {
        }
     }
 
+    /**
+     * Sends a message to the server to try to move
+     * in the direction corresponding to the key that
+     * was pressed (W,A,S,D).
+     * @param e the key that was pressed.
+     * @throws IllegalStateException if an unexpected key was pressed.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();

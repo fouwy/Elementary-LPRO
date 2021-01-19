@@ -6,6 +6,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
+/**
+ * This class handles the logic and actions performed
+ * by a client in the register page.
+ * <br><br>
+ * If the user clicks "Register", all the fields are
+ * collected, the password field is checked against the repeat
+ * password field to check they are equal, and then they are
+ * sent to the server to attempt to register the user. The server
+ * response will show up in a popup.
+ * <br>
+ * If the user clicks "Leave", it will go back to the login page.
+ */
 public class RegisterLogic implements ActionListener {
     private final RegisterPage registerPage;
     private String errorMessage = "Unknown Error";

@@ -4,6 +4,22 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class handles the actions performed in game by
+ * a client.
+ * <br>
+ * If the user clicks on the "Make Suggestion" or
+ * "Make Accusation" button, a popup appears that
+ * asks the user to input the suggestion or accusation.
+ * After that, the suggestior or accusation is sent to
+ * the server.
+ * <br>
+ * If the user clicks the "End Turn" button, sends a
+ * message to the server to end their turn.
+ * <br>
+ * If the user clicks the "Roll the Dice" button,
+ * two dice are rolled and the result is shown on screen.
+ */
 public class GameLogic implements ActionListener {
 
     private final Panel board;
