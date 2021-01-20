@@ -20,11 +20,17 @@ public class DatabaseTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws SQLException {
         List<String> members = database.getAllMembers();
 
         for (String member : members) {
-            database.deleteUser(member);
+            String[] memberArray = {"", member};
+            List<String> friends = database.getFriends(memberArray);
+            for (String friend : friends) {
+                String[] friendArray = {"", member, friend};
+                database.removeFriend(friendArray);
+            }
+            database.deleteUser(memberArray);
         }
     }
 
@@ -57,9 +63,39 @@ public class DatabaseTest {
     public void afterRegisterAndDeleteUser_WillHaveZeroUsers() throws SQLException {
         assertEquals(0, database.getAllMembers().size());
         database.registerNewUser(accountInfo);
-        database.deleteUser(accountInfo[1]);
+        database.deleteUser(accountInfo);
         List<String> members = database.getAllMembers();
         assertEquals(0, members.size());
+    }
+
+    @Test
+    public void willChangePassword() throws SQLException {
+        database.registerNewUser(accountInfo);
+        String[] newAccountInfo = {"", "testUser", "newPassword"};
+        database.ChangePassword(newAccountInfo);
+        assertTrue(database.canLogin(newAccountInfo));
+    }
+
+    @Test
+    public void willAddFriend() throws SQLException {
+        database.registerNewUser(accountInfo);
+        database.registerNewUser(new String[]{"", "friend", "password", "friend@gmail.com"});
+        database.addFriend(new String[]{"", "testUser", "friend"});
+        List<String> friends = database.getFriends(accountInfo);
+        assertTrue(friends.contains("friend"));
+    }
+
+    @Test
+    public void willRemoveFriend() throws SQLException {
+        database.registerNewUser(accountInfo);
+        database.registerNewUser(new String[]{"", "friend", "password", "friend@gmail.com"});
+        database.addFriend(new String[]{"", "testUser", "friend"});
+        List<String> friends = database.getFriends(accountInfo);
+        assertTrue(friends.contains("friend"));
+
+        database.removeFriend(new String[]{"", "testUser", "friend"});
+        List<String> friendsAfter = database.getFriends(accountInfo);
+        assertFalse(friendsAfter.contains("friend"));
     }
 
 }

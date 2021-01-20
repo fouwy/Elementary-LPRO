@@ -239,7 +239,7 @@ public class Database {
      * Updates the database with the new password of the specified
      * member.
      * @param accountInfo username and new password of the member.
-     * @return
+     * @return true if was succesfull, false if not.
      * @throws SQLException a database connection error occurs.
      */
     public boolean ChangePassword(String[] accountInfo) throws SQLException{
@@ -258,7 +258,6 @@ public class Database {
             System.err.println(e.getMessage());
         }
         return false;
-
     }
 
     /**
@@ -283,21 +282,6 @@ public class Database {
         }
         return friendsList;
     }
-
-    /*public boolean isAlreadyFriend(String[] accountInfo) throws SQLException{
-        String friendUsername = accountInfo[2];
-        List<String>friendsList = new ArrayList<>();
-
-        friendsList = getFriends(accountInfo);
-        for(String name: friendsList){
-            if(name.equals(friendUsername)){
-                return true;
-            }
-        }
-        return false;
-    }*/
-
-
 }
 
 
