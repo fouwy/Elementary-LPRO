@@ -9,7 +9,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.util.Scanner;
-
+/**
+ * Provides the UI for the lobby page.
+ */
 public class LobbyPage {
     private JButton character1Button;
     private JButton character3Button;
@@ -72,7 +74,12 @@ public class LobbyPage {
         }
     }
 
-
+    /**
+     * Sets the specified character as picked or available depending on
+     * the condition.
+     * @param characterNumber the number representing the character.
+     * @param condition true if picked, false if available.
+     */
     public void setCharacterButtonEnabled(int characterNumber, boolean condition) {
         switch (characterNumber) {
             case 1:
@@ -96,6 +103,12 @@ public class LobbyPage {
         }
     }
 
+    /**
+     * Sets the Label of a character to show the player
+     * who picked it.
+     * @param characterNumber the number representing the character picked.
+     * @param playerName the username of the player that pick said character.
+     */
     public void setCharacterName(int characterNumber, String playerName) {
         switch (characterNumber) {
             case 1:

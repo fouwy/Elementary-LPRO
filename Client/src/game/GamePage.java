@@ -8,7 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
-
+/**
+ * Provides the UI for the game page.
+ * Also controls
+ */
 public class GamePage {
     private Panel game;
     private MyTable notepad;
@@ -94,6 +97,12 @@ public class GamePage {
         JOptionPane.showMessageDialog($$$getRootComponent$$$(), msg);
     }
 
+    /**
+     * Adds a player to a List of players who have
+     * lost this game.
+     * @param player the username of the player
+     *               who lost.
+     */
     public void addLoser(String player) {
         for (int turn = 0; turn < numberOfPlayers; turn++) {
             if (playersInOrderList.get(turn).equals(player))
@@ -101,6 +110,14 @@ public class GamePage {
         }
     }
 
+    /**
+     * Shows an icon on screen indicating whose
+     * turn it is to play.
+     * <br>
+     * Shows a icon indicating all the players that
+     * have lost the game.
+     * @param playerName the next player to play.
+     */
     public void nextTurn(String playerName) {
         for (JLabel player : playerLabels)
             player.setIcon(null);

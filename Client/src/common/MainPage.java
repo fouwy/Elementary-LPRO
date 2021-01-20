@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * Provides the UI for the main page.
+ */
 public class MainPage {
     private JButton hostButton;
     private JTextField addFriendTextField;

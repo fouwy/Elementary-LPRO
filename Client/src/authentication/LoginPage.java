@@ -10,7 +10,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Locale;
 
-
+/**
+ * Provides the UI for the login page.
+ */
 public class LoginPage {
     private JPanel panel1;
     private JPanel TopPanel;

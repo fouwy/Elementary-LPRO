@@ -10,7 +10,9 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Locale;
-
+/**
+ * Provides the UI for the register page.
+ */
 public class RegisterPage {
     private JPanel panel1;
     private JTextField userField;
