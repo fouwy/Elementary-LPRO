@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"database","l":"Database"},{"p":"<Unnamed>","l":"Game"},{"p":"<Unnamed>","l":"Lobby"},{"p":"<Unnamed>","l":"ServerStart"},{"p":"<Unnamed>","l":"ServerThread"},{"p":"database","l":"SqliteHelper"}];updateSearchResults();

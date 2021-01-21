@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"authentication"},{"l":"common"},{"l":"game"}];updateSearchResults();
