@@ -243,4 +243,9 @@ public class Game {
         for(int i=init; i<end-1; i++)
             cards[i] = cards[i + 1];
     }
+
+    public String[] getMysteryCards() {
+        return mysteryCards;
+    }
+
 }
