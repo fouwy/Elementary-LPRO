@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
+/**
+ * A random clue shown in a JPanel.
+ */
 public class WatsonClue extends JPanel {
 
     String[] clueList;
@@ -11,6 +14,9 @@ public class WatsonClue extends JPanel {
     JLabel watsonClue;
     JTextPane clue;
 
+    /**
+     * Creates and shows a random clue phrase.
+     */
     WatsonClue(){
         watsonClue = new JLabel();
         watsonClue.setIcon(ic_john);

@@ -4,9 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
+/**
+ * Stores an image for each six faces of
+ * a die in a JPanel.<br>
+ * The panel with all die faces invisible when created.
+ * A random face of the die can be shown
+ * by calling the {@link #rollDice()} method.
+ */
 public class DicePanel extends JPanel {
     JLabel[] diceFaces;
 
+    /**
+     * Creates a JPanel with none of
+     * the die faces visible.
+     */
     DicePanel() {
         diceFaces = new JLabel[6];
         ImageIcon ic1 = new ImageIcon(getClass().getResource("/img/dice/1.png"));
@@ -45,6 +56,14 @@ public class DicePanel extends JPanel {
         return new ImageIcon(newimg);
     }
 
+    /**
+     * Gets a random number between 1 and 6
+     * and sets the image with
+     * the corresponding face of the die
+     * visible on the JPanel.<br>
+     * Returns the number rolled.
+     * @return a random number between 1 and 6.
+     */
     public int rollDice() {
         Random rand = new Random();
         int diceValue = rand.nextInt(6) + 1;

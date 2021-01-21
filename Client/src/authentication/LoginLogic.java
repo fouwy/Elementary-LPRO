@@ -7,6 +7,17 @@ import game.Account;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class handles the logic and actions performed
+ * by a client in the login page.
+ * <br><br>
+ * If the user clicks "Login", all the fields are
+ * collected and then they are sent to the server
+ * to attempt to log in the user. The server
+ * response will show up in a popup.
+ * <br>
+ * If the user clicks "Register", it will go to the register page.
+ */
 public class LoginLogic implements ActionListener {
 
     private final LoginPage login_page;

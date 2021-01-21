@@ -5,6 +5,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A suggestion or accusation phrase, using a dropdown menu to
+ * select the intended person and weapon to suggest,
+ * in a JPanel.
+ */
 public class Suggestion extends JPanel implements ActionListener {
     JComboBox person;
     JComboBox weapon;
@@ -14,6 +19,12 @@ public class Suggestion extends JPanel implements ActionListener {
     Boolean l=false;
     Boolean w=false;
 
+    /**
+     * Creates the suggestion or accusation phrase according
+     * to the specified location and the input from the user
+     * to get the person and weapon.
+     * @param location the place to be put in the phrase.
+     */
     public Suggestion(String location) {
         String[] people = {"person 1","person 2","person 3","person 4","person 5","person 6"};
         this.person = new JComboBox(people);
@@ -41,6 +52,12 @@ public class Suggestion extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Returns the person and weapon selected
+     * by the user.
+     * @return a string array with the person
+     * and weapon input by the user.
+     */
     public String[] getSelectedSuggestion() {
         return new String[]{(String) person.getSelectedItem(), (String) weapon.getSelectedItem()};
         }

@@ -6,6 +6,10 @@ import game.Game;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class is responsible for starting the client
+ * and creating the frame for the UI.
+ */
 public class ClientStart extends JFrame {
     public static JFrame frame;
     public static CardLayout cardLayout;
