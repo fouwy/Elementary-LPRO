@@ -3,12 +3,14 @@ package game;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.util.Scanner;
+
 /**
  * Provides the UI for the lobby page.
  */
@@ -77,8 +79,9 @@ public class LobbyPage {
     /**
      * Sets the specified character as picked or available depending on
      * the condition.
+     *
      * @param characterNumber the number representing the character.
-     * @param condition true if picked, false if available.
+     * @param condition       true if picked, false if available.
      */
     public void setCharacterButtonEnabled(int characterNumber, boolean condition) {
         switch (characterNumber) {
@@ -106,8 +109,9 @@ public class LobbyPage {
     /**
      * Sets the Label of a character to show the player
      * who picked it.
+     *
      * @param characterNumber the number representing the character picked.
-     * @param playerName the username of the player that pick said character.
+     * @param playerName      the username of the player that pick said character.
      */
     public void setCharacterName(int characterNumber, String playerName) {
         switch (characterNumber) {
@@ -157,7 +161,7 @@ public class LobbyPage {
      */
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(2, 1, new Insets(0, 5, 5, 0), -1, -1));
         panel1.setBackground(new Color(-11398558));
         titlePanel = new JPanel();
         titlePanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
@@ -206,33 +210,33 @@ public class LobbyPage {
         bodyPanel.add(characterPanel, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         character1Button = new JButton();
         character1Button.setForeground(new Color(-16777216));
-        character1Button.setIcon(new ImageIcon(getClass().getResource("/img/char/char_yellow.png")));
-        character1Button.setText("Character 1");
+        character1Button.setIcon(new ImageIcon(getClass().getResource("/img/char/sherlock.png")));
+        character1Button.setText("Sherlock Holmes");
         characterPanel.add(character1Button, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         character3Button = new JButton();
         character3Button.setForeground(new Color(-16777216));
-        character3Button.setIcon(new ImageIcon(getClass().getResource("/img/char/char_red.png")));
-        character3Button.setText("Character 3");
+        character3Button.setIcon(new ImageIcon(getClass().getResource("/img/char/mshudson.png")));
+        character3Button.setText("Mrs Hudson");
         characterPanel.add(character3Button, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         character2Button = new JButton();
         character2Button.setForeground(new Color(-16777216));
-        character2Button.setIcon(new ImageIcon(getClass().getResource("/img/char/char_blue.png")));
-        character2Button.setText("Character 2");
+        character2Button.setIcon(new ImageIcon(getClass().getResource("/img/char/moriarty.png")));
+        character2Button.setText("Moriarty");
         characterPanel.add(character2Button, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         character4Button = new JButton();
         character4Button.setForeground(new Color(-16777216));
-        character4Button.setIcon(new ImageIcon(getClass().getResource("/img/char/char_purple.png")));
-        character4Button.setText("Character 4");
+        character4Button.setIcon(new ImageIcon(getClass().getResource("/img/char/irene.png")));
+        character4Button.setText("Irene Adler");
         characterPanel.add(character4Button, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         character5Button = new JButton();
         character5Button.setForeground(new Color(-16777216));
-        character5Button.setIcon(new ImageIcon(getClass().getResource("/img/char/char_green.png")));
-        character5Button.setText("Character 5");
+        character5Button.setIcon(new ImageIcon(getClass().getResource("/img/char/enola.png")));
+        character5Button.setText("Enola Holmes");
         characterPanel.add(character5Button, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         character6Button = new JButton();
         character6Button.setForeground(new Color(-16777216));
-        character6Button.setIcon(new ImageIcon(getClass().getResource("/img/char/char_black.png")));
-        character6Button.setText("Character 6");
+        character6Button.setIcon(new ImageIcon(getClass().getResource("/img/char/mycroft.png")));
+        character6Button.setText("Mycroft Holmes");
         characterPanel.add(character6Button, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         char1Label = new JLabel();
         char1Label.setBackground(new Color(-13332258));

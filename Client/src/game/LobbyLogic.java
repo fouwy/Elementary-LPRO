@@ -382,7 +382,25 @@ public class LobbyLogic implements ActionListener {
     private void setOtherPlayerChar(String playerName, int characterNumber) throws Exception {
         playerPicks.put(playerName, characterNumber);
         chooseCharacter(characterNumber, playerName);
-        showMessage(playerName+ " picked char " +characterNumber);
+
+        String character ;
+        switch (characterNumber) {
+            case 1: character = "Sherlock Holmes";
+                break;
+            case 2: character = "Moriarty";
+                break;
+            case 3: character = "Mrs Hudson";
+                break;
+            case 4: character = "Irene Adler";
+                break;
+            case 5: character = "Enola Holmes";
+                break;
+            case 6: character = "Mycroft Holmes";
+                break;
+            default:
+                character = "Special Character";
+        }
+        showMessage(playerName+ " picked " +character);
     }
 
     private void showMessage(String message) {

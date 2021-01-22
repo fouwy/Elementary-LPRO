@@ -82,6 +82,7 @@ public class Panel extends JPanel implements KeyListener {
 
     private void setMyCharacter() {
         int charNumber = Account.getCharNumber();
+        System.out.println(charNumber);
         String characterImage;
 
         characterImage = getImagePath(charNumber);
@@ -219,22 +220,22 @@ public class Panel extends JPanel implements KeyListener {
         String characterImage;
         switch (charNumber) {
             case 1:
-                characterImage = "/img/char/char_yellow.png";
+                characterImage = "/img/char/sherlock.png";
                 break;
             case 2:
-                characterImage = "/img/char/char_blue.png";
+                characterImage = "/img/char/moriarty.png";
                 break;
             case 3:
-                characterImage = "/img/char/char_red.png";
+                characterImage = "/img/char/mshudson.png";
                 break;
             case 4:
-                characterImage = "/img/char/char_purple.png";
+                characterImage = "/img/char/irene.png";
                 break;
             case 5:
-                characterImage = "/img/char/char_green.png";
+                characterImage = "/img/char/enola.png";
                 break;
             case 6:
-                characterImage = "/img/char/char_black.png";
+                characterImage = "/img/char/mycroft.png";
                 break;
             default:
                 characterImage = "/img/char/nocolor.gif";

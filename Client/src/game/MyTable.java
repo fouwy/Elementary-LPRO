@@ -18,32 +18,18 @@ public class MyTable extends JPanel {
      */
     public MyTable()
     {
-        //the form
-        setBounds(70,80,600,400);
-        this.setLayout(null);
-        //ADD SCROLLPANE
-        JScrollPane scroll=new JScrollPane();
-        scroll.setBounds(70,80,600,400);
-        this.add(scroll);
-
         //THE TABLE
         final JTable table=new JTable();
-        scroll.setViewportView(table);
 
         //THE MODEL OF OUR TABLE
         DefaultTableModel model=new DefaultTableModel()
         {
             public Class<?> getColumnClass(int column)
             {
-                switch(column)
-                {
-                    case 0:
-                        return String.class;
-                    case 1:
-                        return Boolean.class;
-                    default:
-                        return String.class;
+                if (column == 1) {
+                    return Boolean.class;
                 }
+                return String.class;
             }
         };
         //ASSIGN THE MODEL TO TABLE
@@ -53,24 +39,38 @@ public class MyTable extends JPanel {
         model.addColumn("Eliminated");
 
         //THE ROW
-        for(int i=0;i<=12;i++)
+        for(int i=0;i<24;i++)
         {
             model.addRow(new Object[0]);
             model.setValueAt(false,i,1);
 
         }
         model.setValueAt("People:", 0, 0);
-        model.setValueAt("Person A", 1, 0);
-        model.setValueAt("Person B", 2, 0);
-        model.setValueAt("Person C", 3, 0);
-        model.setValueAt(" ", 4, 0);
-        model.setValueAt("Weapons:", 5, 0);
-        model.setValueAt("Weapon A", 6, 0);
-        model.setValueAt("Weapon B", 7, 0);
-        model.setValueAt(" ", 8, 0);
-        model.setValueAt("Places:", 9, 0);
-        model.setValueAt("Place A", 10, 0);
-        model.setValueAt("Place B", 11, 0);
+        model.setValueAt("Person 1", 1, 0);
+        model.setValueAt("Person 2", 2, 0);
+        model.setValueAt("Person 3", 3, 0);
+        model.setValueAt("Person 4", 4, 0);
+        model.setValueAt("Person 5", 5, 0);
+        model.setValueAt("Person 6", 6, 0);
+        model.setValueAt(" ", 7, 0);
+        model.setValueAt("Weapons:", 8, 0);
+        model.setValueAt("Weapon 1", 9, 0);
+        model.setValueAt("Weapon 2", 10, 0);
+        model.setValueAt("Weapon 3", 11, 0);
+        model.setValueAt("Weapon 4", 12, 0);
+        model.setValueAt("Weapon 5", 13, 0);
+        model.setValueAt(" ", 14, 0);
+        model.setValueAt("Places:", 15, 0);
+        model.setValueAt("Place 1", 16, 0);
+        model.setValueAt("Place 2", 17, 0);
+        model.setValueAt("Place 3", 18, 0);
+        model.setValueAt("Place 4", 19, 0);
+        model.setValueAt("Place 5", 20, 0);
+        model.setValueAt("Place 6", 21, 0);
+        model.setValueAt("Place 7", 22, 0);
+        model.setValueAt("Place 8", 23, 0);
+
+        this.add(table);
     }
 }
 

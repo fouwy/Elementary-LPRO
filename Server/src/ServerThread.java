@@ -115,7 +115,6 @@ public class ServerThread implements Runnable{
             friendOutput.flush();
         } else {
             try {
-                //TODO: replace outputMessage with enums to be easier to understand
                 switch (type) {
                     case "Register":
                         if (database.isRegisterAllowed(accountInfo)) {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="game.LobbyPage">
   <grid id="27dc6" binding="panel1" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="0" left="0" bottom="0" right="0"/>
+    <margin top="0" left="5" bottom="5" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="588" height="400"/>
+      <xy x="20" y="20" width="1480" height="1338"/>
     </constraints>
     <properties>
       <background color="-11398558"/>
@@ -112,8 +112,8 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
-                  <icon value="img/char/char_yellow.png"/>
-                  <text value="Character 1"/>
+                  <icon value="img/char/sherlock.png"/>
+                  <text value="Sherlock Holmes"/>
                 </properties>
               </component>
               <component id="45175" class="javax.swing.JButton" binding="character3Button" default-binding="true">
@@ -122,8 +122,8 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
-                  <icon value="img/char/char_red.png"/>
-                  <text value="Character 3"/>
+                  <icon value="img/char/mshudson.png"/>
+                  <text value="Mrs Hudson"/>
                 </properties>
               </component>
               <component id="1a9" class="javax.swing.JButton" binding="character2Button" default-binding="true">
@@ -132,8 +132,8 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
-                  <icon value="img/char/char_blue.png"/>
-                  <text value="Character 2"/>
+                  <icon value="img/char/moriarty.png"/>
+                  <text value="Moriarty"/>
                 </properties>
               </component>
               <component id="6516a" class="javax.swing.JButton" binding="character4Button" default-binding="true">
@@ -142,8 +142,8 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
-                  <icon value="img/char/char_purple.png"/>
-                  <text value="Character 4"/>
+                  <icon value="img/char/irene.png"/>
+                  <text value="Irene Adler"/>
                 </properties>
               </component>
               <component id="a9ecb" class="javax.swing.JButton" binding="character5Button" default-binding="true">
@@ -152,8 +152,8 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
-                  <icon value="img/char/char_green.png"/>
-                  <text value="Character 5"/>
+                  <icon value="img/char/enola.png"/>
+                  <text value="Enola Holmes"/>
                 </properties>
               </component>
               <component id="d8934" class="javax.swing.JButton" binding="character6Button" default-binding="true">
@@ -162,8 +162,8 @@
                 </constraints>
                 <properties>
                   <foreground color="-16777216"/>
-                  <icon value="img/char/char_black.png"/>
-                  <text value="Character 6"/>
+                  <icon value="img/char/mycroft.png"/>
+                  <text value="Mycroft Holmes"/>
                 </properties>
               </component>
               <component id="fa920" class="javax.swing.JLabel" binding="char1Label">
