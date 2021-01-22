@@ -1,5 +1,6 @@
 package database;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,8 +10,8 @@ import java.sql.SQLException;
  */
 public class SqliteHelper {
     private static Connection connection = null;
-    private static String pathToDB = "C:/sqlite3/jdbc-test/accounts_friends.db";
-
+    private static String pathToDB = new File("Server/src/database/accounts_friends.db")
+            .getAbsolutePath();
     /**
      * Opens a new connection to the database and stores it for when
      * it is requested again.<br>
