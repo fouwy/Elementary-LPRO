@@ -113,6 +113,11 @@ public class ServerThread implements Runnable{
             String[] message = {"Add", accountInfo[1]};
             friendOutput.writeObject(message);
             friendOutput.flush();
+        } else if (type.equals("acceptFriend")) {
+            ObjectOutputStream friendOutput = ServerStart.getUserOutput(accountInfo[2]);
+            String[] message = {"Accepted", accountInfo[1], accountInfo[3]};
+            friendOutput.writeObject(message);
+            friendOutput.flush();
         } else {
             try {
                 switch (type) {
@@ -179,11 +184,8 @@ public class ServerThread implements Runnable{
                         break;
 
                     case "DeleteAccount":
-                        if(database.deleteUser(accountInfo)){
-                            outputMessage = 1;
-                        } else{
-                            outputMessage = -1;
-                        }
+                        database.deleteAccount(accountInfo);
+                        outputMessage = 1;
                         break;
                     case "Logout":
                         String userToLogout = accountInfo[1];

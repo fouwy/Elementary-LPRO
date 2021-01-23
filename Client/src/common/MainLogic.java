@@ -82,11 +82,31 @@ public class MainLogic implements ActionListener, MouseListener {
                 getFriendsList();
                 showFriendsList();
                 System.out.println("Friend Request Accepted");
+                acceptFriendShip(true, serverMessage[1]);
             } else {
-                //Maybe tell them they go denied lol
                 System.out.println("Friend Request Refused");
+                acceptFriendShip(false, serverMessage[1]);
             }
+        } else if (type.equals("Accepted")) {
+            if (serverMessage[2].equals("yes")) {
+                showFriendsList();
+                main_page.showMessage(serverMessage[1] + " accepted your friend request.\nYou are now friends!");
+            } else
+                main_page.showMessage(serverMessage[1] + " did not accept your friend request");
+            getFriendsList();
+            showFriendsList();
         }
+    }
+
+    private void acceptFriendShip(boolean accepted, String friend) {
+        String[] accountInfo = {"acceptFriend", Account.getUsername(), friend, null};
+        if (accepted)
+            accountInfo[3] = "yes";
+        else
+            accountInfo[3] = "no";
+
+        Client client = new Client(ClientStart.serverIP);
+        client.sendInformation(accountInfo);
     }
 
     private void showFriendsList() {
@@ -251,6 +271,8 @@ public class MainLogic implements ActionListener, MouseListener {
                 main_page.showMessage("Friend removed.");
                 break;
         }
+        getFriendsList();
+        showFriendsList();
     }
 
     private void setNewPassword(){

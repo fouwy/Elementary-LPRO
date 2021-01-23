@@ -282,6 +282,15 @@ public class Database {
         }
         return friendsList;
     }
+
+    public void deleteAccount(String[] accountInfo) throws SQLException {
+        List<String> friends = getFriends(accountInfo);
+
+        for (String friend : friends) {
+            removeFriend(new String[]{"",accountInfo[1], friend});
+        }
+        deleteUser(accountInfo);
+    }
 }
 
 

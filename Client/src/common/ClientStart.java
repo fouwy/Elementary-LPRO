@@ -17,6 +17,16 @@ public class ClientStart extends JFrame {
     public static String serverIP = "176.79.140.197";
 
     public static void main(String[] args) {
+        try {
+            if (args[0].matches("\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}")) {
+                serverIP = args[0];
+                System.out.println("Using "+serverIP+" as server IP");
+            }
+            else
+                System.out.println("Invalid server IP, using default...");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Server IP not specified, using default...");
+        }
 
         cardLayout = new CardLayout();
         frame = new JFrame();

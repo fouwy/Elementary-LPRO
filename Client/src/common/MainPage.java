@@ -47,6 +47,7 @@ public class MainPage {
         addButton.addActionListener(handler);
         removeButton.addActionListener(handler);
         changeButton.addActionListener(handler);
+        deleteAccountButton.addActionListener(handler);
     }
 
     public JPanel getFriendListPanel() {
