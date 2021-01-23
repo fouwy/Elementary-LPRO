@@ -37,7 +37,7 @@ public class ClientStart extends JFrame {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setTitle("ELEMENTARY");
-        frame.setSize(560, 560);
+        frame.setSize(630, 560);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

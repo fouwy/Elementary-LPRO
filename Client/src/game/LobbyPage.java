@@ -3,6 +3,7 @@ package game;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import common.ClientStart;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -204,7 +205,7 @@ public class LobbyPage {
         final Spacer spacer1 = new Spacer();
         PartyPanel.add(spacer1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         characterPanel = new JPanel();
-        characterPanel.setLayout(new GridLayoutManager(4, 3, new Insets(0, 0, 0, 0), -1, -1));
+        characterPanel.setLayout(new GridLayoutManager(4, 3, new Insets(0, 5, 0, 5), -1, -1));
         characterPanel.setBackground(new Color(-11398558));
         characterPanel.setForeground(new Color(-13332258));
         bodyPanel.add(characterPanel, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -293,7 +294,7 @@ public class LobbyPage {
         sectionPanel.setBackground(new Color(-11398558));
         bodyPanel.add(sectionPanel, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel3 = new JPanel();
-        panel3.setLayout(new GridLayoutManager(1, 1, new Insets(10, 0, 10, 0), -1, -1));
+        panel3.setLayout(new GridLayoutManager(1, 1, new Insets(10, 5, 10, 5), -1, -1));
         panel3.setBackground(new Color(-11398558));
         sectionPanel.add(panel3, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();

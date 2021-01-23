@@ -162,11 +162,26 @@ public class LobbyLogic implements ActionListener {
                     case "SUGG":
                         handleSuggestion(response);
                         break;
+                    case "LEFT":
+                        handlePlayerLeaving(response);
+                        break;
+                    case "LEAV":
+                        handleHostLeaving();
                     default:
                         showMessage(response);
                 }
             }
             System.out.println("no nextLine");
+        }
+
+        private void handleHostLeaving() {
+            lobby_page.showMessage("The Host left the lobby.\nClosing lobby...");
+            leaveGame();
+        }
+
+        private void handlePlayerLeaving(String response) {
+            String player = response.substring(4);
+            showMessage(player + " left.");
         }
 
         private void handleSuggestion(String response) {
@@ -354,7 +369,8 @@ public class LobbyLogic implements ActionListener {
     }
 
     private void leaveGame() {
-        lobby_page.showMessage("You can't leave.");
+        out.println("QUIT");
+        ClientStart.cardLayout.show(ClientStart.rootPanel, "Main");
     }
 
     private void chooseCharacter(int characterNumber, String playerName) throws Exception {

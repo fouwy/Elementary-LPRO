@@ -193,6 +193,7 @@ public class MainLogic implements ActionListener, MouseListener {
         Account.setLobbyCode(port);
         ClientStart.rootPanel.add(new LobbyPage(in, out).$$$getRootComponent$$$(), "Lobby");
         ClientStart.cardLayout.show(ClientStart.rootPanel, "Lobby");
+
     }
 
     private void enterLoginPage(){

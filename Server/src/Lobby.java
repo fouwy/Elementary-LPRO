@@ -96,8 +96,13 @@ public class Lobby {
                 System.out.println(command);
                 switch (type) {
                     case "QUIT":
-
-                        break;
+                        if (username.equals(host)) {
+                            players.remove(username);
+                            broadcast("LEAV");
+                        }
+                        players.remove(username);
+                        broadcast("LEFT"+username);
+                        return;
                     case "CHAR":
                         int characterNumber = Integer.parseInt(String.valueOf(command.charAt(4)));
                         if (charactersTaken[characterNumber].isBlank()) {
