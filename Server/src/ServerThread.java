@@ -118,6 +118,9 @@ public class ServerThread implements Runnable{
             String[] message = {"Accepted", accountInfo[1], accountInfo[3]};
             friendOutput.writeObject(message);
             friendOutput.flush();
+        } else if (type.equals("Exit")){
+            ServerStart.userLoggedOut(accountInfo[1]);
+            ServerStart.removeUsersComms(accountInfo[1]);
         } else {
             try {
                 switch (type) {

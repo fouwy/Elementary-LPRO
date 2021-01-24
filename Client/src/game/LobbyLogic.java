@@ -36,6 +36,7 @@ public class LobbyLogic implements ActionListener {
         this.in = in;
         this.out = out;
 
+        Account.setLobbyOutput(out);
         playerPicks = new HashMap<>();
         Handler handler = new Handler();
         Thread thread = new Thread(handler);
@@ -176,6 +177,8 @@ public class LobbyLogic implements ActionListener {
 
         private void handleHostLeaving() {
             lobby_page.showMessage("The Host left the lobby.\nClosing lobby...");
+            Account.setLobbyCode(0);
+            Account.setLobbyOutput(null);
             leaveGame();
         }
 
@@ -370,6 +373,8 @@ public class LobbyLogic implements ActionListener {
 
     private void leaveGame() {
         out.println("QUIT");
+        Account.setLobbyCode(0);
+        Account.setLobbyOutput(null);
         ClientStart.cardLayout.show(ClientStart.rootPanel, "Main");
     }
 

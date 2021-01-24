@@ -1,5 +1,7 @@
 package game;
 
+import java.io.PrintWriter;
+
 /**
  * Stores information about this client.
  */
@@ -8,6 +10,7 @@ public class Account {
     private static char[] password;
     private static int myCharacter;
     private static int currentLobbyCode;
+    private static PrintWriter lobbyOutput;
 
     /**
      * Creates the account and stores the information
@@ -41,4 +44,13 @@ public class Account {
     public static int getCurrentLobbyCode() {
         return currentLobbyCode;
     }
+
+    public static PrintWriter getLobbyOutput() {
+        return lobbyOutput;
+    }
+
+    public static void setLobbyOutput(PrintWriter lobbyOutput) {
+        Account.lobbyOutput = lobbyOutput;
+    }
+
 }

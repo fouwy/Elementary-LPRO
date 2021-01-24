@@ -1,6 +1,10 @@
 package game;
 
 import common.ClientStart;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Map;
 import javax.swing.*;
 
@@ -24,7 +28,15 @@ public class Game extends JFrame {
         board = gamePage.getBoard();
         this.add(gamePage.$$$getRootComponent$$$());
         this.setTitle("ELEMENTARY");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        WindowListener listener = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                JOptionPane.showMessageDialog(null, "You can't leave while the\n" +
+                        "game is in progress!");
+                }
+            };
+        this.addWindowListener(listener);
         this.pack();
         this.setVisible(true);
     }

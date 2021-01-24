@@ -1,10 +1,15 @@
 package common;
 
+import authentication.Client;
 import authentication.LoginPage;
+import game.Account;
 import game.Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 /**
  * This class is responsible for starting the client
@@ -38,7 +43,34 @@ public class ClientStart extends JFrame {
         frame.setLocationRelativeTo(null);
         frame.setTitle("ELEMENTARY");
         frame.setSize(630, 560);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setResizable(false);
+
+        WindowListener listener = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int result = JOptionPane.showConfirmDialog(frame,
+                        "Are you sure you want to close?", "Confirm Exit", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    closeEverything();
+                    frame.setVisible(false);
+                    frame.dispose();
+                    System.exit(0);
+                }
+            }
+        };
+        frame.addWindowListener(listener);
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    private static void closeEverything() {
+        if (Account.getUsername() != null) {
+            if (Account.getLobbyOutput() != null) {
+                Account.getLobbyOutput().println("QUIT");
+            }
+            Client client = new Client(ClientStart.serverIP);
+            String[] accountInformation = {"Exit", Account.getUsername()};
+            client.sendInformation(accountInformation);
+        }
     }
 }

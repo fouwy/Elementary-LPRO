@@ -81,4 +81,9 @@ public class ServerStart {
     public synchronized static void userLoggedOut(String username) {
         usersOnline.remove(username);
     }
+
+    public static void removeUsersComms(String username) {
+        usersComms.remove(username);
+    }
+
 }

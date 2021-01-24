@@ -119,6 +119,7 @@ public class GameLogic implements ActionListener {
             cluePopup.hide();
             board.requestFocus();
         }
+        board.requestFocus();
     }
 
     private void hidePreviousPopup() {
@@ -129,6 +130,7 @@ public class GameLogic implements ActionListener {
         if (cluePopup != null)
             cluePopup.hide();
     }
+
     private void watsonClue() {
         hidePreviousPopup();
         WatsonClue cluePanel = new WatsonClue();
