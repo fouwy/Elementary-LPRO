@@ -168,6 +168,13 @@ public class LobbyLogic implements ActionListener {
                         break;
                     case "LEAV":
                         handleHostLeaving();
+                        break;
+                    case "CHAT":
+                        String[] msg = response.substring(4).split(",");
+                        game.showMessage(msg[1]+": "+msg[0]);
+                        break;
+                    case "INFO":
+                        game.showMessage(response.substring(4));
                     default:
                         showMessage(response);
                 }
@@ -196,8 +203,11 @@ public class LobbyLogic implements ActionListener {
                 String[] status = result.split(",");
                 String whoHasTheCard = status[0];
                 String cardToShow = status[1];
+                String whoAsked = status[2];
                 if (whoHasTheCard.equals(Account.getUsername()))
                     game.showMyCard(cardToShow);
+                else if (whoAsked.equals(Account.getUsername()))
+                    game.showAskedCard(cardToShow, whoHasTheCard);
                 else
                     game.showOtherPlayerCard(whoHasTheCard);
             }
@@ -352,6 +362,10 @@ public class LobbyLogic implements ActionListener {
      */
     public void tellServertoEndTurn() {
         out.println("ENDT");
+    }
+
+    public void sendMessageToParty(String message) {
+        out.println("CHAT"+message);
     }
 
     /**

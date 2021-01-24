@@ -50,76 +50,84 @@ public class GameLogic implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource()==gamePage.getSuggButton()) {
-            hidePreviousPopup();
+        if (gamePage.isMyTurn()) {
+            if (e.getSource() == gamePage.getSuggButton()) {
+                hidePreviousPopup();
+                currentRoom = board.getCurrentRoom();
 
-            currentRoom = board.getCurrentRoom();
-            if (alreadyMadeASuggestion)
-                gamePage.showMessage("You can only make one suggestion per turn");
-            else if (currentRoom.isBlank())
-                gamePage.showMessage("You need to be in a room to make a suggestion");
-            else {
-                alreadyMadeASuggestion = true;
-                suggestionPanel = new Suggestion(currentRoom);
-                suggestionPanel.add(suggestB);
-                PopupFactory pf = new PopupFactory();
-                suggest = pf.getPopup(gamePage.$$$getRootComponent$$$(), suggestionPanel, 300, 500);
-                suggest.show();
-            }
-        }
-        if (e.getSource()==gamePage.getAccuButton()) {
-            hidePreviousPopup();
-
-            currentRoom = board.getCurrentRoom();
-            if (currentRoom.isBlank())
-                gamePage.showMessage("You need to be in a room to make a accusation");
-            else {
-                accusationPanel = new Suggestion(currentRoom);
-                accusationPanel.add(accuseB);
-                PopupFactory pf = new PopupFactory();
-                accuse = pf.getPopup(gamePage.$$$getRootComponent$$$(), accusationPanel, 300, 500);
-                accuse.show();
-            }
-        }
-        if (e.getSource()==suggestB) {
-            suggestionChosen = suggestionPanel.getSelectedSuggestion();
-            suggest.hide();
-            board.requestFocus();
-            gamePage.getLobbyLogic().sendSuggestionToServer(
-                    suggestionChosen[0]+","+suggestionChosen[1]+","+currentRoom);
-
-        }
-        if (e.getSource()==accuseB) {
-            accusationChosen = accusationPanel.getSelectedSuggestion();
-            accuse.hide();
-            board.requestFocus();
-            gamePage.getLobbyLogic().sendAccusationToServer(
-                    accusationChosen[0]+","+accusationChosen[1]+","+currentRoom);
-        }
-        if (e.getSource()==gamePage.getEndTurnButton()) {
-            alreadyMadeASuggestion = false;
-            board.resetAttributes();
-            gamePage.getLobbyLogic().tellServertoEndTurn();
-            board.requestFocus();
-        }
-        if (e.getSource()==gamePage.getRollButton()) {
-            if (board.IAlreadyRolledTheDice())
-                gamePage.showMessage("You already rolled the dice!\nMove or End Turn.");
-            else {
-                int value1 = gamePage.getDice(1).rollDice();
-                int value2 = gamePage.getDice(2).rollDice();
-                if ((value1 == 1) && (value2 == 1)) {
-                    watsonClue();
+                if (alreadyMadeASuggestion)
+                    gamePage.showMessage("You can only make one suggestion per turn");
+                else if (currentRoom.isBlank())
+                    gamePage.showMessage("You need to be in a room to make a suggestion");
+                else {
+                    alreadyMadeASuggestion = true;
+                    suggestionPanel = new Suggestion(currentRoom);
+                    suggestionPanel.add(suggestB);
+                    PopupFactory pf = new PopupFactory();
+                    suggest = pf.getPopup(gamePage.$$$getRootComponent$$$(), suggestionPanel, 300, 500);
+                    suggest.show();
                 }
+            }
+            if (e.getSource() == gamePage.getAccuButton()) {
+                hidePreviousPopup();
+
+                currentRoom = board.getCurrentRoom();
+                if (currentRoom.isBlank())
+                    gamePage.showMessage("You need to be in a room to make a accusation");
+                else {
+                    accusationPanel = new Suggestion(currentRoom);
+                    accusationPanel.add(accuseB);
+                    PopupFactory pf = new PopupFactory();
+                    accuse = pf.getPopup(gamePage.$$$getRootComponent$$$(), accusationPanel, 300, 500);
+                    accuse.show();
+                }
+            }
+            if (e.getSource() == suggestB) {
+                suggestionChosen = suggestionPanel.getSelectedSuggestion();
+                suggest.hide();
                 board.requestFocus();
-                board.setDiceValue(value1 + value2);
+                gamePage.getLobbyLogic().sendSuggestionToServer(
+                        suggestionChosen[0] + "," + suggestionChosen[1] + "," + currentRoom);
+
+            }
+            if (e.getSource() == accuseB) {
+                accusationChosen = accusationPanel.getSelectedSuggestion();
+                accuse.hide();
+                board.requestFocus();
+                gamePage.getLobbyLogic().sendAccusationToServer(
+                        accusationChosen[0] + "," + accusationChosen[1] + "," + currentRoom);
+            }
+            if (e.getSource() == gamePage.getEndTurnButton()) {
+                alreadyMadeASuggestion = false;
+                board.resetAttributes();
+                gamePage.getLobbyLogic().tellServertoEndTurn();
+                board.requestFocus();
+            }
+            if (e.getSource() == gamePage.getRollButton()) {
+                if (board.IAlreadyRolledTheDice())
+                    gamePage.showMessage("You already rolled the dice!\nMove or End Turn.");
+                else {
+                    int value1 = gamePage.getDice(1).rollDice();
+                    int value2 = gamePage.getDice(2).rollDice();
+                    gamePage.getLobbyLogic().sendMessageToParty("Rolled a " + (value1 + value2) + ".");
+                    if ((value1 == 1) && (value2 == 1)) {
+                        watsonClue();
+                    }
+                    board.requestFocus();
+                    board.setDiceValue(value1 + value2);
+                }
+            }
+            if (e.getSource() == clueB) {
+                cluePopup.hide();
+                board.requestFocus();
             }
         }
-        if (e.getSource()==clueB) {
-            cluePopup.hide();
-            board.requestFocus();
+        if (e.getSource() == gamePage.getUserText()) {
+            gamePage.getLobbyLogic().sendMessageToParty(e.getActionCommand());
+            gamePage.getUserText().setText("");
         }
         board.requestFocus();
+
     }
 
     private void hidePreviousPopup() {

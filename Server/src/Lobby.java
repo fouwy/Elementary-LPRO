@@ -132,8 +132,11 @@ public class Lobby {
                     case "SUGG":
                         processSuggestion(command.substring(4));
                         break;
-                    default:
-                        broadcast(command);
+                    case "CHAT":
+                        broadcast(command+","+username);
+                        break;
+                    case "INFO":
+                        break;
                 }
             }
         }
@@ -146,12 +149,14 @@ public class Lobby {
          */
         private void processSuggestion(String suggestion) {
             String[] suggestionAttempt = suggestion.split(",");
+            broadcast("INFO"+username+ " suggested that the crime was committed by "+suggestionAttempt[0]+
+                    " in the "+suggestionAttempt[1]+" with "+suggestionAttempt[2]+"!");
             String result = game.makeSuggestion(suggestionAttempt, username, username); //need to send twice bc its recursive
             System.out.println("result = " + result);
             if (result == null)
                 broadcast("SUGGNOCARD");
             else
-                broadcast("SUGG"+result);
+                broadcast("SUGG"+result+","+username);
         }
 
         /**
@@ -163,6 +168,8 @@ public class Lobby {
         private void processAccusation(String accusation) {
             String[] accusationAttempt = accusation.split(",");
             System.out.println("accusationAttempt = " + Arrays.toString(accusationAttempt));
+            broadcast("INFO"+username+ " accused that the crime was committed by "+accusationAttempt[0]+
+                    " in the "+accusationAttempt[1]+" with "+accusationAttempt[2]+"!");
             if (game.isAccusationCorrect(accusationAttempt))
                 broadcast("WIN_WIN,"+username);
             else {

@@ -6,6 +6,7 @@ import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import java.util.Map;
  * Also controls
  */
 public class GamePage {
-    private Panel game;
+    private Panel board;
     private MyTable notepad;
     private JPanel panel1;
     private JPanel gamePanel;
@@ -47,12 +48,21 @@ public class GamePage {
     private JLabel player4;
     private JLabel player5;
     private JLabel player6;
+    private JTextField userText;
+    private JTextArea infoWindow;
+    private JLabel charP1;
+    private JLabel charP2;
+    private JLabel charP3;
+    private JLabel charP4;
+    private JLabel charP5;
+    private JLabel charP6;
 
     private final ImageIcon leftArrow, redx;
     private final JLabel[] playerLabels;
     private final ArrayList<String> playersInOrderList;
     private final int numberOfPlayers;
     private final ArrayList<Integer> losers;
+    private String currentPlayer;
 
 
     public GamePage(Map<String, Integer> playerPicks, LobbyLogic lobbyLogic) {
@@ -64,6 +74,7 @@ public class GamePage {
         playersInOrderList = new ArrayList<>();
 
         $$$setupUI$$$();
+
         JLabel[] cardLabels = {card1, card2, card3, card4};
         String[] cards = lobbyLogic.getCards();
         for (int i = 0; i < cards.length; i++) {
@@ -71,24 +82,45 @@ public class GamePage {
         }
 
         String[] playersInOrder = lobbyLogic.getPlayersInOrder();
+        currentPlayer = playersInOrder[0];
 
         numberOfPlayers = playersInOrder.length;
         playerLabels = new JLabel[]{player1, player2, player3, player4, player5, player6};
-
+        JLabel[] iconLabel = {charP1, charP2, charP3, charP4, charP5, charP6};
         for (int i = 0; i < numberOfPlayers; i++) {
             playersInOrderList.add(playersInOrder[i]);
             playerLabels[i].setText(playersInOrder[i]);
+
+            int characterNumber;
+            if (playersInOrder[i].equals(Account.getUsername()))
+                characterNumber = Account.getCharNumber();
+            else
+                characterNumber = playerPicks.get(playersInOrder[i]);
+
+            String imagePath = board.getImagePath(characterNumber);
+            iconLabel[i].setIcon(new ImageIcon(getClass().getResource(imagePath)));
         }
 
-        GameLogic handler = new GameLogic(this, game);
+        createTransparentIcons();
+        playerLabels[0].setIcon(leftArrow);
+
+        GameLogic handler = new GameLogic(this, board);
         suggButton.addActionListener(handler);
         accuButton.addActionListener(handler);
         endTurnButton.addActionListener(handler);
         rollButton.addActionListener(handler);
+        userText.addActionListener(handler);
+    }
+
+    private void createTransparentIcons() {
+        for (JLabel player : playerLabels)
+            //transparent image to line up menu
+            player.setIcon(new ImageIcon(
+                    new BufferedImage(20, 20, BufferedImage.TYPE_INT_ARGB)));
     }
 
     private void createUIComponents() {
-        game = new Panel(playerPicks, lobbyLogic);
+        board = new Panel(playerPicks, lobbyLogic);
         notepad = new MyTable();
         dice = new DicePanel();
         dice2 = new DicePanel();
@@ -122,16 +154,20 @@ public class GamePage {
      * @param playerName the next player to play.
      */
     public void nextTurn(String playerName) {
-        for (JLabel player : playerLabels)
-            player.setIcon(null);
+        createTransparentIcons();
         for (Integer loser : losers)
             playerLabels[loser].setIcon(redx);
         int turn = playersInOrderList.indexOf(playerName);
         playerLabels[turn].setIcon(leftArrow);
+        currentPlayer = playerName;
+    }
+
+    public boolean isMyTurn() {
+        return currentPlayer.equals(Account.getUsername());
     }
 
     public Panel getBoard() {
-        return game;
+        return board;
     }
 
     public JLabel getPlayerLabel() {
@@ -163,6 +199,14 @@ public class GamePage {
             return dice;
         else
             return dice2;
+    }
+
+    public JTextArea getInfoWindow() {
+        return infoWindow;
+    }
+
+    public JTextField getUserText() {
+        return userText;
     }
 
     /**
@@ -224,46 +268,78 @@ public class GamePage {
         card4.setText("card4");
         cardPanel.add(card4, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         rightPanel = new JPanel();
-        rightPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        rightPanel.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(rightPanel, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         rightPanel.add(notepad, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(200, 500), new Dimension(200, 500), null, 0, false));
+        userText = new JTextField();
+        userText.setEditable(true);
+        rightPanel.add(userText, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setHorizontalScrollBarPolicy(31);
+        rightPanel.add(scrollPane1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        infoWindow = new JTextArea();
+        infoWindow.setEditable(false);
+        infoWindow.setLineWrap(true);
+        infoWindow.setMaximumSize(new Dimension(20, 17));
+        infoWindow.setMinimumSize(new Dimension(20, 17));
+        infoWindow.setPreferredSize(new Dimension(20, 17));
+        infoWindow.setWrapStyleWord(true);
+        scrollPane1.setViewportView(infoWindow);
         leftPanel = new JPanel();
-        leftPanel.setLayout(new GridLayoutManager(8, 1, new Insets(0, 10, 0, 0), -1, -1));
-        panel1.add(leftPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        leftPanel.setLayout(new GridLayoutManager(8, 2, new Insets(0, 10, 0, 0), -1, -1));
+        panel1.add(leftPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         player1 = new JLabel();
         player1.setHorizontalTextPosition(10);
         player1.setIcon(new ImageIcon(getClass().getResource("/img/left-arrow-20px.gif")));
         player1.setText("");
-        leftPanel.add(player1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        leftPanel.add(player1, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         player2 = new JLabel();
         player2.setHorizontalTextPosition(10);
         player2.setText("");
-        leftPanel.add(player2, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        leftPanel.add(player2, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         player3 = new JLabel();
         player3.setHorizontalTextPosition(10);
         player3.setText("");
-        leftPanel.add(player3, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        leftPanel.add(player3, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         player4 = new JLabel();
         player4.setHorizontalTextPosition(10);
         player4.setText("");
-        leftPanel.add(player4, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        leftPanel.add(player4, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         player5 = new JLabel();
         player5.setHorizontalTextPosition(10);
         player5.setText("");
-        leftPanel.add(player5, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        leftPanel.add(player5, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         player6 = new JLabel();
         player6.setHorizontalTextPosition(10);
         player6.setText("");
-        leftPanel.add(player6, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        leftPanel.add(player6, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        leftPanel.add(panel2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        leftPanel.add(panel2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        leftPanel.add(spacer1, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        leftPanel.add(spacer1, new GridConstraints(7, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        charP1 = new JLabel();
+        charP1.setText("");
+        leftPanel.add(charP1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        charP2 = new JLabel();
+        charP2.setText("");
+        leftPanel.add(charP2, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        charP3 = new JLabel();
+        charP3.setText("");
+        leftPanel.add(charP3, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        charP4 = new JLabel();
+        charP4.setText("");
+        leftPanel.add(charP4, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        charP5 = new JLabel();
+        charP5.setText("");
+        leftPanel.add(charP5, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        charP6 = new JLabel();
+        charP6.setText("");
+        leftPanel.add(charP6, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         gamePanel = new JPanel();
         gamePanel.setLayout(new BorderLayout(0, 0));
         panel1.add(gamePanel, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(900, 720), null, 0, false));
-        gamePanel.add(game, BorderLayout.CENTER);
+        gamePanel.add(board, BorderLayout.CENTER);
     }
 
     /**

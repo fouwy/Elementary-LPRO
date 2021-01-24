@@ -102,4 +102,16 @@ public class Game extends JFrame {
     public void showNoOneHadCard() {
         JOptionPane.showMessageDialog(this, "No one had the cards!");
     }
+
+    public void showAskedCard(String cardToShow, String whoHasTheCard) {
+        JOptionPane.showMessageDialog(this, whoHasTheCard+" showed the card\n" +
+                cardToShow);
+    }
+
+    public void showMessage(String message) {
+        SwingUtilities.invokeLater(
+                () -> gamePage.getInfoWindow().append(message+"\n")
+        );
+
+    }
 }

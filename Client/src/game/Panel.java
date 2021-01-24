@@ -82,7 +82,6 @@ public class Panel extends JPanel implements KeyListener {
 
     private void setMyCharacter() {
         int charNumber = Account.getCharNumber();
-        System.out.println(charNumber);
         String characterImage;
 
         characterImage = getImagePath(charNumber);
@@ -216,7 +215,7 @@ public class Panel extends JPanel implements KeyListener {
         return getWidth()/25 + 1;
     }
 
-    private String getImagePath(int charNumber) {
+    public String getImagePath(int charNumber) {
         String characterImage;
         switch (charNumber) {
             case 1:
