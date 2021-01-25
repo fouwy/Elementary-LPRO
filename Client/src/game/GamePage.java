@@ -71,6 +71,7 @@ public class GamePage {
     private final int numberOfPlayers;
     private final ArrayList<Integer> losers;
     private String currentPlayer;
+    private boolean lastAccusation;
 
 
     public GamePage(Map<String, Integer> playerPicks, LobbyLogic lobbyLogic) {
@@ -178,6 +179,17 @@ public class GamePage {
         int turn = playersInOrderList.indexOf(playerName);
         playerLabels[turn].setIcon(leftArrow);
         currentPlayer = playerName;
+
+
+        if ((losers.size() == numberOfPlayers - 1) && numberOfPlayers > 1) {
+            showMessage("As the last player left, " + playerName + " will get one final accusation!");
+            showMessage(playerName + ", please make your final accusation.");
+            lastAccusation = true;
+        }
+    }
+
+    public boolean isLastAccusation() {
+        return lastAccusation;
     }
 
     public boolean isMyTurn() {

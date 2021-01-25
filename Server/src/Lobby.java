@@ -171,7 +171,7 @@ public class Lobby {
         private void processSuggestion(String suggestion) {
             String[] suggestionAttempt = suggestion.split(",");
             broadcast("INFO"+username+ " suggested that the crime was committed by "+suggestionAttempt[0]+
-                    " in the "+suggestionAttempt[1]+" with "+suggestionAttempt[2]+"!");
+                    " in the "+suggestionAttempt[2]+" with "+suggestionAttempt[1]+"!");
             String result = game.makeSuggestion(suggestionAttempt, username, username); //need to send twice bc its recursive
             System.out.println("result = " + result);
             if (result == null)
@@ -190,12 +190,15 @@ public class Lobby {
             String[] accusationAttempt = accusation.split(",");
             System.out.println("accusationAttempt = " + Arrays.toString(accusationAttempt));
             broadcast("INFO"+username+ " accused that the crime was committed by "+accusationAttempt[0]+
-                    " in the "+accusationAttempt[1]+" with "+accusationAttempt[2]+"!");
+                    " in the "+accusationAttempt[2]+" with "+accusationAttempt[1]+"!");
             if (game.isAccusationCorrect(accusationAttempt))
                 broadcast("WIN_WIN,"+username);
             else {
                 game.addLoser(username);
-                broadcast("WIN_LOSE," + username);
+                if (game.everyoneLost())
+                    broadcast("WIN_OVER,0");
+                else
+                    broadcast("WIN_LOSE," + username);
             }
         }
 

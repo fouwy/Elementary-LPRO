@@ -71,14 +71,24 @@ public class Game extends JFrame {
      * @param player the username of the player who won or lost.
      */
     public void showWinStatus(String status, String player) {
-        if (status.equals("WIN")) {
-            JOptionPane.showMessageDialog(this, "GAME OVER\n"+player+" WON!");
-            ClientStart.frame.setVisible(true);
-            ClientStart.cardLayout.show(ClientStart.rootPanel, "Lobby");
-            this.dispose();
-        } else if (status.equals("LOSE")) {
-            JOptionPane.showMessageDialog(this, player+" lost the game.\nTheir accusation was wrong");
-            gamePage.addLoser(player);
+        switch (status) {
+            case "WIN":
+                JOptionPane.showMessageDialog(this, "GAME OVER\n" + player + " WON!");
+                ClientStart.frame.setVisible(true);
+                ClientStart.cardLayout.show(ClientStart.rootPanel, "Lobby");
+                this.dispose();
+                break;
+            case "LOSE":
+                JOptionPane.showMessageDialog(this, player + " lost the game.\nTheir accusation was wrong");
+                gamePage.addLoser(player);
+                break;
+            case "OVER":
+                JOptionPane.showMessageDialog(this, "GAME OVER!\nThe accusation was wrong" +
+                        " and so the mystery remains unsolved.");
+                ClientStart.frame.setVisible(true);
+                ClientStart.cardLayout.show(ClientStart.rootPanel, "Lobby");
+                this.dispose();
+                break;
         }
     }
 

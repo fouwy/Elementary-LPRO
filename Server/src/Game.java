@@ -50,6 +50,10 @@ public class Game {
         losers.add(username);
     }
 
+    public boolean everyoneLost() {
+        return losers.size() == playerList.size();
+    }
+
     /**
      * Checks if any of the players in the game have any of the cards
      * that were suggested. Each player is checked in the order of their
@@ -247,5 +251,4 @@ public class Game {
     public String[] getMysteryCards() {
         return mysteryCards;
     }
-
 }

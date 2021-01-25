@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
  * in a JPanel.
  */
 public class Suggestion extends JPanel implements ActionListener {
+    JComboBox lastLocation;
     JComboBox person;
     JComboBox weapon;
     JLabel location;
@@ -52,6 +53,33 @@ public class Suggestion extends JPanel implements ActionListener {
 
     }
 
+    public Suggestion() {
+        String[] people = {"Sherlock Holmes","Moriarty","Mrs Hudson","Irene Adler","Enola Holmes","Mycroft Holmes"};
+        this.person = new JComboBox(people);
+        person.addActionListener(this);
+
+
+        String[] weapons = {"weapon 1", "weapon 2", "weapon 3","weapon 4", "weapon 5"};
+        this.weapon = new JComboBox(weapons);
+        weapon.addActionListener(this);
+
+        String[] locations = {"Hospital", "Morgue", "Palace", "Pool", "H.O.U.N.D. Labs", "Prison", "Museum", "Magnussen"};
+        this.lastLocation = new JComboBox(locations);
+        lastLocation.addActionListener(this);
+
+        accusation_sentence = new JTextPane();
+        accusation_sentence.setFont(new Font("Arial",Font.BOLD,12));
+        accusation_sentence.setVisible(false);
+
+        this.setLayout(new FlowLayout());
+        this.setVisible(true);
+        this.setSize(500,170);
+        this.add(person);
+        this.add(weapon);
+        this.add(lastLocation);
+        this.add(accusation_sentence);
+    }
+
     /**
      * Returns the person and weapon selected
      * by the user.
@@ -60,7 +88,12 @@ public class Suggestion extends JPanel implements ActionListener {
      */
     public String[] getSelectedSuggestion() {
         return new String[]{(String) person.getSelectedItem(), (String) weapon.getSelectedItem()};
-        }
+    }
+
+    public String[] getLastAccusation() {
+        return new String[]{(String) person.getSelectedItem(), (String) weapon.getSelectedItem(),
+                (String) lastLocation.getSelectedItem()};
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -71,6 +104,9 @@ public class Suggestion extends JPanel implements ActionListener {
         if(e.getSource()==weapon){
             System.out.println(weapon.getSelectedItem());
             w = true;
+        }
+        if (e.getSource()==lastLocation) {
+            l = true;
         }
         if(p&&l&&w){
             System.out.println("I suggest that " + person.getSelectedItem() + " murdered the victim with " + weapon.getSelectedItem() + " on " + location);

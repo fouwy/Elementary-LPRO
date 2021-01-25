@@ -70,32 +70,43 @@ public class GameLogic implements ActionListener {
             }
             if (e.getSource() == gamePage.getAccuButton()) {
                 hidePreviousPopup();
-
-                currentRoom = board.getCurrentRoom();
-                if (currentRoom.isBlank())
-                    gamePage.showMessage("You need to be in a room to make a accusation");
-                else {
-                    accusationPanel = new Suggestion(currentRoom);
+                if (gamePage.isLastAccusation()) {
+                    accusationPanel = new Suggestion();
                     accusationPanel.add(accuseB);
                     PopupFactory pf = new PopupFactory();
                     accuse = pf.getPopup(gamePage.$$$getRootComponent$$$(), accusationPanel, 300, 500);
                     accuse.show();
+                } else {
+                    currentRoom = board.getCurrentRoom();
+                    if (currentRoom.isBlank())
+                        gamePage.showMessage("You need to be in a room to make a accusation");
+                    else {
+                        accusationPanel = new Suggestion(currentRoom);
+                        accusationPanel.add(accuseB);
+                        PopupFactory pf = new PopupFactory();
+                        accuse = pf.getPopup(gamePage.$$$getRootComponent$$$(), accusationPanel, 300, 500);
+                        accuse.show();
+                    }
                 }
             }
             if (e.getSource() == suggestB) {
                 suggestionChosen = suggestionPanel.getSelectedSuggestion();
                 suggest.hide();
-                board.requestFocus();
                 gamePage.getLobbyLogic().sendSuggestionToServer(
                         suggestionChosen[0] + "," + suggestionChosen[1] + "," + currentRoom);
 
             }
             if (e.getSource() == accuseB) {
-                accusationChosen = accusationPanel.getSelectedSuggestion();
+                if (gamePage.isLastAccusation()) {
+                    accusationChosen = accusationPanel.getLastAccusation();
+                    gamePage.getLobbyLogic().sendAccusationToServer(
+                            accusationChosen[0] + "," + accusationChosen[1] + "," + accusationChosen[2]);
+                } else {
+                    accusationChosen = accusationPanel.getSelectedSuggestion();
+                    gamePage.getLobbyLogic().sendAccusationToServer(
+                            accusationChosen[0] + "," + accusationChosen[1] + "," + currentRoom);
+                }
                 accuse.hide();
-                board.requestFocus();
-                gamePage.getLobbyLogic().sendAccusationToServer(
-                        accusationChosen[0] + "," + accusationChosen[1] + "," + currentRoom);
             }
             if (e.getSource() == gamePage.getEndTurnButton()) {
                 alreadyMadeASuggestion = false;
@@ -122,6 +133,7 @@ public class GameLogic implements ActionListener {
                 board.requestFocus();
             }
         }
+
         if (e.getSource() == gamePage.getUserText()) {
             gamePage.getLobbyLogic().sendMessageToParty(e.getActionCommand());
             gamePage.getUserText().setText("");
