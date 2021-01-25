@@ -37,11 +37,6 @@ public class ServerStart {
 
     }
 
-//    private static void printNumberAndNameOfMembers(Database database) {
-//        System.out.println("Number of members: " + database.getAllMembers().size());
-//        System.out.println(database.getAllMembers().toString());
-//    }
-
     /**
      * Adds a user with the specified username and their output to a
      * HashMap to be able to send messages directly to them.

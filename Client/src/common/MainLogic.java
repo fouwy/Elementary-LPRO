@@ -41,6 +41,9 @@ public class MainLogic implements ActionListener, MouseListener {
 
     private final MainPage main_page;
     private List<String> friends;
+    private JPopupMenu menu;
+    private JMenuItem item;
+    private String lastClickedFriend;
 
     /**
      * Creates the handler for the main page and
@@ -57,6 +60,11 @@ public class MainLogic implements ActionListener, MouseListener {
 
         getFriendsList();
         showFriendsList();
+
+        menu = new JPopupMenu();
+        item = new JMenuItem("Join lobby");
+        item.addActionListener(this);
+        menu.add(item);
     }
 
     /**
@@ -75,27 +83,45 @@ public class MainLogic implements ActionListener, MouseListener {
     public void receiveMessage(String[] serverMessage) {
         System.out.println("serverMessage = " + Arrays.toString(serverMessage));
         String type = serverMessage[0];
-        if (type.equals("Add")) {
-            int result = main_page.openOptionDialog("Friend Request from: "+ serverMessage[1]+ "\n Do to accept?", "Friend Request");
-            if (result == JOptionPane.YES_OPTION) {
-                setFriendToAdd(Account.getUsername() ,serverMessage[1]);
+        switch (type) {
+            case "Add":
+                int result = main_page.openOptionDialog("Friend Request from: " + serverMessage[1] + "\n Do to accept?", "Friend Request");
+                if (result == JOptionPane.YES_OPTION) {
+                    setFriendToAdd(Account.getUsername(), serverMessage[1]);
+                    getFriendsList();
+                    showFriendsList();
+                    System.out.println("Friend Request Accepted");
+                    acceptFriendShip(true, serverMessage[1]);
+                } else {
+                    System.out.println("Friend Request Refused");
+                    acceptFriendShip(false, serverMessage[1]);
+                }
+                break;
+            case "Accepted":
+                if (serverMessage[2].equals("yes")) {
+                    showFriendsList();
+                    main_page.showMessage(serverMessage[1] + " accepted your friend request.\nYou are now friends!");
+                } else
+                    main_page.showMessage(serverMessage[1] + " did not accept your friend request");
                 getFriendsList();
                 showFriendsList();
-                System.out.println("Friend Request Accepted");
-                acceptFriendShip(true, serverMessage[1]);
-            } else {
-                System.out.println("Friend Request Refused");
-                acceptFriendShip(false, serverMessage[1]);
-            }
-        } else if (type.equals("Accepted")) {
-            if (serverMessage[2].equals("yes")) {
-                showFriendsList();
-                main_page.showMessage(serverMessage[1] + " accepted your friend request.\nYou are now friends!");
-            } else
-                main_page.showMessage(serverMessage[1] + " did not accept your friend request");
-            getFriendsList();
-            showFriendsList();
+                break;
+            case "Offline":
+                main_page.showMessage("The friend you are trying to reach is offline :(");
+                break;
+            case "askLobby":
+                sendLobbyCode(serverMessage[1]);
+                break;
+            case "Code":
+                joinLobby(Integer.parseInt(serverMessage[1]));
+                break;
         }
+    }
+
+    private void sendLobbyCode(String friend) {
+        String[] info = {"getLobby", friend, String.valueOf(Account.getCurrentLobbyCode())};
+        Client client = new Client(ClientStart.serverIP);
+        client.sendInformation(info);
     }
 
     private void acceptFriendShip(boolean accepted, String friend) {
@@ -143,6 +169,8 @@ public class MainLogic implements ActionListener, MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         System.out.println(((JLabel)e.getSource()).getText());
+        lastClickedFriend = ((JLabel) e.getSource()).getText();
+        menu.show(e.getComponent(), e.getX(), e.getY());
     }
 
     private void getFriendsList() {
@@ -169,7 +197,15 @@ public class MainLogic implements ActionListener, MouseListener {
         } else if (e.getSource().equals(main_page.getDeleteAccountButton())){
             deleteAccount();
             //enterLoginPage();
+        } else if (e.getSource().equals(item)) {
+            getFriendLobby(lastClickedFriend);
         }
+    }
+
+    private void getFriendLobby(String lastClickedFriend) {
+        String[] info = {"askLobby", Account.getUsername(), lastClickedFriend};
+        Client client = new Client(ClientStart.serverIP);
+        client.sendInformation(info);
     }
 
     private void canIBeYourFriend(String potencialFriend) {
@@ -191,6 +227,23 @@ public class MainLogic implements ActionListener, MouseListener {
             return;
         }
         Account.setLobbyCode(port);
+        ClientStart.rootPanel.add(new LobbyPage(in, out).$$$getRootComponent$$$(), "Lobby");
+        ClientStart.cardLayout.show(ClientStart.rootPanel, "Lobby");
+
+    }
+
+    private void joinLobby(int code) {
+        Scanner in;
+        PrintWriter out;
+        try {
+            Socket socket = new Socket(ClientStart.serverIP, code);
+            in = new Scanner(socket.getInputStream());
+            out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException e) {
+            main_page.showMessage("Could not join this lobby.\nTry again with a valid code.");
+            return;
+        }
+        Account.setLobbyCode(code);
         ClientStart.rootPanel.add(new LobbyPage(in, out).$$$getRootComponent$$$(), "Lobby");
         ClientStart.cardLayout.show(ClientStart.rootPanel, "Lobby");
 
@@ -331,7 +384,6 @@ public class MainLogic implements ActionListener, MouseListener {
                 break;
         }
     }
-
 
     @Override
     public void mousePressed(MouseEvent e) {}

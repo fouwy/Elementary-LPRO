@@ -89,119 +89,159 @@ public class ServerThread implements Runnable{
 
         Database database = connectToDatabase();
 
-        if (type.equals("Host")) {
-            Random randomPort = new Random();
-            int port_number = 4000 + randomPort.nextInt(3000);
-            output.writeObject(port_number);
-            output.flush();
-            new Lobby(accountInfo[1], port_number);
-
-        } else if (type.equals("FriendsList")) {
-            List<String> friends = database.getFriends(accountInfo);
-            output.writeObject(friends);
-            output.flush();
-
-        } else if (type.equals("Comms")) {
-            String clientMessage;
-            ServerStart.addUserComms(accountInfo[1], output);
-            do {
-                clientMessage = (String) input.readObject();
-            } while (!clientMessage.equals("END"));
-
-        } else if (type.equals("askFriendship")) {
-            ObjectOutputStream friendOutput = ServerStart.getUserOutput(accountInfo[2]);
-            String[] message = {"Add", accountInfo[1]};
-            friendOutput.writeObject(message);
-            friendOutput.flush();
-        } else if (type.equals("acceptFriend")) {
-            ObjectOutputStream friendOutput = ServerStart.getUserOutput(accountInfo[2]);
-            String[] message = {"Accepted", accountInfo[1], accountInfo[3]};
-            friendOutput.writeObject(message);
-            friendOutput.flush();
-        } else if (type.equals("Exit")){
-            ServerStart.userLoggedOut(accountInfo[1]);
-            ServerStart.removeUsersComms(accountInfo[1]);
-        } else {
-            try {
-                switch (type) {
-                    case "Register":
-                        if (database.isRegisterAllowed(accountInfo)) {
-                            outputMessage = 1;
-                            try {
-                                database.registerNewUser(accountInfo);
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                                outputMessage = -1;
-                            }
-                        } else
-                            outputMessage = 0;
-                        break;
-                    case "Login":
-                        String username = accountInfo[1];
-
-                        if (database.canLogin(accountInfo)) {
-                            ServerStart.addToLoggedInUsers(username);
-                            outputMessage = 1;
-                        } else if (!database.isUsernameTaken(username))
-                            outputMessage = 0;
-                        else if (ServerStart.isUserLoggedIn(username))
-                            outputMessage = 2;                      //User Already Logged in
-                        else
-                            outputMessage = -1;
-
-                        break;
-                    case "AddFriend":
-                        String friendUsername = accountInfo[1];
-
-                        if (database.canAddFriend(accountInfo)) {
-                            outputMessage = 1;
-                            database.addFriend(accountInfo);
-
-                        } else if (!database.isUsernameTaken(friendUsername)) {
-                            outputMessage = 0;
-
-                        } else
-                            outputMessage = -1;
-
-                        break;
-                    case "RemoveFriend":
-
-                        if (database.canRemoveFriend(accountInfo)) {
-
-                            try {
-                                database.removeFriend(accountInfo);
-                            } catch (SQLException e) {
-                                outputMessage = -1;
-                            }
-                            outputMessage = 1;
-                        } else
-                            outputMessage = 0;
-
-                        break;
-                    case "ChangePassword":
-
-                        if (database.ChangePassword(accountInfo)) {
-                            outputMessage = 1;
-                        } else
-                            outputMessage = -1;
-                        break;
-
-                    case "DeleteAccount":
-                        database.deleteAccount(accountInfo);
-                        outputMessage = 1;
-                        break;
-                    case "Logout":
-                        String userToLogout = accountInfo[1];
-                        ServerStart.userLoggedOut(userToLogout);
-                        break;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                outputMessage = -1;
+        switch (type) {
+            case "Host" -> {
+                Random randomPort = new Random();
+                int port_number = 4000 + randomPort.nextInt(3000);
+                output.writeObject(port_number);
+                output.flush();
+                new Lobby(accountInfo[1], port_number);
             }
+            case "FriendsList" -> {
+                List<String> friends = database.getFriends(accountInfo);
+                output.writeObject(friends);
+                output.flush();
+            }
+            case "Comms" -> {
+                String clientMessage;
+                ServerStart.addUserComms(accountInfo[1], output);
+                do {
+                    clientMessage = (String) input.readObject();
+                } while (!clientMessage.equals("END"));
+            }
+            case "askFriendship" -> {
+                ObjectOutputStream friendOutput = ServerStart.getUserOutput(accountInfo[2]);
+                ObjectOutputStream thisClient;
+                if (friendOutput == null) {
+                    thisClient = ServerStart.getUserOutput(accountInfo[1]);
+                    thisClient.writeObject(new String[]{"Offline"});
+                } else {
+                    String[] message = {"Add", accountInfo[1]};
+                    friendOutput.writeObject(message);
+                    friendOutput.flush();
+                }
+            }
+            case "acceptFriend" -> {
+                ObjectOutputStream friendOutput = ServerStart.getUserOutput(accountInfo[2]);
+                ObjectOutputStream thisClient;
+                if (friendOutput == null) {
+                    thisClient = ServerStart.getUserOutput(accountInfo[1]);
+                    thisClient.writeObject(new String[]{"Offline"});
+                } else {
+                    String[] message = {"Accepted", accountInfo[1], accountInfo[3]};
+                    friendOutput.writeObject(message);
+                    friendOutput.flush();
+                }
+            }
+            case "askLobby" -> {
+                ObjectOutputStream friendOutput = ServerStart.getUserOutput(accountInfo[2]);
+                ObjectOutputStream thisClient;
+                if (friendOutput == null) {
+                    thisClient = ServerStart.getUserOutput(accountInfo[1]);
+                    thisClient.writeObject(new String[]{"Offline"});
+                } else {
+                    String[] message = {"askLobby", accountInfo[1]};
+                    friendOutput.writeObject(message);
+                    friendOutput.flush();
+                }
+            }
+            case "getLobby" -> {
+                ObjectOutputStream friendOutput = ServerStart.getUserOutput(accountInfo[1]);
+                ObjectOutputStream thisClient;
+                if (friendOutput == null) {
+                    thisClient = ServerStart.getUserOutput(accountInfo[1]);
+                    thisClient.writeObject(new String[]{"Offline"});
+                } else {
+                    String[] message = {"Code", accountInfo[2]};
+                    friendOutput.writeObject(message);
+                    friendOutput.flush();
+                }
+            }
+            case "Exit" -> {
+                ServerStart.userLoggedOut(accountInfo[1]);
+                ServerStart.removeUsersComms(accountInfo[1]);
+            }
+            default -> {
+                try {
+                    switch (type) {
+                        case "Register":
+                            if (database.isRegisterAllowed(accountInfo)) {
+                                outputMessage = 1;
+                                try {
+                                    database.registerNewUser(accountInfo);
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                    outputMessage = -1;
+                                }
+                            } else
+                                outputMessage = 0;
+                            break;
+                        case "Login":
+                            String username = accountInfo[1];
 
-            output.writeObject(outputMessage);
-            output.flush();
+                            if (database.canLogin(accountInfo)) {
+                                ServerStart.addToLoggedInUsers(username);
+                                outputMessage = 1;
+                            } else if (!database.isUsernameTaken(username))
+                                outputMessage = 0;
+                            else if (ServerStart.isUserLoggedIn(username))
+                                outputMessage = 2;                      //User Already Logged in
+                            else
+                                outputMessage = -1;
+
+                            break;
+                        case "AddFriend":
+                            String friendUsername = accountInfo[1];
+
+                            if (database.canAddFriend(accountInfo)) {
+                                outputMessage = 1;
+                                database.addFriend(accountInfo);
+
+                            } else if (!database.isUsernameTaken(friendUsername)) {
+                                outputMessage = 0;
+
+                            } else
+                                outputMessage = -1;
+
+                            break;
+                        case "RemoveFriend":
+
+                            if (database.canRemoveFriend(accountInfo)) {
+
+                                try {
+                                    database.removeFriend(accountInfo);
+                                } catch (SQLException e) {
+                                    outputMessage = -1;
+                                }
+                                outputMessage = 1;
+                            } else
+                                outputMessage = 0;
+
+                            break;
+                        case "ChangePassword":
+
+                            if (database.ChangePassword(accountInfo)) {
+                                outputMessage = 1;
+                            } else
+                                outputMessage = -1;
+                            break;
+
+                        case "DeleteAccount":
+                            database.deleteAccount(accountInfo);
+                            outputMessage = 1;
+                            break;
+                        case "Logout":
+                            String userToLogout = accountInfo[1];
+                            ServerStart.userLoggedOut(userToLogout);
+                            break;
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    outputMessage = -1;
+                }
+                output.writeObject(outputMessage);
+                output.flush();
+            }
         }
     }
 
