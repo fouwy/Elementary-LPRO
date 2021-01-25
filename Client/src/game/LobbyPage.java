@@ -9,6 +9,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -23,7 +24,6 @@ public class LobbyPage {
     private JButton character6Button;
     private JButton LEAVEGAMEButton;
     private JButton STARTGAMEButton;
-    private JButton FRIENDSButton;
     private JPanel panel1;
     private JLabel char1Label;
     private JLabel char2Label;
@@ -43,10 +43,25 @@ public class LobbyPage {
     private JTextArea infoWindow;
     private JLabel lobbyCode;
     private JScrollPane scrollPane;
+    private JLabel member1;
+    private JLabel member2;
+    private JLabel member3;
+    private JLabel member4;
+    private JLabel member5;
+    private JLabel member6;
+    private ArrayList<JLabel> party;
 
     public LobbyPage(Scanner in, PrintWriter out) {
         $$$setupUI$$$();
         lobbyCode.setText("Lobby Code: " + Account.getCurrentLobbyCode());
+        party = new ArrayList<>();
+        party.add(member1);
+        party.add(member2);
+        party.add(member3);
+        party.add(member4);
+        party.add(member5);
+        party.add(member6);
+
         ActionListener handler = new LobbyLogic(this, in, out);
         character1Button.addActionListener(handler);
         character2Button.addActionListener(handler);
@@ -56,6 +71,26 @@ public class LobbyPage {
         character6Button.addActionListener(handler);
         STARTGAMEButton.addActionListener(handler);
         LEAVEGAMEButton.addActionListener(handler);
+    }
+
+    public void addMemberToParty(String member) {
+        for (int i = 0; i < 6; i++) {
+            if (party.get(i).getText().isBlank()) {
+                party.get(i).setText(member);
+                party.get(i).setVisible(true);
+                return;
+            }
+        }
+    }
+
+    public void removeMemberFromParty(String member) {
+        for (int i = 0; i < 6; i++) {
+            if (party.get(i).getText().equals(member)) {
+                party.get(i).setText("");
+                party.get(i).setVisible(false);
+                return;
+            }
+        }
     }
 
     public JButton getCharacterButton(int charNumber) {
@@ -210,29 +245,57 @@ public class LobbyPage {
         bodyPanel.setBackground(new Color(-11398558));
         panel1.add(bodyPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         FriendsPanel = new JPanel();
-        FriendsPanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        FriendsPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         FriendsPanel.setBackground(new Color(-11398558));
         bodyPanel.add(FriendsPanel, new GridConstraints(0, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        FRIENDSButton = new JButton();
-        FRIENDSButton.setBackground(new Color(-12511684));
-        Font FRIENDSButtonFont = this.$$$getFont$$$(null, Font.BOLD, -1, FRIENDSButton.getFont());
-        if (FRIENDSButtonFont != null) FRIENDSButton.setFont(FRIENDSButtonFont);
-        FRIENDSButton.setForeground(new Color(-1));
-        FRIENDSButton.setHorizontalAlignment(0);
-        FRIENDSButton.setText("FRIENDS");
-        FriendsPanel.add(FRIENDSButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         PartyPanel = new JPanel();
-        PartyPanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        PartyPanel.setLayout(new GridLayoutManager(8, 1, new Insets(0, 0, 0, 0), -1, -1));
         PartyPanel.setBackground(new Color(-11398558));
-        FriendsPanel.add(PartyPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        FriendsPanel.add(PartyPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final Spacer spacer1 = new Spacer();
+        PartyPanel.add(spacer1, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        member1 = new JLabel();
+        Font member1Font = this.$$$getFont$$$("Eras Medium ITC", -1, 14, member1.getFont());
+        if (member1Font != null) member1.setFont(member1Font);
+        member1.setForeground(new Color(-1));
+        member1.setText("");
+        PartyPanel.add(member1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        member2 = new JLabel();
+        Font member2Font = this.$$$getFont$$$("Eras Medium ITC", -1, 14, member2.getFont());
+        if (member2Font != null) member2.setFont(member2Font);
+        member2.setForeground(new Color(-1));
+        member2.setText("");
+        PartyPanel.add(member2, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        member3 = new JLabel();
+        Font member3Font = this.$$$getFont$$$("Eras Medium ITC", -1, 14, member3.getFont());
+        if (member3Font != null) member3.setFont(member3Font);
+        member3.setForeground(new Color(-1));
+        member3.setText("");
+        PartyPanel.add(member3, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        member4 = new JLabel();
+        Font member4Font = this.$$$getFont$$$("Eras Medium ITC", -1, 14, member4.getFont());
+        if (member4Font != null) member4.setFont(member4Font);
+        member4.setForeground(new Color(-1));
+        member4.setText("");
+        PartyPanel.add(member4, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        member5 = new JLabel();
+        Font member5Font = this.$$$getFont$$$("Eras Medium ITC", -1, 14, member5.getFont());
+        if (member5Font != null) member5.setFont(member5Font);
+        member5.setForeground(new Color(-1));
+        member5.setText("");
+        PartyPanel.add(member5, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        member6 = new JLabel();
+        Font member6Font = this.$$$getFont$$$("Eras Medium ITC", -1, 14, member6.getFont());
+        if (member6Font != null) member6.setFont(member6Font);
+        member6.setForeground(new Color(-1));
+        member6.setText("");
+        PartyPanel.add(member6, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         Font label1Font = this.$$$getFont$$$("Eras Bold ITC", Font.BOLD, 16, label1.getFont());
         if (label1Font != null) label1.setFont(label1Font);
         label1.setForeground(new Color(-13332258));
         label1.setText("PARTY");
-        PartyPanel.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer1 = new Spacer();
-        PartyPanel.add(spacer1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        PartyPanel.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         characterPanel = new JPanel();
         characterPanel.setLayout(new GridLayoutManager(4, 3, new Insets(0, 5, 0, 5), -1, -1));
         characterPanel.setBackground(new Color(-11398558));

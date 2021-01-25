@@ -119,15 +119,20 @@ public class LobbyLogic implements ActionListener {
         private void startCommunication() throws Exception {
             out.println(Account.getUsername());
             String charsTaken = in.nextLine();
-            disableAllTakenCharacters(convertToStringArray(charsTaken));
+            String party = in.nextLine();
 
+            disableAllTakenCharacters(convertToStringArray(charsTaken));
+            showPartyMembers(convertToStringArray(party));
+            
             String response = in.nextLine();
             showMessage(response);
-
             while(in.hasNextLine()) {
                 response = in.nextLine();
 
                 switch (response.substring(0, 4)) {
+                    case "WELC":
+                        handleNewPlayer(response.substring(4));
+                        break;
                     case "CHAR":
                         handleCharacterPick(response);
                         break;
@@ -173,6 +178,7 @@ public class LobbyLogic implements ActionListener {
                         break;
                     case "INFO":
                         game.showMessage(response.substring(4));
+                        break;
                     default:
                         showMessage(response);
                 }
@@ -180,15 +186,29 @@ public class LobbyLogic implements ActionListener {
             System.out.println("no nextLine");
         }
 
+        private void showPartyMembers(String[] members) {
+            for (String member : members)
+                lobby_page.addMemberToParty(member);
+        }
+
+        private void handleNewPlayer(String playerName) {
+            lobby_page.addMemberToParty(playerName);
+            showMessage(playerName+" just joined!");
+        }
+
         private void handleHostLeaving() {
             lobby_page.showMessage("The Host left the lobby.\nClosing lobby...");
             Account.setLobbyCode(0);
             Account.setLobbyOutput(null);
-            leaveGame();
+            out.println("QUIT");
+            Account.setLobbyCode(0);
+            Account.setLobbyOutput(null);
+            ClientStart.cardLayout.show(ClientStart.rootPanel, "Main");
         }
 
         private void handlePlayerLeaving(String response) {
             String player = response.substring(4);
+            lobby_page.removeMemberFromParty(player);
             showMessage(player + " left.");
         }
 

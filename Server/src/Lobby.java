@@ -86,10 +86,15 @@ public class Lobby {
             username = input.nextLine();
             if (username == null)
                 return;
-            welcomePlayer();
+
+            output.println(Arrays.toString(charactersTaken));
+            output.println(Arrays.toString(players.keySet().toArray()));
+            output.println("Welcome " + username);
+
             synchronized (players) {
                 players.put(username, new Pair<>(input, output));
             }
+            welcomePlayer();
 
             while(input.hasNextLine()) {
                 String command = input.nextLine();
@@ -236,9 +241,7 @@ public class Lobby {
          * joins a lobby.
          */
         private void welcomePlayer() {
-            output.println(Arrays.toString(charactersTaken));
-            output.println("Welcome " + username);
-            broadcast(username + " just joined.");
+            broadcast("WELC"+username);
         }
 
         private void setup() throws IOException {
