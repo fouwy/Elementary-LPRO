@@ -57,9 +57,16 @@ public class GamePage {
     private JLabel charP5;
     private JLabel charP6;
     private JScrollPane scrollPane;
+    private JLabel p1;
+    private JLabel p2;
+    private JLabel p3;
+    private JLabel p4;
+    private JLabel p5;
+    private JLabel p6;
 
     private final ImageIcon leftArrow, redx;
     private final JLabel[] playerLabels;
+    private final JLabel[] notepadIcons;
     private final ArrayList<String> playersInOrderList;
     private final int numberOfPlayers;
     private final ArrayList<Integer> losers;
@@ -88,6 +95,14 @@ public class GamePage {
         numberOfPlayers = playersInOrder.length;
         playerLabels = new JLabel[]{player1, player2, player3, player4, player5, player6};
         JLabel[] iconLabel = {charP1, charP2, charP3, charP4, charP5, charP6};
+        //Notepad player icons
+        notepadIcons = new JLabel[]{p1, p2, p3, p4, p5, p6};
+
+        for (JLabel noteIcon : notepadIcons)
+            noteIcon.setIcon(new ImageIcon(
+                    new BufferedImage(35, 35, BufferedImage.TYPE_INT_ARGB)));
+
+        createTransparentIcons();
         for (int i = 0; i < numberOfPlayers; i++) {
             playersInOrderList.add(playersInOrder[i]);
             playerLabels[i].setText(playersInOrder[i]);
@@ -99,11 +114,13 @@ public class GamePage {
                 characterNumber = playerPicks.get(playersInOrder[i]);
 
             String imagePath = board.getImagePath(characterNumber);
-            iconLabel[i].setIcon(new ImageIcon(getClass().getResource(imagePath)));
+            ImageIcon icon = new ImageIcon(getClass().getResource(imagePath));
+            iconLabel[i].setIcon(icon);
+            notepadIcons[i].setIcon(icon);
         }
 
-        createTransparentIcons();
         playerLabels[0].setIcon(leftArrow);
+
 
         GameLogic handler = new GameLogic(this, board);
         suggButton.addActionListener(handler);
@@ -269,19 +286,47 @@ public class GamePage {
         card4.setText("card4");
         cardPanel.add(card4, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         rightPanel = new JPanel();
-        rightPanel.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
+        rightPanel.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(rightPanel, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        rightPanel.add(notepad, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(200, 500), new Dimension(200, 500), null, 0, false));
+        rightPanel.add(notepad, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(200, 500), new Dimension(200, 500), null, 0, false));
         userText = new JTextField();
         userText.setEditable(true);
-        rightPanel.add(userText, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        rightPanel.add(userText, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         scrollPane = new JScrollPane();
-        rightPanel.add(scrollPane, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        rightPanel.add(scrollPane, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         infoWindow = new JTextArea();
         infoWindow.setEditable(false);
         infoWindow.setLineWrap(true);
         infoWindow.setWrapStyleWord(true);
         scrollPane.setViewportView(infoWindow);
+        final JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayoutManager(1, 7, new Insets(0, 85, 0, 55), -1, -1));
+        rightPanel.add(panel2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final JLabel label1 = new JLabel();
+        Font label1Font = this.$$$getFont$$$(null, Font.BOLD, -1, label1.getFont());
+        if (label1Font != null) label1.setFont(label1Font);
+        label1.setText("Players");
+        panel2.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        p1 = new JLabel();
+        p1.setHorizontalAlignment(0);
+        p1.setHorizontalTextPosition(4);
+        p1.setText("");
+        panel2.add(p1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        p2 = new JLabel();
+        p2.setText("");
+        panel2.add(p2, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        p3 = new JLabel();
+        p3.setText("");
+        panel2.add(p3, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        p4 = new JLabel();
+        p4.setText("");
+        panel2.add(p4, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        p5 = new JLabel();
+        p5.setText("");
+        panel2.add(p5, new GridConstraints(0, 5, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        p6 = new JLabel();
+        p6.setText("");
+        panel2.add(p6, new GridConstraints(0, 6, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridLayoutManager(8, 2, new Insets(0, 10, 0, 0), -1, -1));
         panel1.add(leftPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -310,9 +355,9 @@ public class GamePage {
         player6.setHorizontalTextPosition(10);
         player6.setText("");
         leftPanel.add(player6, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        leftPanel.add(panel2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final JPanel panel3 = new JPanel();
+        panel3.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        leftPanel.add(panel3, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
         leftPanel.add(spacer1, new GridConstraints(7, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         charP1 = new JLabel();
@@ -337,6 +382,25 @@ public class GamePage {
         gamePanel.setLayout(new BorderLayout(0, 0));
         panel1.add(gamePanel, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(900, 720), null, 0, false));
         gamePanel.add(board, BorderLayout.CENTER);
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**

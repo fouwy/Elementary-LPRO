@@ -190,9 +190,9 @@ public class Game {
      */
     private String[][] dealCards(){
 
-        String[] cards = {"person 1","person 2","person 3","person 4","person 5","person 6",
+        String[] cards = {"Sherlock Holmes","Moriarty","Mrs Hudson","Irene Adler","Enola Holmes","Mycroft Holmes",
                 "weapon 1", "weapon 2", "weapon 3","weapon 4", "weapon 5",
-                "place 1", "place 2", "place 3","place 4", "place 5", "place 6","place 7", "place 8"};
+                "Hospital", "Morgue", "Palace", "Pool", "H.O.U.N.D. Labs", "Prison", "Museum", "Magnussen"};
 
         mysteryCards = choose3MysteryCards(cards);
         int numberOfPlayers = players.size();

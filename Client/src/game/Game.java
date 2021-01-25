@@ -2,6 +2,7 @@ package game;
 
 import common.ClientStart;
 
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -37,7 +38,9 @@ public class Game extends JFrame {
                 }
             };
         this.addWindowListener(listener);
-        this.pack();
+        this.setResizable(true);
+        this.setLocation(0, 0);
+        this.setExtendedState(this.getExtendedState() | MAXIMIZED_BOTH);
         this.setVisible(true);
     }
 

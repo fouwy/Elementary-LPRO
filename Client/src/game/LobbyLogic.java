@@ -426,6 +426,7 @@ public class LobbyLogic implements ActionListener {
     }
 
     private void startGame() {
+
         ClientStart.frame.setVisible(false);
         game = new Game(playerPicks, this);
     }

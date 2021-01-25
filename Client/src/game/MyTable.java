@@ -26,32 +26,40 @@ public class MyTable extends JPanel {
         {
             public Class<?> getColumnClass(int column)
             {
-                if (column == 1) {
-                    return Boolean.class;
+                if (column == 0) {
+                    return String.class;
                 }
-                return String.class;
+                return Boolean.class;
             }
         };
         //ASSIGN THE MODEL TO TABLE
         table.setModel(model);
-
         model.addColumn("Suspects");
-        model.addColumn("Eliminated");
+        model.addColumn("Player1");
+        model.addColumn("Player2");
+        model.addColumn("Player3");
+        model.addColumn("Player4");
+        model.addColumn("Player5");
+        model.addColumn("Player6");
 
         //THE ROW
-        for(int i=0;i<24;i++)
-        {
+        for(int i=0;i<24;i++) {
             model.addRow(new Object[0]);
             model.setValueAt(false,i,1);
-
+            model.setValueAt(false,i,2);
+            model.setValueAt(false,i,3);
+            model.setValueAt(false,i,4);
+            model.setValueAt(false,i,5);
+            model.setValueAt(false,i,6);
         }
+
         model.setValueAt("People:", 0, 0);
-        model.setValueAt("Person 1", 1, 0);
-        model.setValueAt("Person 2", 2, 0);
-        model.setValueAt("Person 3", 3, 0);
-        model.setValueAt("Person 4", 4, 0);
-        model.setValueAt("Person 5", 5, 0);
-        model.setValueAt("Person 6", 6, 0);
+        model.setValueAt("Sherlock Holmes", 1, 0);
+        model.setValueAt("Moriarty", 2, 0);
+        model.setValueAt("Mrs Hudson", 3, 0);
+        model.setValueAt("Irene Adler", 4, 0);
+        model.setValueAt("Enola Holmes", 5, 0);
+        model.setValueAt("Mycroft Holmes", 6, 0);
         model.setValueAt(" ", 7, 0);
         model.setValueAt("Weapons:", 8, 0);
         model.setValueAt("Weapon 1", 9, 0);
@@ -61,14 +69,14 @@ public class MyTable extends JPanel {
         model.setValueAt("Weapon 5", 13, 0);
         model.setValueAt(" ", 14, 0);
         model.setValueAt("Places:", 15, 0);
-        model.setValueAt("Place 1", 16, 0);
-        model.setValueAt("Place 2", 17, 0);
-        model.setValueAt("Place 3", 18, 0);
-        model.setValueAt("Place 4", 19, 0);
-        model.setValueAt("Place 5", 20, 0);
-        model.setValueAt("Place 6", 21, 0);
-        model.setValueAt("Place 7", 22, 0);
-        model.setValueAt("Place 8", 23, 0);
+        model.setValueAt("Hospital", 16, 0);
+        model.setValueAt("Morgue", 17, 0);
+        model.setValueAt("Palace", 18, 0);
+        model.setValueAt("Pool", 19, 0);
+        model.setValueAt("H.O.U.N.D. Labs", 20, 0);
+        model.setValueAt("Prison", 21, 0);
+        model.setValueAt("Museum", 22, 0);
+        model.setValueAt("Magnussen", 23, 0);
 
         this.add(table);
     }

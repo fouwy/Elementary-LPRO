@@ -26,7 +26,7 @@ public class Suggestion extends JPanel implements ActionListener {
      * @param location the place to be put in the phrase.
      */
     public Suggestion(String location) {
-        String[] people = {"person 1","person 2","person 3","person 4","person 5","person 6"};
+        String[] people = {"Sherlock Holmes","Moriarty","Mrs Hudson","Irene Adler","Enola Holmes","Mycroft Holmes"};
         this.person = new JComboBox(people);
         person.addActionListener(this);
 

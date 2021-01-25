@@ -145,21 +145,21 @@ public class Panel extends JPanel implements KeyListener {
     public String getCurrentRoom() {
         switch (myPlayer.getRoom()) {
             case 1:
-                return "place 1";
+                return "Hospital";
             case 2:
-                return "place 2";
+                return "Morgue";
             case 3:
-                return "place 3";
+                return "Palace";
             case 4:
-                return "place 4";
+                return "Pool";
             case 5:
-                return "place 5";
+                return "H.O.U.N.D. Labs";
             case 6:
-                return "place 6";
+                return "Prison";
             case 7:
-                return "place 7";
+                return "Museum";
             case 8:
-                return "place 8";
+                return "Magnussen";
             default:
                 return "";
        }
