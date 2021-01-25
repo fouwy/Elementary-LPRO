@@ -16,7 +16,7 @@ public class Lobby {
     private final String host;
     private boolean waitingToStart;
     private final String[] charactersTaken;
-    private static final NavigableMap<String, Pair<Scanner, PrintWriter>> players =  new TreeMap<>();
+    private final NavigableMap<String, Pair<Scanner, PrintWriter>> players =  new TreeMap<>();
     private Game game;
 
     /**
