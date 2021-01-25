@@ -42,6 +42,7 @@ public class LobbyPage {
     private JPanel menuPanel;
     private JTextArea infoWindow;
     private JLabel lobbyCode;
+    private JScrollPane scrollPane;
 
     public LobbyPage(Scanner in, PrintWriter out) {
         $$$setupUI$$$();
@@ -174,6 +175,11 @@ public class LobbyPage {
 
     public void showMessage(String msg) {
         JOptionPane.showMessageDialog(null, msg);
+    }
+
+    public int showConfirmDialog(String message, String title) {
+        return JOptionPane.showConfirmDialog(null,
+                message, title, JOptionPane.YES_NO_OPTION);
     }
 
     /**
@@ -320,10 +326,10 @@ public class LobbyPage {
         panel3.setLayout(new GridLayoutManager(1, 1, new Insets(10, 5, 10, 5), -1, -1));
         panel3.setBackground(new Color(-11398558));
         sectionPanel.add(panel3, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(50, 180), null, 0, false));
-        final JScrollPane scrollPane1 = new JScrollPane();
-        panel3.add(scrollPane1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(30, 150), null, 0, false));
+        scrollPane = new JScrollPane();
+        panel3.add(scrollPane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(30, 150), null, 0, false));
         infoWindow = new JTextArea();
-        scrollPane1.setViewportView(infoWindow);
+        scrollPane.setViewportView(infoWindow);
         menuPanel = new JPanel();
         menuPanel.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
         menuPanel.setBackground(new Color(-11398558));

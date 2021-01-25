@@ -398,10 +398,14 @@ public class LobbyLogic implements ActionListener {
     }
 
     private void leaveGame() {
-        out.println("QUIT");
-        Account.setLobbyCode(0);
-        Account.setLobbyOutput(null);
-        ClientStart.cardLayout.show(ClientStart.rootPanel, "Main");
+        int result = lobby_page.showConfirmDialog(
+                "Are you sure you want to leave?","Confirm Leave");
+        if (result == JOptionPane.OK_OPTION) {
+            out.println("QUIT");
+            Account.setLobbyCode(0);
+            Account.setLobbyOutput(null);
+            ClientStart.cardLayout.show(ClientStart.rootPanel, "Main");
+        }
     }
 
     private void chooseCharacter(int characterNumber, String playerName) throws Exception {

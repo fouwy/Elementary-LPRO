@@ -102,6 +102,8 @@ public class Lobby {
                             broadcast("LEAV");
                         }
                         players.remove(username);
+                        charactersTaken[charNumber] = "0";
+                        broadcast("CHAR"+Arrays.toString(charactersTaken));
                         broadcast("LEFT"+username);
                         return;
                     case "CHAR":
