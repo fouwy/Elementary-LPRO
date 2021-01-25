@@ -239,15 +239,27 @@ public class LobbyLogic implements ActionListener {
         }
 
         private void handleCharacterPick(String response) throws Exception {
-            int characterNumber = Integer.parseInt(String.valueOf(response.charAt(4)));
-            String playerName = response.substring(5);
+            String[] characters = convertToStringArray(response.substring(4));
 
-            if(playerName.equals(Account.getUsername())) {
-                Account.setMyCharacter(characterNumber);
-                chooseCharacter(characterNumber, playerName);
-            } else {
-                setOtherPlayerChar(playerName, characterNumber);
+            for (int i = 0; i<characters.length; i++) {
+                unselectCharacter(i);
+                if (!characters[i].equals("0")) {
+                    if(characters[i].equals(Account.getUsername())) {
+                        Account.setMyCharacter(i);
+                        chooseCharacter(i, characters[i]);
+                    } else
+                        setOtherPlayerChar(characters[i], i);
+                }
             }
+        }
+
+        private void unselectCharacter(int charNumber) {
+            SwingUtilities.invokeLater(() -> {
+                lobby_page.setCharacterButtonEnabled(charNumber,true);
+                lobby_page.setCharacterName(charNumber, "Available");
+            });
+
+
         }
 
         /*Example response: MOVEWfouwy
@@ -403,7 +415,7 @@ public class LobbyLogic implements ActionListener {
 
     private void disableAllTakenCharacters(String[] characters) throws Exception {
         for (int i = 0; i<characters.length; i++) {
-            if(!characters[i].isBlank()) {
+            if(!characters[i].equals("0")) {
                 setOtherPlayerChar(characters[i], i);
             }
         }

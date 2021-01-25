@@ -3,7 +3,6 @@ package game;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import common.ClientStart;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -118,21 +117,45 @@ public class LobbyPage {
         switch (characterNumber) {
             case 1:
                 char1Label.setText(playerName);
+                if (playerName.equals("Available"))
+                    char1Label.setForeground(Color.WHITE);
+                else
+                    char1Label.setForeground(new Color(52, 144, 222));
                 break;
             case 2:
                 char2Label.setText(playerName);
+                if (playerName.equals("Available"))
+                    char2Label.setForeground(Color.WHITE);
+                else
+                    char2Label.setForeground(new Color(52, 144, 222));
                 break;
             case 3:
                 char3Label.setText(playerName);
+                if (playerName.equals("Available"))
+                    char3Label.setForeground(Color.WHITE);
+                else
+                    char3Label.setForeground(new Color(52, 144, 222));
                 break;
             case 4:
                 char4Label.setText(playerName);
+                if (playerName.equals("Available"))
+                    char4Label.setForeground(Color.WHITE);
+                else
+                    char4Label.setForeground(new Color(52, 144, 222));
                 break;
             case 5:
                 char5Label.setText(playerName);
+                if (playerName.equals("Available"))
+                    char5Label.setForeground(Color.WHITE);
+                else
+                    char5Label.setForeground(new Color(52, 144, 222));
                 break;
             case 6:
                 char6Label.setText(playerName);
+                if (playerName.equals("Available"))
+                    char6Label.setForeground(Color.WHITE);
+                else
+                    char6Label.setForeground(new Color(52, 144, 222));
                 break;
         }
     }
@@ -197,7 +220,7 @@ public class LobbyPage {
         PartyPanel.setBackground(new Color(-11398558));
         FriendsPanel.add(PartyPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
-        Font label1Font = this.$$$getFont$$$(null, Font.BOLD, -1, label1.getFont());
+        Font label1Font = this.$$$getFont$$$("Eras Bold ITC", Font.BOLD, 16, label1.getFont());
         if (label1Font != null) label1.setFont(label1Font);
         label1.setForeground(new Color(-13332258));
         label1.setText("PARTY");
@@ -241,50 +264,50 @@ public class LobbyPage {
         characterPanel.add(character6Button, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         char1Label = new JLabel();
         char1Label.setBackground(new Color(-13332258));
-        Font char1LabelFont = this.$$$getFont$$$(null, Font.BOLD, -1, char1Label.getFont());
+        Font char1LabelFont = this.$$$getFont$$$("Eras Bold ITC", Font.PLAIN, 20, char1Label.getFont());
         if (char1LabelFont != null) char1Label.setFont(char1LabelFont);
-        char1Label.setForeground(new Color(-13332258));
+        char1Label.setForeground(new Color(-1));
         char1Label.setHorizontalAlignment(0);
         char1Label.setHorizontalTextPosition(0);
         char1Label.setText("Available");
         characterPanel.add(char1Label, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         char2Label = new JLabel();
         char2Label.setBackground(new Color(-13332258));
-        Font char2LabelFont = this.$$$getFont$$$(null, Font.BOLD, -1, char2Label.getFont());
+        Font char2LabelFont = this.$$$getFont$$$("Eras Bold ITC", Font.PLAIN, 20, char2Label.getFont());
         if (char2LabelFont != null) char2Label.setFont(char2LabelFont);
-        char2Label.setForeground(new Color(-13332258));
+        char2Label.setForeground(new Color(-1));
         char2Label.setHorizontalAlignment(0);
         char2Label.setHorizontalTextPosition(0);
         char2Label.setText("Available");
         characterPanel.add(char2Label, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         char3Label = new JLabel();
-        Font char3LabelFont = this.$$$getFont$$$(null, Font.BOLD, -1, char3Label.getFont());
+        Font char3LabelFont = this.$$$getFont$$$("Eras Bold ITC", Font.PLAIN, 20, char3Label.getFont());
         if (char3LabelFont != null) char3Label.setFont(char3LabelFont);
-        char3Label.setForeground(new Color(-13332258));
+        char3Label.setForeground(new Color(-1));
         char3Label.setHorizontalAlignment(0);
         char3Label.setHorizontalTextPosition(0);
         char3Label.setText("Available");
         characterPanel.add(char3Label, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         char4Label = new JLabel();
-        Font char4LabelFont = this.$$$getFont$$$(null, Font.BOLD, -1, char4Label.getFont());
+        Font char4LabelFont = this.$$$getFont$$$("Eras Bold ITC", Font.PLAIN, 20, char4Label.getFont());
         if (char4LabelFont != null) char4Label.setFont(char4LabelFont);
-        char4Label.setForeground(new Color(-13332258));
+        char4Label.setForeground(new Color(-1));
         char4Label.setHorizontalAlignment(0);
         char4Label.setHorizontalTextPosition(0);
         char4Label.setText("Available");
         characterPanel.add(char4Label, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         char5Label = new JLabel();
-        Font char5LabelFont = this.$$$getFont$$$(null, Font.BOLD, -1, char5Label.getFont());
+        Font char5LabelFont = this.$$$getFont$$$("Eras Bold ITC", Font.PLAIN, 20, char5Label.getFont());
         if (char5LabelFont != null) char5Label.setFont(char5LabelFont);
-        char5Label.setForeground(new Color(-13332258));
+        char5Label.setForeground(new Color(-1));
         char5Label.setHorizontalAlignment(0);
         char5Label.setHorizontalTextPosition(0);
         char5Label.setText("Available");
         characterPanel.add(char5Label, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         char6Label = new JLabel();
-        Font char6LabelFont = this.$$$getFont$$$(null, Font.BOLD, -1, char6Label.getFont());
+        Font char6LabelFont = this.$$$getFont$$$("Eras Bold ITC", Font.PLAIN, 20, char6Label.getFont());
         if (char6LabelFont != null) char6Label.setFont(char6LabelFont);
-        char6Label.setForeground(new Color(-13332258));
+        char6Label.setForeground(new Color(-1));
         char6Label.setHorizontalAlignment(0);
         char6Label.setHorizontalTextPosition(0);
         char6Label.setText("Available");
@@ -296,20 +319,10 @@ public class LobbyPage {
         panel3 = new JPanel();
         panel3.setLayout(new GridLayoutManager(1, 1, new Insets(10, 5, 10, 5), -1, -1));
         panel3.setBackground(new Color(-11398558));
-        sectionPanel.add(panel3, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        sectionPanel.add(panel3, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(50, 180), null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
-        scrollPane1.setBackground(new Color(-10077786));
-        scrollPane1.setEnabled(false);
-        panel3.add(scrollPane1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        scrollPane1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        panel3.add(scrollPane1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(30, 150), null, 0, false));
         infoWindow = new JTextArea();
-        infoWindow.setBackground(new Color(-10077786));
-        infoWindow.setEditable(false);
-        Font infoWindowFont = this.$$$getFont$$$("Lucida Sans Typewriter", Font.BOLD, -1, infoWindow.getFont());
-        if (infoWindowFont != null) infoWindow.setFont(infoWindowFont);
-        infoWindow.setForeground(new Color(-16777216));
-        infoWindow.setMargin(new Insets(2, 2, 0, 0));
-        infoWindow.setWrapStyleWord(false);
         scrollPane1.setViewportView(infoWindow);
         menuPanel = new JPanel();
         menuPanel.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
@@ -332,7 +345,7 @@ public class LobbyPage {
         final Spacer spacer2 = new Spacer();
         menuPanel.add(spacer2, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         lobbyCode = new JLabel();
-        Font lobbyCodeFont = this.$$$getFont$$$(null, Font.BOLD, 16, lobbyCode.getFont());
+        Font lobbyCodeFont = this.$$$getFont$$$("Eras Bold ITC", Font.BOLD, 16, lobbyCode.getFont());
         if (lobbyCodeFont != null) lobbyCode.setFont(lobbyCodeFont);
         lobbyCode.setForeground(new Color(-13332258));
         lobbyCode.setText("Lobby Code");

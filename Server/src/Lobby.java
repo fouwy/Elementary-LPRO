@@ -31,7 +31,7 @@ public class Lobby {
         this.port = port;
         waitingToStart = true;
         charactersTaken = new String[7];
-        Arrays.fill(charactersTaken, "");
+        Arrays.fill(charactersTaken, "0");
         startLobby();
     }
 
@@ -52,6 +52,7 @@ public class Lobby {
      */
     class Player implements Runnable {
         private String username;
+        private int charNumber;
         private final Socket socket;
         private Scanner input;
         private PrintWriter output;
@@ -104,10 +105,11 @@ public class Lobby {
                         broadcast("LEFT"+username);
                         return;
                     case "CHAR":
-                        int characterNumber = Integer.parseInt(String.valueOf(command.charAt(4)));
-                        if (charactersTaken[characterNumber].isBlank()) {
-                            charactersTaken[characterNumber] = username;
-                            broadcast("CHAR"+characterNumber+ username);
+                        charactersTaken[charNumber] = "0";
+                        charNumber = Integer.parseInt(String.valueOf(command.charAt(4)));
+                        if (charactersTaken[charNumber].equals("0")) {
+                            charactersTaken[charNumber] = username;
+                            broadcast("CHAR"+Arrays.toString(charactersTaken));
                         }
                         break;
                     case "STRT":    //START
