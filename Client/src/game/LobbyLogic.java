@@ -142,14 +142,12 @@ public class LobbyLogic implements ActionListener {
                         break;
                     case "MESG":
                         //show popup with the message
-                        showMessage(response);
-                        System.out.println("response = " + response);
+                        showMessage(response.substring(4));
                         break;
                     case "ENDT":
                         handleTurn(response);
                         break;
                     case "CARD":
-                        System.out.println("response = " + response);
                         handleCards(response);
                         startGame();
                         break;

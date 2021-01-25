@@ -116,9 +116,11 @@ public class Lobby {
                         break;
                     case "STRT":    //START
                         if (username.equals(host)) {
-                            waitingToStart = false;
-                            startGame();
-                            broadcast(game.getPlayerOrder());
+                            if (AllPlayersPicked()) {
+                                waitingToStart = false;
+                                startGame();
+                                broadcast(game.getPlayerOrder());
+                            }
                         }
                         break;
                     case "CARD":
@@ -143,6 +145,16 @@ public class Lobby {
                         break;
                 }
             }
+        }
+
+        private boolean AllPlayersPicked() {
+            for (String player : players.keySet()) {
+                if (!Arrays.asList(charactersTaken).contains(player)) {
+                    broadcast("MESGCan't start game until all players pick a character!");
+                    return false;
+                }
+            }
+            return true;
         }
 
         /**
