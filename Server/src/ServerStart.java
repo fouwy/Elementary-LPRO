@@ -33,8 +33,6 @@ public class ServerStart {
             Thread thread = new Thread(client);
             thread.start();
         }
-
-
     }
 
     /**
