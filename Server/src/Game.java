@@ -38,7 +38,6 @@ public class Game {
         System.out.println("playerOrder = " + playerOrder);
 
         playerCards = dealCards();
-        mysteryCards = new String[]{"Irene Adler", "Belt", "Prison"};
         System.out.println("mysteryCards = " + Arrays.toString(mysteryCards));
     }
 
@@ -231,15 +230,15 @@ public class Game {
         int cardsNumber = cards.length;
         String[]  mysteryCards = new String[3];
         int mysteryPerson = random.nextInt(6);        //0 a 5 - Person
-        mysteryCards[0] = cards[mysteryPerson];
+        mysteryCards[0] = cards[3];
         shiftCards(cards, mysteryPerson, cardsNumber);
         cardsNumber--;
         int mysteryWeapon = 5 + random.nextInt(5);   // 5 a 9 - Weapon
-        mysteryCards[1] = cards[mysteryWeapon];
+        mysteryCards[1] = cards[10];
         shiftCards(cards, mysteryWeapon, cardsNumber);
         cardsNumber--;
         int mysteryPlace = 9 + random.nextInt(8);  // 9 a 16 - Place
-        mysteryCards[2] = cards[mysteryPlace];
+        mysteryCards[2] = cards[16];
         shiftCards(cards, mysteryPlace, cardsNumber);
 
         return mysteryCards;
