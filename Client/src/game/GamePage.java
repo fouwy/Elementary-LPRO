@@ -348,7 +348,7 @@ public class GamePage {
         infoWindow.setWrapStyleWord(true);
         scrollPane.setViewportView(infoWindow);
         final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayoutManager(1, 7, new Insets(0, 10, 0, 55), -1, -1));
+        panel2.setLayout(new GridLayoutManager(1, 7, new Insets(0, 10, 0, 10), -1, -1));
         rightPanel.add(panel2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         Font label1Font = this.$$$getFont$$$(null, Font.BOLD, -1, label1.getFont());
