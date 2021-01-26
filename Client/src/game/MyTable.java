@@ -2,6 +2,10 @@ package game;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import java.awt.*;
 
 /**
  * A table in a JPanel where the user
@@ -18,8 +22,33 @@ public class MyTable extends JPanel {
      */
     public MyTable()
     {
+        this.setLayout(new BorderLayout());
         //THE TABLE
         final JTable table=new JTable();
+//        table.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
+//
+//        for (int column = 0; column < table.getColumnCount(); column++) {
+//            TableColumn tableColumn = table.getColumnModel().getColumn(column);
+//            int preferredWidth = tableColumn.getMinWidth();
+//            int maxWidth = tableColumn.getMaxWidth();
+//
+//            for (int row = 0; row < table.getRowCount(); row++)
+//            {
+//                TableCellRenderer cellRenderer = table.getCellRenderer(row, column);
+//                Component c = table.prepareRenderer(cellRenderer, row, column);
+//                int width = c.getPreferredSize().width + table.getIntercellSpacing().width;
+//                preferredWidth = Math.max(preferredWidth, width);
+//
+//                //  We've exceeded the maximum width, no need to check other rows
+//
+//                if (preferredWidth >= maxWidth)
+//                {
+//                    preferredWidth = maxWidth;
+//                    break;
+//                }
+//            }
+//            tableColumn.setPreferredWidth( preferredWidth );
+//        }
 
         //THE MODEL OF OUR TABLE
         DefaultTableModel model=new DefaultTableModel()
@@ -43,7 +72,7 @@ public class MyTable extends JPanel {
         model.addColumn("Player6");
 
         //THE ROW
-        for(int i=0;i<24;i++) {
+        for(int i=0;i<22;i++) {
             model.addRow(new Object[0]);
             model.setValueAt(false,i,1);
             model.setValueAt(false,i,2);
@@ -60,26 +89,25 @@ public class MyTable extends JPanel {
         model.setValueAt("Irene Adler", 4, 0);
         model.setValueAt("Enola Holmes", 5, 0);
         model.setValueAt("Mycroft Holmes", 6, 0);
-        model.setValueAt(" ", 7, 0);
-        model.setValueAt("Weapons:", 8, 0);
-        model.setValueAt("Weapon 1", 9, 0);
-        model.setValueAt("Weapon 2", 10, 0);
-        model.setValueAt("Weapon 3", 11, 0);
-        model.setValueAt("Weapon 4", 12, 0);
-        model.setValueAt("Weapon 5", 13, 0);
-        model.setValueAt(" ", 14, 0);
-        model.setValueAt("Places:", 15, 0);
-        model.setValueAt("Hospital", 16, 0);
-        model.setValueAt("Morgue", 17, 0);
-        model.setValueAt("Palace", 18, 0);
-        model.setValueAt("Pool", 19, 0);
-        model.setValueAt("H.O.U.N.D. Labs", 20, 0);
-        model.setValueAt("Prison", 21, 0);
-        model.setValueAt("Museum", 22, 0);
-        model.setValueAt("Magnussen", 23, 0);
+        model.setValueAt("Weapons:", 7, 0);
+        model.setValueAt("Weapon 1", 8, 0);
+        model.setValueAt("Weapon 2", 8, 0);
+        model.setValueAt("Weapon 3", 10, 0);
+        model.setValueAt("Weapon 4", 11, 0);
+        model.setValueAt("Weapon 5", 12, 0);
+        model.setValueAt("Places:", 13, 0);
+        model.setValueAt("Hospital", 14, 0);
+        model.setValueAt("Morgue", 15, 0);
+        model.setValueAt("Palace", 16, 0);
+        model.setValueAt("Pool", 17, 0);
+        model.setValueAt("H.O.U.N.D. Labs", 18, 0);
+        model.setValueAt("Prison", 19, 0);
+        model.setValueAt("Museum", 20, 0);
+        model.setValueAt("Magnussen", 21, 0);
 
         this.add(table);
     }
 }
+
 
 
