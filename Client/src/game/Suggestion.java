@@ -32,7 +32,7 @@ public class Suggestion extends JPanel implements ActionListener {
         person.addActionListener(this);
 
 
-        String[] weapons = {"weapon 1", "weapon 2", "weapon 3","weapon 4", "weapon 5"};
+        String[] weapons = {"Pills", "Vest", "Pistol","Glasses", "Belt"};
         this.weapon = new JComboBox(weapons);
         weapon.addActionListener(this);
 
@@ -59,7 +59,7 @@ public class Suggestion extends JPanel implements ActionListener {
         person.addActionListener(this);
 
 
-        String[] weapons = {"weapon 1", "weapon 2", "weapon 3","weapon 4", "weapon 5"};
+        String[] weapons = {"Pills", "Vest", "Pistol", "Glasses", "Belt"};
         this.weapon = new JComboBox(weapons);
         weapon.addActionListener(this);
 
