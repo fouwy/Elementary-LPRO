@@ -1,5 +1,6 @@
 import org.javatuples.Pair;
 
+import javax.swing.*;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -37,6 +38,7 @@ public class Game {
         System.out.println("playerOrder = " + playerOrder);
 
         playerCards = dealCards();
+        mysteryCards = new String[]{"Irene Adler", "Belt", "Prison"};
         System.out.println("mysteryCards = " + Arrays.toString(mysteryCards));
     }
 
@@ -194,9 +196,9 @@ public class Game {
      */
     private String[][] dealCards(){
 
-        String[] cards = {"Sherlock Holmes","Moriarty","Mrs Hudson","Irene Adler","Enola Holmes","Mycroft Holmes",
-                "weapon 1", "weapon 2", "weapon 3","weapon 4", "weapon 5",
-                "Hospital", "Morgue", "Palace", "Pool", "H.O.U.N.D. Labs", "Prison", "Museum", "Magnussen"};
+        String[] cards = {"SherlockHolmes","Moriarty","MrsHudson","IreneAdler","EnolaHolmes","MycroftHolmes",
+                "Pills", "Vest", "Pistol","Glasses", "Belt",
+                "Hospital", "Morgue", "Palace", "Pool", "H.O.U.N.D.Labs", "Prison", "Museum", "Magnussen"};
 
         mysteryCards = choose3MysteryCards(cards);
         int numberOfPlayers = players.size();

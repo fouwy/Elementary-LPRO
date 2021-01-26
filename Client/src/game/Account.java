@@ -11,6 +11,7 @@ public class Account {
     private static int myCharacter;
     private static int currentLobbyCode;
     private static PrintWriter lobbyOutput;
+    public static int numberTurnEstorinho;
 
     /**
      * Creates the account and stores the information

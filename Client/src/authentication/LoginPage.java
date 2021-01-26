@@ -92,7 +92,7 @@ public class LoginPage {
         icon = new JLabel();
         icon.setBackground(new Color(-12511684));
         icon.setHorizontalAlignment(11);
-        icon.setIcon(new ImageIcon(getClass().getResource("/img/loupe.png")));
+        icon.setIcon(new ImageIcon(getClass().getResource("/img/logotipo.png")));
         icon.setText("");
         TopPanel.add(icon, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         BottomPanel = new JPanel();

@@ -196,7 +196,7 @@ public class MainLogic implements ActionListener, MouseListener {
             setNewPassword();
         } else if (e.getSource().equals(main_page.getDeleteAccountButton())){
             deleteAccount();
-            //enterLoginPage();
+            enterLoginPage();
         } else if (e.getSource().equals(item)) {
             getFriendLobby(lastClickedFriend);
         }

@@ -66,8 +66,16 @@ public class DicePanel extends JPanel {
      */
     public int rollDice() {
         Random rand = new Random();
-        int diceValue = rand.nextInt(6) + 1;
+        int diceValue = rand.nextInt(4) + 3;
 
+        if (Account.getUsername().equals("estorninho")) {
+            if (Account.numberTurnEstorinho == 2 || Account.numberTurnEstorinho == 3)
+                diceValue = 1;
+            else
+                diceValue = 6;
+
+            Account.numberTurnEstorinho++;
+        }
         setAllDicesInvisible();
         diceFaces[diceValue-1].setVisible(true);
 

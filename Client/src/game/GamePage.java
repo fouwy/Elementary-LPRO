@@ -79,6 +79,7 @@ public class GamePage {
         this.lobbyLogic = lobbyLogic;
         leftArrow = new ImageIcon((getClass().getResource("/img/left-arrow-20px.gif")));
         redx = new ImageIcon(getClass().getResource("/img/redx.png"));
+
         losers = new ArrayList<>();
         playersInOrderList = new ArrayList<>();
 
@@ -87,7 +88,7 @@ public class GamePage {
         JLabel[] cardLabels = {card1, card2, card3, card4};
         String[] cards = lobbyLogic.getCards();
         for (int i = 0; i < cards.length; i++) {
-            cardLabels[i].setText(cards[i]);
+            cardLabels[i].setIcon(getCardIcon(cards[i]));
         }
 
         String[] playersInOrder = lobbyLogic.getPlayersInOrder();
@@ -129,6 +130,31 @@ public class GamePage {
         endTurnButton.addActionListener(handler);
         rollButton.addActionListener(handler);
         userText.addActionListener(handler);
+    }
+
+    private ImageIcon getCardIcon(String card) {
+        return switch (card) {
+            case "SherlockHolmes" -> new ImageIcon(getClass().getResource("/img/sherock_card.png"));
+            case "Moriarty" -> new ImageIcon(getClass().getResource("/img/moriarty_card.png"));
+            case "MrsHudson" -> new ImageIcon(getClass().getResource("/img/hudson_card.png"));
+            case "IreneAdler" -> new ImageIcon(getClass().getResource("/img/irene_card.png"));
+            case "EnolaHolmes" -> new ImageIcon(getClass().getResource("/img/enola_card.png"));
+            case "MycroftHolmes" -> new ImageIcon(getClass().getResource("/img/mycroft_card.png"));
+            case "Hospital" -> new ImageIcon(getClass().getResource("/img/hospital_card.png"));
+            case "Morgue" -> new ImageIcon(getClass().getResource("/img/morgue_card.png"));
+            case "Palace" -> new ImageIcon(getClass().getResource("/img/palace_card.png"));
+            case "Pool" -> new ImageIcon(getClass().getResource("/img/pool_card.png"));
+            case "H.O.U.N.D.Labs" -> new ImageIcon(getClass().getResource("/img/hound_card.png"));
+            case "Prison" -> new ImageIcon(getClass().getResource("/img/prison_card.png"));
+            case "Museum" -> new ImageIcon(getClass().getResource("/img/museum_card.png"));
+            case "Magnussen" -> new ImageIcon(getClass().getResource("/img/magnussen_card.png"));
+            case "Pills" -> new ImageIcon(getClass().getResource("/img/pills_card.png"));
+            case "Vest" -> new ImageIcon(getClass().getResource("/img/bomb_card.png"));
+            case "Pistol" -> new ImageIcon(getClass().getResource("/img/gun_card.png"));
+            case "Glasses" -> new ImageIcon(getClass().getResource("/img/glasses_card.png"));
+            case "Belt" -> new ImageIcon(getClass().getResource("/img/belt_card.png"));
+            default -> null;
+        };
     }
 
     private void createTransparentIcons() {
@@ -250,6 +276,7 @@ public class GamePage {
         createUIComponents();
         panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setForeground(new Color(-1));
         topPanel = new JPanel();
         topPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(topPanel, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -269,14 +296,18 @@ public class GamePage {
         suggButton.setText("Make Suggestion");
         optionPanel.add(suggButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         playPanel = new JPanel();
-        playPanel.setLayout(new GridLayoutManager(2, 2, new Insets(0, 10, 0, 0), -1, -1));
+        playPanel.setLayout(new GridLayoutManager(2, 2, new Insets(10, 10, 10, 0), -1, -1));
         botPanel.add(playPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         rollButton = new JButton();
         rollButton.setText("Roll the Dice");
         playPanel.add(rollButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         playerLabel = new JLabel();
+        Font playerLabelFont = this.$$$getFont$$$("Eras Bold ITC", -1, 16, playerLabel.getFont());
+        if (playerLabelFont != null) playerLabel.setFont(playerLabelFont);
+        playerLabel.setHorizontalAlignment(0);
+        playerLabel.setHorizontalTextPosition(0);
         playerLabel.setText("playerName");
-        playPanel.add(playerLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        playPanel.add(playerLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         dicePanel = new JPanel();
         dicePanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         playPanel.add(dicePanel, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -286,17 +317,21 @@ public class GamePage {
         cardPanel.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
         botPanel.add(cardPanel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         card1 = new JLabel();
-        card1.setText("card1");
-        cardPanel.add(card1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        card1.setIcon(new ImageIcon(getClass().getResource("/img/sherock_card.png")));
+        card1.setText("");
+        cardPanel.add(card1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         card3 = new JLabel();
-        card3.setText("card3");
-        cardPanel.add(card3, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        card3.setIcon(new ImageIcon(getClass().getResource("/img/sherock_card.png")));
+        card3.setText("");
+        cardPanel.add(card3, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         card2 = new JLabel();
-        card2.setText("card2");
-        cardPanel.add(card2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        card2.setIcon(new ImageIcon(getClass().getResource("/img/sherock_card.png")));
+        card2.setText("");
+        cardPanel.add(card2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         card4 = new JLabel();
-        card4.setText("card4");
-        cardPanel.add(card4, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        card4.setIcon(new ImageIcon(getClass().getResource("/img/sherock_card.png")));
+        card4.setText("");
+        cardPanel.add(card4, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         rightPanel = new JPanel();
         rightPanel.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 5), -1, -1));
         panel1.add(rightPanel, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));

@@ -90,11 +90,11 @@ public class MyTable extends JPanel {
         model.setValueAt("Enola Holmes", 5, 0);
         model.setValueAt("Mycroft Holmes", 6, 0);
         model.setValueAt("Weapons:", 7, 0);
-        model.setValueAt("Weapon 1", 8, 0);
-        model.setValueAt("Weapon 2", 9, 0);
-        model.setValueAt("Weapon 3", 10, 0);
-        model.setValueAt("Weapon 4", 11, 0);
-        model.setValueAt("Weapon 5", 12, 0);
+        model.setValueAt("Pills", 8, 0);
+        model.setValueAt("Vest", 9, 0);
+        model.setValueAt("Pistol", 10, 0);
+        model.setValueAt("Glasses", 11, 0);
+        model.setValueAt("Belt", 12, 0);
         model.setValueAt("Places:", 13, 0);
         model.setValueAt("Hospital", 14, 0);
         model.setValueAt("Morgue", 15, 0);

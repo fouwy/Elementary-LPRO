@@ -31,9 +31,7 @@ public class WatsonClue extends JPanel {
         clueList[2] = "Mycroft's alibi is confirmed, he's not the criminal";
         clueList[3] = "Isn't it suspicious that Ms Adler was so close to the pool?";
 
-        Random random = new Random();
-        int clueNumber = random.nextInt(4);
-        watsonClue.setText(clueList[clueNumber]);
+        watsonClue.setText(clueList[2]);
         this.setLayout(new FlowLayout());
         this.add(watsonClue);
         this.setVisible(true);
