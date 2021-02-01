@@ -27,7 +27,7 @@ public class Suggestion extends JPanel implements ActionListener {
      * @param location the place to be put in the phrase.
      */
     public Suggestion(String location) {
-        String[] people = {"Sherlock Holmes","Moriarty","Mrs Hudson","Irene Adler","Enola Holmes","Mycroft Holmes"};
+        String[] people = {"SherlockHolmes","Moriarty","MrsHudson","IreneAdler","EnolaHolmes","MycroftHolmes"};
         this.person = new JComboBox(people);
         person.addActionListener(this);
 
@@ -54,7 +54,7 @@ public class Suggestion extends JPanel implements ActionListener {
     }
 
     public Suggestion() {
-        String[] people = {"Sherlock Holmes","Moriarty","Mrs Hudson","Irene Adler","Enola Holmes","Mycroft Holmes"};
+        String[] people = {"SherlockHolmes","Moriarty","MrsHudson","IreneAdler","EnolaHolmes","MycroftHolmes"};
         this.person = new JComboBox(people);
         person.addActionListener(this);
 
@@ -63,7 +63,7 @@ public class Suggestion extends JPanel implements ActionListener {
         this.weapon = new JComboBox(weapons);
         weapon.addActionListener(this);
 
-        String[] locations = {"Hospital", "Morgue", "Palace", "Pool", "H.O.U.N.D. Labs", "Prison", "Museum", "Magnussen"};
+        String[] locations = {"Hospital", "Morgue", "Palace", "Pool", "H.O.U.N.D.Labs", "Prison", "Museum", "Magnussen"};
         this.lastLocation = new JComboBox(locations);
         lastLocation.addActionListener(this);
 
